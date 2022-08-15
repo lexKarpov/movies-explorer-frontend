@@ -1,4 +1,10 @@
-.link{
+.App {
+  height: 100vh;
+  background-color: #202020;
+  box-sizing: border-box;
+}
+
+.link {
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
@@ -9,16 +15,17 @@
   text-decoration: none;
 }
 
-.wrapper{
+.wrapper {
   width: 100%;
-  max-width:1280px;
+  max-width: 1280px;
   display: flex;
   justify-content: center;
 }
 
-.wrapper_type_blue{
+.wrapper_type_blue {
   background-color: #073042;
 }
-.wrapper_type_black{
+
+.wrapper_type_black {
   background-color: #073042;
 }

@@ -1,46 +1,20 @@
-import React, {useState} from 'react'
-import AuthFormWrapper from '../AuthFormWrapper/AuthFormWrapper'
+import React, { useState, useEffect } from 'react'
 
-export default function Login({loginProfile}) {
-  const [inputsValue, setInputValue] = useState({email: '', password: ''})
+function Login({ pageLogin, loginProfile }) {
+  const [inputsValue, setInputValue] = useState({ email: '', password: '' })
+
+  useEffect(() => pageLogin())
 
   function handleChangeInputs(evt) {
-    const {name, value} = evt.target
+    const { name, value } = evt.target
     setInputValue(prevState => ({ ...prevState, [name]: value }))
   }
+
   return (
+    <div className='register'>
 
-    <AuthFormWrapper
-      title='Вход'
-      nameForm = 'registerForm'
-      form = 'registerForm'
-      submit = {(e) => loginProfile(e, inputsValue)}>
-
-      <input
-        type='text'
-        placeholder='Email'
-        required
-        name = 'email'
-        className='auth-form-wrapper__input'
-        value = 'dfgdfg'
-      />
-
-      <input
-        type='password'
-        placeholder='Пароль'
-        required
-        name = 'password'
-        className= 'auth-form-wrapper__input'
-        value = 'dfgdfg'
-      />
-
-      <input
-        type="submit"
-        value= 'Войти'
-        className="auth-form-wrapper__submit"/>
-
-    </AuthFormWrapper>
-
+    </div>
   )
 }
 
+export default Login

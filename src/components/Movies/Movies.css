@@ -1,4 +1,6 @@
-.main_type_movie{
+.main_type_movie {
   background-color: #202020;
-  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
 }

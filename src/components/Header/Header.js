@@ -1,18 +1,22 @@
 import './Header.css'
-import logo from "../../images/header/logo.svg";
-import {Link} from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import HeadNavLog from "../HeadNavLog/HeadNavLog";
+import HeadNavNoLog from "../HeadNavNoLog/HeadNavNoLog";
 
-function Header() {
+function Header({ isLog, pageLogin }) {
+  const location = useLocation();
+  if (location.pathname === '/signin' || location.pathname === '/signup') {
+    return null
+  }
+  const color = isLog ? "black" : '';
   return (
-      <header className="header">
-        <wrapper className="header__wrapper">
-        <img className="header__image" src={logo}/>
-        <nav className='header__nav'>
-          <Link className="link header__link" to='/signup'>Регистрация</Link>
-          <Link className="link header__link header__link_active" to='/signin'>Войти</Link>
-        </nav>
-        </wrapper>
-      </header>
+    <header className={`header ${color}`}>
+      <wrapper className="header__wrapper">
+        <Link className="header__image" to="/" />
+        {isLog ? <HeadNavLog /> : <HeadNavNoLog />}
+        {isLog ? <Link className="link header__account" to='/editProfile'>Аккаунт</Link> : null}
+      </wrapper>
+    </header>
   );
 }
 
