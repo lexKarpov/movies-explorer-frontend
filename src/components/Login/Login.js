@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import FormSign from '../FormSign/FormSign';
-
-function Login({ pageLogin, loginProfile }) {
+import Header from '../Header/Header'
+function Login({ pageLogin, isLogged }) {
   const [inputsValue, setInputValue] = useState({ email: '', password: '' });
 
   function handleChangeInputs(evt) {
@@ -11,6 +11,7 @@ function Login({ pageLogin, loginProfile }) {
 
   return (
     <div className='register'>
+      <Header isLog={isLogged} pageLogin={pageLogin} />
       <FormSign />
     </div>
   )

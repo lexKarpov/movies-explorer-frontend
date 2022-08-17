@@ -1,9 +1,6 @@
 import './Footer.css'
 
-function Footer({ isLog, pageLogin }) {
-  if (pageLogin) {
-    return null
-  }
+function Footer({ isLog }) {
   const date = new Date().getFullYear();
   const color = isLog ? "black" : '';
   return (

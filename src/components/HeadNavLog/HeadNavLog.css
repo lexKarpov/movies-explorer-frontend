@@ -1,19 +1,16 @@
-.navigation-log{
+.navigation-log {
   display: flex;
   justify-content: space-between;
   gap: 16px;
   margin: 10px 0 0 58px;
 }
 
-.navigation-log__link{
+.navigation-log__link {
   text-decoration: none;
   font-style: normal;
   font-weight: 500;
   font-size: 13px;
   line-height: 18px;
-  /* identical to box height, or 138% */
-
   text-align: right;
-
   color: #FFFFFF;
 }

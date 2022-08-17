@@ -28,23 +28,56 @@ function App() {
 
   return (
     <div className="App">
-      <Header isLog={isLogged} pageLogin={pageLogin} />
       <Routes>
-        <Route path="/signup" element={<Register />} />
-        <Route path="/signin" element={<Login pageLogin={changePageLogin} />} />
-        {isLogged ? <Route path="/" element={<Movies className="page" />} /> : <Route path="/" element={<Main className="page" />} />}
-        <Route path="/saveFilms" element={<SavedMovies />} />
-        <Route path="/films" element={<Movies />} />
-        <Route path="/editProfile" element={<EditProfile logOut={logOut} />} />
-        <Route path="*" element={<NotFound />} />
+        <Route
+          path="/signup"
+          element={
+            <Register
+              isLogged={isLogged}
+              pageLogin={changePageLogin} />
+          } />
+        <Route
+          path="/signin"
+          element={
+            <Login
+              isLogged={isLogged}
+              pageLogin={changePageLogin} />
+          } />
+        {
+          isLogged ?
+            <Route path="/" element={
+              <Movies
+                isLogged={isLogged}
+                pageLogin={changePageLogin}
+                className="page" />} />
+            :
+            <Route path="/" element={
+              <Main
+                isLogged={isLogged}
+                pageLogin={changePageLogin}
+                className="page" />} />
+        }
 
+        <Route path="/saveFilms" element={
+          <SavedMovies
+            isLogged={isLogged}
+            pageLogin={changePageLogin} />} />
+
+        <Route path="/films" element={
+          <Movies
+            isLogged={isLogged}
+            pageLogin={changePageLogin} />
+        } />
+
+        <Route path="/editProfile" element={
+          <EditProfile
+            isLogged={isLogged}
+            pageLogin={changePageLogin}
+            logOut={logOut} />
+        } />
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
-      {
-        location.pathname !== '/signin' &&
-        location.pathname !== '/signup' &&
-        location.pathname !== '/editProfile' &&
-        <Footer isLog={isLogged} pageLogin={pageLogin} />
-      }
     </div>
   );
 }
