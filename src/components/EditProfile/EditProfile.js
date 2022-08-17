@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './EditProfile.css';
 
-function EditProfile({ noFooter, logOut }) {
+function EditProfile({ logOut }) {
   const [inputValue, setInputValue] = useState({
     name: 'Виталий',
     email: 'pochta@yandex.ru',
@@ -9,7 +9,6 @@ function EditProfile({ noFooter, logOut }) {
   const [isEdit, setIsEdit] = useState(true)
   const name = 'Виталий';
 
-  useEffect(() => { noFooter() }, [])
 
   function editProfile() {
     setIsEdit(false)

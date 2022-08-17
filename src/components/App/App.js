@@ -1,5 +1,5 @@
 import './App.css';
-import { Link, Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Header from '../Header/Header'
 import Main from '../Main/Main'
 import Footer from '../Footer/Footer'
@@ -9,12 +9,14 @@ import Movies from '../Movies/Movies'
 import SavedMovies from '../SavedMovies/SavedMovies'
 import EditProfile from '../EditProfile/EditProfile';
 import Register from '../Register/Register';
+import NotFound from '../NotFound/NotFound';
 
 function App() {
+  const location = useLocation();
   let navigate = useNavigate();
   const [isLogged, setIsLogged] = useState(true)
-  const [withFooter, setWithFooter] = useState(true)
   const [pageLogin, setPageLogin] = useState(false)
+
   function changePageLogin() {
     setPageLogin(true)
   }
@@ -22,16 +24,7 @@ function App() {
   function logOut() {
     setIsLogged(false)
     navigate("/")
-    changeVisibleFooter(true)
   }
-  function changeVisibleFooter(bool) {
-    setWithFooter(bool)
-  }
-
-
-
-
-
 
   return (
     <div className="App">
@@ -42,9 +35,16 @@ function App() {
         {isLogged ? <Route path="/" element={<Movies className="page" />} /> : <Route path="/" element={<Main className="page" />} />}
         <Route path="/saveFilms" element={<SavedMovies />} />
         <Route path="/films" element={<Movies />} />
-        <Route path="/editProfile" element={<EditProfile noFooter={changeVisibleFooter} logOut={logOut} />} />
+        <Route path="/editProfile" element={<EditProfile logOut={logOut} />} />
+        <Route path="*" element={<NotFound />} />
+
       </Routes>
-      {withFooter && <Footer isLog={isLogged} pageLogin={pageLogin} />}
+      {
+        location.pathname !== '/signin' &&
+        location.pathname !== '/signup' &&
+        location.pathname !== '/editProfile' &&
+        <Footer isLog={isLogged} pageLogin={pageLogin} />
+      }
     </div>
   );
 }
