@@ -61,3 +61,46 @@
   text-align: right;
   color: #FFFFFF;
 }
+
+@media screen and (max-width: 900px) {
+  .footer__wrapper {
+    padding: 53px 33px 0 33px;
+  }
+
+  .footer__text {
+    padding-bottom: 22px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .footer__wrapper {
+    padding: 10px 10px 0 10px;
+  }
+
+  .footer__info {
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+  }
+
+  .footer__age {
+    margin-top: 24px;
+    text-align: center;
+  }
+
+  .footer__nav {
+    flex-direction: column;
+    margin-top: 12px;
+  }
+
+  .footer__text {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .footer__com {
+    font-size: 12px;
+    line-height: 15px;
+    padding-bottom: 6px;
+  }
+
+}

@@ -99,7 +99,7 @@
 
 @media screen and (max-width: 900px) {
   .student__wrapper {
-    padding: 63px 50px 80px 50px;
+    padding: 63px 50px 70px 50px;
   }
 
   .student__profile {
@@ -129,7 +129,7 @@
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 600px) {
   .student__wrapper {
     padding: 0 14px 40px 14px;
   }

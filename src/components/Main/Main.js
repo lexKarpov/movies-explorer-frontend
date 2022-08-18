@@ -15,8 +15,8 @@ function Main({ isLogged, pageLogin }) {
       <About />
       <Technology />
       <Student />
-      {/* <Portfolio /> */}
-      {/* <Footer isLog={isLogged} /> */}
+      <Portfolio />
+      <Footer isLog={isLogged} />
     </main>
   )
 }
