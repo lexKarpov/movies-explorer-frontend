@@ -1,4 +1,4 @@
-.about{
+.about {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -6,30 +6,30 @@
   box-sizing: border-box;
 }
 
-.about__wrapper{
+.about__wrapper {
   padding: 92px 70px;
   box-sizing: border-box;
   width: 100%;
   max-width: 1280px;
-  display:flex;
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
 
 
-.about__description{
+.about__description {
   display: flex;
   justify-content: space-between;
 }
 
-.stage{
+.stage {
   margin-top: 31px;
   text-align: left;
   max-width: 550px;
 }
 
-.stage__title{
+.stage__title {
   font-style: normal;
   font-weight: 400;
   font-size: 20px;
@@ -39,14 +39,15 @@
   margin-bottom: 26px;
 }
 
-.stage__description{
+.stage__description {
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
   color: #FFF;
 }
-.progress{
+
+.progress {
   margin: 96px auto 9px auto;
   width: 100%;
   display: grid;
@@ -54,7 +55,8 @@
   grid-template-columns: 1fr 4fr;
   grid-template-rows: repeat(2, 36px);
 }
-.progress__week{
+
+.progress__week {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -66,11 +68,13 @@
   text-align: center;
   color: #FFF;
 }
-.progress__week_color_green{
+
+.progress__week_color_green {
   background: #3DDC84;
   color: #000;
 }
-.progress__tech{
+
+.progress__tech {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -80,4 +84,77 @@
   line-height: 17px;
   text-align: center;
   color: #8B8B8B;
+}
+
+
+@media screen and (max-width: 900px) {
+  .about__wrapper {
+    padding: 72px 50px;
+  }
+
+  .about__description {
+    gap: 34px;
+  }
+
+  .progress {
+    margin: 70px auto 9px auto;
+  }
+}
+
+@media screen and (max-width: 670px) {
+  .about__wrapper {
+    padding: 72px 18px;
+  }
+
+  .about__description {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .about__wrapper {
+    padding: 52px 18px;
+  }
+
+  .title {
+    margin-top: 18px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: -0.04em;
+    color: #FFFFFF;
+    padding-bottom: 27px;
+  }
+
+  .stage__title {
+    margin: 13px auto 18px auto;
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: -0.04em;
+  }
+
+  .stage__description {
+    margin-top: 0;
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .about__description {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .progress {
+    margin-top: 47px;
+    grid-template-columns: 5fr 9fr;
+    grid-template-rows: 36px 26px;
+  }
+
+  .progress__tech {
+    font-size: 11px;
+    line-height: 13px;
+
+  }
 }

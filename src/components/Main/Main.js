@@ -12,7 +12,7 @@ function Main({ isLogged, pageLogin }) {
     <main className="main">
       <Header isLog={isLogged} pageLogin={pageLogin} />
       <Lead />
-      {/* <About /> */}
+      <About />
       {/* <Technology /> */}
       {/* <Student /> */}
       {/* <Portfolio /> */}
