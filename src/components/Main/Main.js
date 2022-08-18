@@ -13,8 +13,8 @@ function Main({ isLogged, pageLogin }) {
       <Header isLog={isLogged} pageLogin={pageLogin} />
       <Lead />
       <About />
-      {/* <Technology /> */}
-      {/* <Student /> */}
+      <Technology />
+      <Student />
       {/* <Portfolio /> */}
       {/* <Footer isLog={isLogged} /> */}
     </main>
