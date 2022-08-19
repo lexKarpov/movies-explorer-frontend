@@ -11,7 +11,7 @@ function Lead() {
         <div className="lead__info">
           <h1 className="lead__title">Учебный проект студента факультета <nobr>Веб-разработки</nobr>.</h1>
           <p className="lead__description">Листайте ниже, чтобы узнать больше про этот проект и его создателя.</p>
-          <Link className="link lead__link" to="/">Узнать больше</Link>
+          <a className="link lead__link" href="#abouts">Узнать больше</a>
         </div>
         <img className="lead__image" src={worldTexts} />
       </wrapper>
