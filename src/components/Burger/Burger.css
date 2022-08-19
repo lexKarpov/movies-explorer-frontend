@@ -1,0 +1,108 @@
+.burger__button {
+  width: 44px;
+  height: 44px;
+
+  border: none;
+  /* padding: 8px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #202020;
+}
+
+.burger__img {
+  width: 28px;
+  height: 28px;
+}
+
+/*=====================================*/
+
+.burger__wrapper {
+  z-index: 2;
+  box-sizing: border-box;
+  padding: 22px;
+  padding-left: 57px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: 520px;
+  height: 100vh;
+  background-color: #313131;
+  display: grid;
+  grid-template-columns: max-content 1fr max-content 1fr max-content;
+  grid-template-rows: max-content 1fr 90px;
+}
+
+.burger__links {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  grid-column: 3/ 4;
+  grid-row: 2/ 3;
+  margin-top: 105px;
+
+}
+
+.burger__link {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  text-decoration: none;
+  color: #FFFFFF;
+  width: max-content;
+  margin: 0 auto;
+}
+
+.burger__link_active {
+  border-bottom: 2px solid #fff;
+}
+
+.burger__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 30px
+}
+
+.burger__account {
+  background: #313131;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  /* identical to box height, or 114% */
+  padding: 3px 20px 3px 20px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+.burger__img_close {
+  background-color: #313131;
+}
+
+.burger__button_close {
+  background-color: #313131;
+  grid-column: 5/ -1;
+  grid-row: 1/ 2;
+}
+
+.burger__account {
+  width: 100px;
+  height: 32px;
+  text-align: center;
+  background-color: #3d3c3c;
+  margin-bottom: 70px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* @media screen and (max-width: 520px) {
+  .burger__wrapper {
+} */

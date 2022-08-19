@@ -1,26 +1,32 @@
 import './FormSearch.css'
-import searchLogo from '../../images/movie/searchIcon.png'
-import React, { useEffect, useState } from 'react'
-function FormSearch() {
 
+import React, { useEffect, useState } from 'react'
+import LabelSearch from '../LabelSearch/LabelSearch'
+import SmallMeter from '../SmallMeter/SmallMeter'
+
+
+function FormSearch() {
+  const windowWidth = window.innerWidth >= 730
   const [checked, setChecked] = React.useState(false)
+
   function handleSmallMetr() {
     setChecked(!checked)
   }
-
   return (
-    <wrapper className="form-search-wrapper">
+    <div className="form-search__wrapper">
       <form className="formSearch">
-        <label className="formSearch__label-input">
-          <img className="formSearch__image" src={searchLogo}/>
-          <input className="formSearch__input" type="text" placeholder="Фильм"></input>
-          <button className="formSearch__submit" type="submit"></button>
-        </label>
-        <button className={`formSearch__check ${checked? 'checked' : ''}`} type="button" onClick={handleSmallMetr}>
-        </button>
-        <p className="formSearch__description-check">Короткометражки</p>
+        <LabelSearch />
+
+        {windowWidth && <SmallMeter
+          handleSmallMetr={handleSmallMetr}
+          checked={checked}
+        />}
       </form>
-    </wrapper>
+      {!windowWidth && <SmallMeter
+        handleSmallMetr={handleSmallMetr}
+        checked={checked}
+      />}
+    </div>
   )
 }
 export default FormSearch

@@ -9,8 +9,8 @@ function Movies({ isLogged, pageLogin }) {
     <main className="main main_type_movie">
       <Header isLog={isLogged} pageLogin={pageLogin} />
       <FormSearch />
-      <MoviesCardList isSaved={false} />
-      <Footer isLog={isLogged} />
+      {/* <MoviesCardList isSaved={false} /> */}
+      {/* <Footer isLog={isLogged} /> */}
     </main>
   )
 }
