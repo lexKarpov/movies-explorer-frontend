@@ -1,6 +1,6 @@
 const filmsList = [
   {
-    image: 'https://www.film.ru/sites/default/files/styles/thumb_260x400/public/movies/posters/1632374-1648926.jpg',
+    image: 'https://api.time.com/wp-content/uploads/2019/08/better-smartphone-photos.jpg',
     nameRU: 'Волк с Уолт Стрит',
     duration: 120,
     id: 1,
@@ -14,7 +14,7 @@ const filmsList = [
     isLiked: true
   },
   {
-    image: 'https://n1s1.elle.ru/a6/17/2d/a6172d66ed027cb7089c40647fdc354c/728x883_1_d6f0b420002801917eeb6ed05ef9ce24@940x1140_0xc35dbb80_20523485091514563652.jpeg',
+    image: 'https://img.freepik.com/free-photo/wide-angle-shot-single-tree-growing-clouded-sky-during-sunset-surrounded-by-grass_181624-22807.jpg?w=2000',
     nameRU: 'Затеряный город зет',
     duration: 90,
     id: 3,

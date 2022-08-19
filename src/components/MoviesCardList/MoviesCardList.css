@@ -1,15 +1,19 @@
 .moviesCardList {
-  max-width: 1280px;
+  max-width: 1140px;
   width: 100%;
   box-sizing: border-box;
-  padding: 70px 70px 67px 70px;
+  padding: 76px 0 67px 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border-top: 1px solid #424242;
+  /* gap: 30px */
 }
 
 .moviesCardList__elements {
-  width: 100%;
+  box-sizing: border-box;
+  /* margin: 0 20px; */
+  max-width: 100%;
   display: flex;
   gap: 20px;
   row-gap: 28px;
@@ -35,4 +39,33 @@
   color: #FFF;
   justify-content: center;
   cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .moviesCardList {
+    margin: 38px auto;
+    max-width: 708px;
+    padding: 80px 2px 67px 2px;
+  }
+
+  .moviesCardList__elements {
+    gap: 18px
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .moviesCardList__elements {
+    gap: 30px
+  }
+
+  .moviesCardList__more {
+    width: 50%;
+  }
+
+  .moviesCardList {
+    margin: 28px auto;
+    padding-top: 48px;
+  }
+
+
 }

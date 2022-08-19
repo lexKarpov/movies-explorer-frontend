@@ -1,5 +1,4 @@
 .editProfile {
-  /* padding: 74px 0 0 70px; */
   background-color: #202020;
   box-sizing: border-box;
   width: 100%;
@@ -7,7 +6,6 @@
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  height: calc(100vh - 72px);
 }
 
 .editProfile__wrapper {
@@ -92,4 +90,11 @@
 
 .editProfile__button_color_red {
   color: #EE3465;
+}
+
+@media screen and (max-width: 400px) {
+  .editProfile__form {
+    padding: 0 30px;
+    max-width: 260px;
+  }
 }
