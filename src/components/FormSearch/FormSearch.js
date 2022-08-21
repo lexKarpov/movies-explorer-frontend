@@ -15,9 +15,8 @@ function FormSearch() {
   }
   return (
     <div className="form-search__wrapper">
-      <form className="formSearch">
+      <form className="formSearch" required>
         <LabelSearch />
-
         {windowWidth && <SmallMeter
           handleSmallMetr={handleSmallMetr}
           checked={checked}

@@ -45,7 +45,7 @@ function Form({ noFooter }) {
           </label>
           <span className='label__error'>Что-то пошло не так...</span>
         </div>
-        <button className='form__button'>{buttonSubmit}</button>
+        <button type="button" className='form__button'>{buttonSubmit}</button>
         <div className='redirect'>
           <p className='redirect__desc'>{desc}</p>
           <Link className='redirect__to' to={redirectTo}>{redirect}</Link>

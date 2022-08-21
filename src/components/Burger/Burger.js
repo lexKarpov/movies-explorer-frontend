@@ -20,16 +20,16 @@ function Burger() {
   if (!isOpen) {
     return (
       <div className='burger'>
-        <button className='burger__button' onClick={openBurger}>
-          <img className='burger__img' src={burgerOpen} />
+        <button type="button" className='burger__button' onClick={openBurger}>
+          <img alt="иконка бургер-меню" className='burger__img' src={burgerOpen} />
         </button>
       </div>
     )
   } else {
     return (
       <div className='burger__wrapper'>
-        <button className='burger__button burger__button_close' onClick={closeBurger}>
-          <img className='burger__img burger__img_close' src={burgerClose} />
+        <button type="button" className='burger__button burger__button_close' onClick={closeBurger}>
+          <img alt="иконка закрытия меню" className='burger__img burger__img_close' src={burgerClose} />
         </button>
         <div className='burger__links'>
           <div className='burger__nav'>

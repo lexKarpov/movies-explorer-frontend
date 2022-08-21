@@ -27,31 +27,33 @@ function EditProfile({ logOut, isLogged, pageLogin }) {
   }
 
   return (
-    <>
+    <div>
       <Header isLog={isLogged} pageLogin={pageLogin} />
-      <section className="editProfile">
-        <div className="editProfile__wrapper">
-          <h1 className='editProfile__title'>{`Привет, ${name}!`}</h1>
-          <form className="editProfile__form">
-            <label className="editProfile__label editProfile__label_type_whith-line">
-              Имя
-              <input name='name' onChange={ChangeValueinput} disabled={isEdit} className="editProfile__input" value={inputValue.name}></input>
-            </label>
-            <label className="editProfile__label">
-              E-mail
-              <input name='email' onChange={ChangeValueinput} disabled={isEdit} className="editProfile__input" value={inputValue.email}></input>
-            </label>
-          </form>
-          <div className='editProfile__buttons'>
-            {isEdit ? <button className="editProfile__button" onClick={editProfile} >Редактировать</button>
-              :
-              <button type='submit' className="editProfile__button" onClick={submitEditProfile} >Сохранить</button>}
+      <main>
+        <section className="editProfile">
+          <div className="editProfile__wrapper">
+            <h1 className='editProfile__title'>{`Привет, ${name}!`}</h1>
+            <form className="editProfile__form">
+              <label className="editProfile__label editProfile__label_type_whith-line">
+                Имя
+                <input name='name' onChange={ChangeValueinput} disabled={isEdit} className="editProfile__input" value={inputValue.name}></input>
+              </label>
+              <label className="editProfile__label">
+                E-mail
+                <input name='email' onChange={ChangeValueinput} disabled={isEdit} className="editProfile__input" value={inputValue.email}></input>
+              </label>
+            </form>
+            <div className='editProfile__buttons'>
+              {isEdit ? <button type="button" className="editProfile__button" onClick={editProfile} >Редактировать</button>
+                :
+                <button type='submit' className="editProfile__button" onClick={submitEditProfile} >Сохранить</button>}
 
-            <button className="editProfile__button editProfile__button_color_red" onClick={logOut}>Выйти из аккаунта</button>
+              <button type="button" className="editProfile__button editProfile__button_color_red" onClick={logOut}>Выйти из аккаунта</button>
+            </div>
           </div>
-        </div>
-      </section>
-    </>
+        </section>
+      </main>
+    </div>
 
   )
 }

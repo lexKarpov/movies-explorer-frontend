@@ -12,7 +12,9 @@ function Login({ pageLogin, isLogged }) {
   return (
     <div className='register'>
       <Header isLog={isLogged} pageLogin={pageLogin} />
-      <FormSign />
+      <main>
+        <FormSign />
+      </main>
     </div>
   )
 }

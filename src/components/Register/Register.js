@@ -7,7 +7,9 @@ function Register({ isLogged, pageLogin }) {
   return (
     <div className='register'>
       <Header isLog={isLogged} pageLogin={pageLogin} />
-      <FormSign />
+      <main>
+        <FormSign />
+      </main>
     </div>
   )
 }

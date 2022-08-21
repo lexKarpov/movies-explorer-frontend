@@ -6,9 +6,9 @@ function MoviesCard(props) {
   return (
     <div className="moviesCard">
       <figure className="moviesCard__image-block">
-        <img className="moviesCard__preview" src={image} />
+        <img alt="превью фильма" className="moviesCard__preview" src={image} />
         <figcaption className="moviesCard__caption">{nameRU}</figcaption>
-        <button className="moviesCard__like"></button>
+        <button type="button" className="moviesCard__like"></button>
       </figure>
       <p className="moviesCard__length">{timeLength}</p>
     </div>

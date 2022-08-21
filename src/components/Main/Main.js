@@ -9,15 +9,17 @@ import Footer from '../Footer/Footer'
 
 function Main({ isLogged, pageLogin }) {
   return (
-    <main className="main">
+    <div className="main">
       <Header isLog={isLogged} pageLogin={pageLogin} />
-      <Lead />
-      <About />
-      <Technology />
-      <Student />
-      <Portfolio />
+      <main>
+        <Lead />
+        <About />
+        <Technology />
+        <Student />
+        <Portfolio />
+      </main>
       <Footer isLog={isLogged} />
-    </main>
+    </div>
   )
 }
 

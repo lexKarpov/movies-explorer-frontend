@@ -14,7 +14,7 @@ function Student() {
             <a className="link student__link" target="_blank" href="https://vk.com/doyouknowlechkarpov">VK</a>
             <a className="link student__link" target="_blank" href="https://github.com/lexKarpov">Github</a>
           </nav>
-          <img src={me} className="student__photo" />
+          <img alt="фото студента" src={me} className="student__photo" />
         </div>
       </wrapper>
     </section>

@@ -6,12 +6,14 @@ import Footer from '../Footer/Footer'
 
 function Movies({ isLogged, pageLogin }) {
   return (
-    <main className="main main_type_movie">
+    <div className="main main_type_movie">
       <Header isLog={isLogged} pageLogin={pageLogin} />
-      <FormSearch />
-      <MoviesCardList isSaved={false} />
-      <Footer isLog={isLogged} />
-    </main>
+      <main>
+        <FormSearch />
+        <MoviesCardList isSaved={false} />
+        <Footer isLog={isLogged} />
+      </main>
+    </div>
   )
 }
 

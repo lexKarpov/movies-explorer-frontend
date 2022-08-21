@@ -35,7 +35,8 @@ function Header({ isLog, pageLogin }) {
     <header className={`header ${color}`}>
       <wrapper className="header__wrapper">
         <Link className="header__image" to="/" />
-        {isLog && windowWidth > 768 ? <HeadNavLog /> : <HeadNavNoLog />}
+        {isLog && windowWidth > 768 ? <HeadNavLog /> : null}
+        {!isLog ? <HeadNavNoLog /> : null}
         {isLog && windowWidth > 768 ? <Link className="link header__account" to='/editProfile'>Аккаунт</Link> : null}
         {isLog && windowWidth <= 768 ? <Burger /> : null}
       </wrapper>

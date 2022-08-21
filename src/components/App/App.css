@@ -31,3 +31,9 @@
 .wrapper_type_black {
   background-color: #073042;
 }
+
+
+.list{
+  list-style-type: none;
+  padding: 0;
+}

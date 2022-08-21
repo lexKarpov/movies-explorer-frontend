@@ -13,7 +13,7 @@ function Lead() {
           <p className="lead__description">Листайте ниже, чтобы узнать больше про этот проект и его создателя.</p>
           <a className="link lead__link" href="#abouts">Узнать больше</a>
         </div>
-        <img className="lead__image" src={worldTexts} />
+        <img alt="мир из веба" className="lead__image" src={worldTexts} />
       </wrapper>
     </section>
   )
