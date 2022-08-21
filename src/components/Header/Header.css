@@ -105,3 +105,10 @@
   color: #FFFFFF;
   margin-top: 42px;
 }
+
+@media screen and (max-width: 500px) {
+  .header__wrapper_type_sign{
+    align-items: center;
+    padding: 56px 0 80px 0;
+  }
+}

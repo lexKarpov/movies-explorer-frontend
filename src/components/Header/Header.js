@@ -3,13 +3,14 @@ import { Link, useLocation } from "react-router-dom";
 import HeadNavLog from "../HeadNavLog/HeadNavLog";
 import HeadNavNoLog from "../HeadNavNoLog/HeadNavNoLog";
 import Burger from "../Burger/Burger";
+import useWindowDimensions from "../../utils/changeWindowDimentions";
 
 function Header({ isLog, pageLogin }) {
-  console.log(window.innerWidth)
-  const windowWidth = window.innerWidth
-
+  // useWindowDimensions()
+  const windowWidth = useWindowDimensions().width
   const color = isLog ? "black" : '';
   const location = useLocation();
+
   if (location.pathname === '/signin') {
     return (
       <header className="header black">
@@ -34,7 +35,7 @@ function Header({ isLog, pageLogin }) {
     <header className={`header ${color}`}>
       <wrapper className="header__wrapper">
         <Link className="header__image" to="/" />
-        {isLog && windowWidth > 768 ? <HeadNavLog /> : (windowWidth > 768 ? <HeadNavNoLog /> : null)}
+        {isLog && windowWidth > 768 ? <HeadNavLog /> : <HeadNavNoLog />}
         {isLog && windowWidth > 768 ? <Link className="link header__account" to='/editProfile'>Аккаунт</Link> : null}
         {isLog && windowWidth <= 768 ? <Burger /> : null}
       </wrapper>

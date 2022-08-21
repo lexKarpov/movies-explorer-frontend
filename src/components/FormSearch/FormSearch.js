@@ -3,10 +3,11 @@ import './FormSearch.css'
 import React, { useEffect, useState } from 'react'
 import LabelSearch from '../LabelSearch/LabelSearch'
 import SmallMeter from '../SmallMeter/SmallMeter'
+import useWindowDimensions from "../../utils/changeWindowDimentions";
 
 
 function FormSearch() {
-  const windowWidth = window.innerWidth >= 730
+  const windowWidth = useWindowDimensions().width >= 730
   const [checked, setChecked] = React.useState(false)
 
   function handleSmallMetr() {

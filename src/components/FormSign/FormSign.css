@@ -2,6 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background: #202020;
 }
 
 .form__wrapper {
@@ -103,4 +104,11 @@
   text-align: center;
   color: #4285F4;
   text-decoration: none;
+}
+
+@media (max-width: 500px) {
+  .redirect__desc {
+    font-size: 12px;
+    line-height: 15px;
+  }
 }

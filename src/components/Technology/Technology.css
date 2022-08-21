@@ -92,12 +92,10 @@
   }
 }
 
-
-
 @media screen and (max-width: 500px) {
-
   .technology__wrapper {
     padding: 53px 14px 73px 14px;
+    background: #202020;
   }
 
   .technology__title {

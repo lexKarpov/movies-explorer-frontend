@@ -12,6 +12,7 @@
   margin: 0;
   border-bottom: 1px solid #424242;
   padding-bottom: 29px;
+  align-items: center;
 }
 
 .moviesCard__preview {
@@ -42,7 +43,7 @@
 }
 
 .moviesCard__like {
-
+  height: 24px;
   width: 24px;
   grid-area: like;
   border: none;
@@ -53,6 +54,10 @@
 
   background-color: #313131;
   border-radius: 36px;
+}
+
+.moviesCard__like:hover {
+  cursor: pointer;
 }
 
 .moviesCard__like_active {
