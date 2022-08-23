@@ -108,7 +108,7 @@ function App() {
         name: beforeValueOfInputs.name,
         email: data.email,}
       patchUser(user)
-        .then(res => console.log(res))
+        .then(res => setCurrentUser(res))
         .catch(err => console.log(err))
     }
     if(data.email === beforeValueOfInputs.email){
@@ -117,12 +117,12 @@ function App() {
         email: beforeValueOfInputs.email,
         name: data.name
         })
-        .then(res => console.log(res))
+        .then(res => setCurrentUser(res))
         .catch(err => console.log(err))
     }
     if(data.email !== beforeValueOfInputs.email && data.name !== beforeValueOfInputs.name){
       patchUser(data)
-        .then(res => console.log(res))
+        .then(res => setCurrentUser(res))
         .catch(err => console.log(err))
     }
   }
