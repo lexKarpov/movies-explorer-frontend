@@ -3,12 +3,13 @@ import './Register.css'
 import FormSign from '../FormSign/FormSign'
 import Header from '../Header/Header'
 
-function Register({ isLogged, pageLogin }) {
+function Register({ isLogged, pageLogin, submitRegisterForm }) {
+
   return (
     <div className='register'>
       <Header isLog={isLogged} pageLogin={pageLogin} />
       <main>
-        <FormSign />
+        <FormSign submitRegisterForm={submitRegisterForm} />
       </main>
     </div>
   )
