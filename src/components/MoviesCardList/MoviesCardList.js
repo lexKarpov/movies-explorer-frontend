@@ -17,7 +17,7 @@ function MoviesCardList({ isSaved }) {
           )
         }
       </div>
-      <button type="button" className="moviesCardList__more">Ещё</button>
+      {isSaved? null : <button type="button" className="moviesCardList__more">Ещё</button>}
     </section>
   )
 }

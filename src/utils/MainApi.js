@@ -38,3 +38,37 @@ export const getUserContent = (token) => {
   })
     .then(res => checkResponse(res))
 }
+export const patchUser = (data) => {
+    const jwt = localStorage.getItem('jwt')
+
+    return fetch(`${BASE_URL}/users/me`, {
+      method: 'PATCH',
+      headers: {
+        authorization: jwt,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: data.name,
+        email: data.email
+      })
+
+    })
+      .then(res => checkResponse(res))
+}
+
+
+// export const patchUser = (data) => {
+//   const jwt = localStorage.getItem('jwt')
+//   return fetch(`${this._url}/users/me`, {
+//     method: 'PATCH',
+//     headers: {
+//       authorization: jwt,
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify({
+//       name: data.name,
+//       email: data.email
+//     })
+//   })
+//     .then(res => this._checkResponse(res))
+// }

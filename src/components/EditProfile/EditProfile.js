@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import './EditProfile.css';
 import Header from '../Header/Header';
+import CurrentUserContext from '../../contexts/CurrentUserContext'
 
 
+function EditProfile({ logOut, isLogged, pageLogin, updateUser }) {
+  const user = useContext(CurrentUserContext)
+  const beforeValueOfInputs = {
+    name: user? user.name : '',
+    email: user? user.email : '',}
 
-function EditProfile({ logOut, isLogged, pageLogin }) {
   const [inputValue, setInputValue] = useState({
-    name: 'Виталий',
-    email: 'pochta@yandex.ru',
+    name: user? user.name : '',
+    email: user? user.email : '',
   })
   const [isEdit, setIsEdit] = useState(true)
-  const name = 'Виталий';
-
 
   function editProfile() {
     setIsEdit(false)
@@ -24,7 +27,7 @@ function EditProfile({ logOut, isLogged, pageLogin }) {
 
   function submitEditProfile(e) {
     e.preventDefault();
-    console.log('submit')
+    updateUser(inputValue, beforeValueOfInputs)
     setIsEdit(true)
   }
 
@@ -34,7 +37,7 @@ function EditProfile({ logOut, isLogged, pageLogin }) {
       <main>
         <section className="editProfile">
           <div className="editProfile__wrapper">
-            <h1 className='editProfile__title'>{`Привет, ${name}!`}</h1>
+            <h1 className='editProfile__title'>{`Привет, ${user?.name}!`}</h1>
             <form className="editProfile__form" onSubmit={submitEditProfile}>
               <label className="editProfile__label editProfile__label_type_whith-line">
                 Имя
@@ -53,7 +56,6 @@ function EditProfile({ logOut, isLogged, pageLogin }) {
             {isEdit ? <button type="button" className="editProfile__button editProfile__button_type_edit" onClick={editProfile} >Редактировать</button>
               : null
               }
-
             <button type="button" className="editProfile__button editProfile__button_color_red" onClick={logOut}>Выйти из аккаунта</button>
           </div>
         </section>

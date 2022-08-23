@@ -9,7 +9,7 @@ import EditProfile from '../EditProfile/EditProfile';
 import Register from '../Register/Register';
 import NotFound from '../NotFound/NotFound';
 import api from '../../utils/MoviesApi';
-import {register, authorize, getUserContent} from '../../utils/MainApi'
+import {register, authorize, getUserContent, patchUser} from '../../utils/MainApi'
 import InfoTooltip from '../InfoTooltip/InfoTooltip'
 import CurrentUserContext from '../../contexts/CurrentUserContext'
 
@@ -29,8 +29,8 @@ function App() {
       getUserContent(jwt)
         .then(res => {
           if (res) {
-            console.log('reboot')
-            console.log(res)
+            // console.log('reboot')
+            // console.log(res)
             setIsLogged(true)
             setCurrentUser(res)
             navigate('/')
@@ -87,27 +87,46 @@ function App() {
     e.preventDefault()
     nameForm === 'signup' ?
       register(data)
-      .then(res => {
-        // setIsSelectedImageTooltip(true)
-        // setIsSelectedInfoTooltip(true)
-        // changePageLogin(true)
-        // navigate("/")
-        logIn(data)
-      })
+      .then(res => logIn(data))
       .catch(err => {
         console.log(err)
         setIsSelectedImageTooltip(false)
         setIsSelectedInfoTooltip(false)
       })
       : logIn(data)
-
   }
 
   function closeAllPopups() {
     setIsSelectedInfoTooltip(false)
   }
 
-console.log(currUser)
+  function updateUser(data, beforeValueOfInputs) {
+    console.log(data.name)
+
+    if(data.name === beforeValueOfInputs.name){
+      const user = {
+        name: beforeValueOfInputs.name,
+        email: data.email,}
+      patchUser(user)
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+    }
+    if(data.email === beforeValueOfInputs.email){
+      patchUser(
+        {
+        email: beforeValueOfInputs.email,
+        name: data.name
+        })
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+    }
+    if(data.email !== beforeValueOfInputs.email && data.name !== beforeValueOfInputs.name){
+      patchUser(data)
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+    }
+  }
+
   return (
     <CurrentUserContext.Provider value = {currUser}>
     <div className="App">
@@ -158,7 +177,8 @@ console.log(currUser)
           <EditProfile
             isLogged={isLogged}
             pageLogin={changePageLogin}
-            logOut={logOut} />
+            logOut={logOut}
+            updateUser={updateUser}/>
         } />
 
         <Route path="*" element={<NotFound />} />
