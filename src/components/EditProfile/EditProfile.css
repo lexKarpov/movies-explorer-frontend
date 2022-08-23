@@ -34,7 +34,7 @@
   flex-direction: column;
   max-width: 410px;
   width: 100%;
-  margin-bottom: 200px;
+  margin-bottom: 10px;
 }
 
 .editProfile__label {
@@ -74,6 +74,7 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+  margin-top:220px
 }
 
 .editProfile__button {
@@ -90,6 +91,11 @@
 
 .editProfile__button_color_red {
   color: #EE3465;
+  margin-top: 20px;
+}
+
+.editProfile__button_type_edit{
+  margin-top: 16px
 }
 
 @media screen and (max-width: 400px) {

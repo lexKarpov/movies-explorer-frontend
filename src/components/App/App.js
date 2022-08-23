@@ -9,70 +9,107 @@ import EditProfile from '../EditProfile/EditProfile';
 import Register from '../Register/Register';
 import NotFound from '../NotFound/NotFound';
 import api from '../../utils/MoviesApi';
-import {register, authorize} from '../../utils/MainApi'
+import {register, authorize, getUserContent} from '../../utils/MainApi'
 import InfoTooltip from '../InfoTooltip/InfoTooltip'
+import CurrentUserContext from '../../contexts/CurrentUserContext'
 
 function App() {
   const location = useLocation();
   let navigate = useNavigate();
   const [isLogged, setIsLogged] = useState(false)
-  const [pageLogin, setPageLogin] = useState(false)
+  // const [pageLogin, setPageLogin] = useState(false)
+  const [currUser, setCurrentUser] = useState({})
   const [allFilms, setAllFilms] = useState({})
   const [isSelectedInfoTooltip, setIsSelectedInfoTooltip] = useState(false)
   const [isSelectedImageTooltip, setIsSelectedImageTooltip] = useState(false)
-  // useEffect(_ => {
-  //   api.getCards().then(res => setAllFilms(res)) // get all films in const allFilms
-  // }, [])
-  //
+  useEffect(_ => {
+    // api.getCards().then(res => setAllFilms(res)) // get all films in const allFilms
+    const jwt = localStorage.getItem('jwt')
+    if (jwt) {
+      getUserContent(jwt)
+        .then(res => {
+          if (res) {
+            console.log('reboot')
+            console.log(res)
+            setIsLogged(true)
+            setCurrentUser(res)
+            navigate('/')
+          }
+        })
+        .catch((err) => console.log(err))
+    }
+  }, [])
+
   // console.log('this all films')
   // console.log(allFilms)
-  function changePageLogin() {
-    setPageLogin(true)
+  function changePageLogin(val) {
+    setIsLogged(val)
   }
 
   function logOut() {
+    localStorage.clear()
     setIsLogged(false)
     navigate("/")
   }
 
-  function submitRegisterForm(e, data, nameForm) {
-    e.preventDefault()
-    console.log('asd')
-    console.log(data)
-    nameForm === 'signup' ?
-      register(data)
+  function logIn(data) {
+    return authorize(data)
       .then(res => {
+        localStorage.setItem('jwt', res.token)
         setIsSelectedImageTooltip(true)
         setIsSelectedInfoTooltip(true)
-        setIsLogged(true)
-        navigate("/")
+        const jwt = localStorage.getItem('jwt')
+        getUserContent(jwt)
+          .then(res => {
+            if (res) {
+              console.log('reboot')
+              console.log(res)
+              setIsLogged(true)
+              setCurrentUser(res)
+              navigate('/')
+            }
+          })
+          .catch(err => {
+            console.log(err)
+            setIsSelectedImageTooltip(false)
+            setIsSelectedInfoTooltip(false)
+          })
       })
       .catch(err => {
         console.log(err)
         setIsSelectedImageTooltip(false)
         setIsSelectedInfoTooltip(false)
       })
-      :
-      authorize(data)
-        .then(res => {
-          setIsSelectedImageTooltip(true)
-          setIsSelectedInfoTooltip(true)
-          setIsLogged(true)
-          navigate("/")
-        })
-        .catch(err => {
-          console.log(err)
-          setIsSelectedImageTooltip(false)
-          setIsSelectedInfoTooltip(false)
-        })
+  }
+
+
+  function submitRegisterForm(e, data, nameForm) {
+    e.preventDefault()
+    nameForm === 'signup' ?
+      register(data)
+      .then(res => {
+        // setIsSelectedImageTooltip(true)
+        // setIsSelectedInfoTooltip(true)
+        // changePageLogin(true)
+        // navigate("/")
+        logIn(data)
+      })
+      .catch(err => {
+        console.log(err)
+        setIsSelectedImageTooltip(false)
+        setIsSelectedInfoTooltip(false)
+      })
+      : logIn(data)
+
   }
 
   function closeAllPopups() {
     setIsSelectedInfoTooltip(false)
   }
 
-console.log(isLogged)
+console.log(currUser)
   return (
+    <CurrentUserContext.Provider value = {currUser}>
     <div className="App">
       <Routes>
         <Route
@@ -131,6 +168,7 @@ console.log(isLogged)
         isOpen={isSelectedInfoTooltip}
         succes={isSelectedImageTooltip}/>
     </div>
+    </CurrentUserContext.Provider>
   );
 }
 
