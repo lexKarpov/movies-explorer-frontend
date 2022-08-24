@@ -131,6 +131,7 @@ function App() {
   function findAllFilms(e, val) {
     e.preventDefault()
     if(!val){
+      console.log('novalue')
       return null
     }
     val = val.toLowerCase()
@@ -141,16 +142,19 @@ function App() {
         setIsSelectedImageTooltip(false)
         setIsSelectedInfoTooltip(true)
         setText('Ничего не найдено.')
+        console.log('this it')
         return null
       }
       if(!toggleSmallMeter){
         localStorage.setItem('findList', JSON.stringify(list))
         localStorage.setItem('smallMeter', toggleSmallMeter.toString())
+        localStorage.setItem('valInput', val)
         setReactionsOnSearch(!reactionsOnSearch)
       }else{
         list = list.filter(el => el.duration < 40)
         localStorage.setItem('findList', JSON.stringify(list))
         localStorage.setItem('smallMeter', toggleSmallMeter.toString())
+        localStorage.setItem('valInput', val)
         setReactionsOnSearch(!reactionsOnSearch)
       }
 

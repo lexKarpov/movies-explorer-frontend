@@ -1,0 +1,16 @@
+.moviesCard__like {
+  height: 24px;
+  width: 24px;
+  grid-area: like;
+  border: none;
+  background-image: url(../../images/movie/disableLike.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 10px 10px;
+  background-color: #313131;
+  border-radius: 36px;
+}
+
+.moviesCard__like:hover {
+  cursor: pointer;
+}
