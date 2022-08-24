@@ -32,7 +32,7 @@ function EditProfile({ logOut, isLogged, pageLogin, updateUser }) {
   }
 
   return (
-    <div>
+    <div className="editProfile__container">
       <Header isLog={isLogged} pageLogin={pageLogin} />
       <main>
         <section className="editProfile">

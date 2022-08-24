@@ -14,14 +14,17 @@ import InfoTooltip from '../InfoTooltip/InfoTooltip'
 import CurrentUserContext from '../../contexts/CurrentUserContext'
 
 function App() {
-  const location = useLocation();
   let navigate = useNavigate();
   const [isLogged, setIsLogged] = useState(false)
-  // const [pageLogin, setPageLogin] = useState(false)
   const [currUser, setCurrentUser] = useState({})
-  const [allFilms, setAllFilms] = useState({})
   const [isSelectedInfoTooltip, setIsSelectedInfoTooltip] = useState(false)
   const [isSelectedImageTooltip, setIsSelectedImageTooltip] = useState(false)
+  const [toggleSmallMeter, setToggleSmallMeter] = useState(false)
+  const [reactionsOnSearch, setReactionsOnSearch] = useState(false)
+
+  const [noResult, setNoResult] = useState(false)
+  const [text, setText] = useState('')
+
   useEffect(_ => {
     // api.getCards().then(res => setAllFilms(res)) // get all films in const allFilms
     const jwt = localStorage.getItem('jwt')
@@ -29,8 +32,6 @@ function App() {
       getUserContent(jwt)
         .then(res => {
           if (res) {
-            // console.log('reboot')
-            // console.log(res)
             setIsLogged(true)
             setCurrentUser(res)
             navigate('/')
@@ -40,8 +41,7 @@ function App() {
     }
   }, [])
 
-  // console.log('this all films')
-  // console.log(allFilms)
+
   function changePageLogin(val) {
     setIsLogged(val)
   }
@@ -58,12 +58,11 @@ function App() {
         localStorage.setItem('jwt', res.token)
         setIsSelectedImageTooltip(true)
         setIsSelectedInfoTooltip(true)
+        setText('Вы успешно зарегистрировались!')
         const jwt = localStorage.getItem('jwt')
         getUserContent(jwt)
           .then(res => {
             if (res) {
-              console.log('reboot')
-              console.log(res)
               setIsLogged(true)
               setCurrentUser(res)
               navigate('/')
@@ -73,12 +72,14 @@ function App() {
             console.log(err)
             setIsSelectedImageTooltip(false)
             setIsSelectedInfoTooltip(false)
+            setText('Что-то пошло не так! Попробуйте ещё раз.')
           })
       })
       .catch(err => {
         console.log(err)
         setIsSelectedImageTooltip(false)
         setIsSelectedInfoTooltip(false)
+        setText('Что-то пошло не так! Попробуйте ещё раз.')
       })
   }
 
@@ -127,6 +128,51 @@ function App() {
     }
   }
 
+  function findAllFilms(e, val) {
+    e.preventDefault()
+    if(!val){
+      return null
+    }
+    val = val.toLowerCase()
+    api.getCards().then(res => {
+    let list = res.filter(el => el.nameRU.toLowerCase().includes(val))
+      if( list.length === 0 ){
+        setNoResult(true)
+        setIsSelectedImageTooltip(false)
+        setIsSelectedInfoTooltip(true)
+        setText('Ничего не найдено.')
+        return null
+      }
+      if(!toggleSmallMeter){
+        localStorage.setItem('findList', JSON.stringify(list))
+        localStorage.setItem('smallMeter', toggleSmallMeter.toString())
+        setReactionsOnSearch(!reactionsOnSearch)
+      }else{
+        list = list.filter(el => el.duration < 40)
+        localStorage.setItem('findList', JSON.stringify(list))
+        localStorage.setItem('smallMeter', toggleSmallMeter.toString())
+        setReactionsOnSearch(!reactionsOnSearch)
+      }
+
+    })
+      .catch(err => console.log(err))
+  }
+
+  function findMainFilms(e) {
+    e.preventDefault()
+    console.log('it`s saved')
+  }
+
+  function handleSmallMetr() {
+    setToggleSmallMeter(!toggleSmallMeter)
+
+  }
+  // console.log(toggleSmallMeter)
+  // console.log(localStorage.getItem('findList'))
+  // console.log(localStorage.getItem('smallMeter'))
+
+  // console.log(allFilms)
+
   return (
     <CurrentUserContext.Provider value = {currUser}>
     <div className="App">
@@ -153,7 +199,12 @@ function App() {
               <Movies
                 isLogged={isLogged}
                 pageLogin={changePageLogin}
-                className="page" />} />
+                className="page"
+                findFilms={findAllFilms}
+                handleSmallMetr={ handleSmallMetr }
+                toggleSmallMeter={toggleSmallMeter}
+              />}
+              />
             :
             <Route path="/" element={
               <Main
@@ -165,13 +216,22 @@ function App() {
         <Route path="/saveFilms" element={
           <SavedMovies
             isLogged={isLogged}
-            pageLogin={changePageLogin} />} />
+            pageLogin={changePageLogin}
+            findFilms={findMainFilms}
+            handleSmallMetr={ handleSmallMetr }
+            toggleSmallMeter={toggleSmallMeter}
+          />}
+        />
 
         <Route path="/films" element={
           <Movies
             isLogged={isLogged}
-            pageLogin={changePageLogin} />
-        } />
+            pageLogin={changePageLogin}
+            findFilms={findAllFilms}
+            handleSmallMetr={ handleSmallMetr }
+            toggleSmallMeter={toggleSmallMeter}
+          />}
+        />
 
         <Route path="/editProfile" element={
           <EditProfile
@@ -186,7 +246,8 @@ function App() {
       <InfoTooltip
         onClose={closeAllPopups}
         isOpen={isSelectedInfoTooltip}
-        succes={isSelectedImageTooltip}/>
+        succes={isSelectedImageTooltip}
+        text={text}/>
     </div>
     </CurrentUserContext.Provider>
   );

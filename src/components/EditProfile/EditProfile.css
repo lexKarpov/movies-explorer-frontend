@@ -104,3 +104,8 @@
     max-width: 260px;
   }
 }
+
+.editProfile__container{
+  max-width: 1280px;
+  width: 100%;
+}

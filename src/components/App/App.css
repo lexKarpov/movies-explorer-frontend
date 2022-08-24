@@ -4,6 +4,11 @@
   background: #202020;
   box-sizing: border-box;
   width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
 }
 
 .link {

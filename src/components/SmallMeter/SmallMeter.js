@@ -1,10 +1,15 @@
 import './SmallMeter.css'
+import React from "react";
 
-function SmallMeter({ handleSmallMetr, checked }) {
+function SmallMeter({ handleSmallMetr, toggleSmallMeter }) {
+  function actionSmallMetr() {
+    handleSmallMetr()
+  }
+
   return (
     <div className='formSearch__toggle'>
-      <button type="checkbox" className={`formSearch__check ${checked ? 'checked' : ''}`} type="button" onClick={handleSmallMetr}>
-      </button>
+      <button className={`formSearch__check ${toggleSmallMeter ? 'checked' : ''}`} type="button" onClick={actionSmallMetr}/>
+
       <p className="formSearch__description-check">Короткометражки</p>
     </div>
   )
