@@ -171,11 +171,7 @@ function App() {
     setToggleSmallMeter(!toggleSmallMeter)
 
   }
-  // console.log(toggleSmallMeter)
-  // console.log(localStorage.getItem('findList'))
-  // console.log(localStorage.getItem('smallMeter'))
 
-  // console.log(allFilms)
 
   return (
     <CurrentUserContext.Provider value = {currUser}>
@@ -207,6 +203,7 @@ function App() {
                 findFilms={findAllFilms}
                 handleSmallMetr={ handleSmallMetr }
                 toggleSmallMeter={toggleSmallMeter}
+
               />}
               />
             :

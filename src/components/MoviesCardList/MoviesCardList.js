@@ -8,24 +8,22 @@ function MoviesCardList({ isSaved }) {
   const [limitCoin, setLimitCoin] = useState(4)
   const [buttonVisible, setButtonVisible] = useState(false)
 
-  // findList ? console.log(findList[0]) : null
- if(findList){
-   // console.log(findList)
- }
-
-  if(limitCoin >= findList?.length){
-    setButtonVisible(false)
-  }
-
- function renderLimiter(val= 0) {
+  function renderLimiter(val= 0) {
    setLimitCoin((prev)=> prev + 4)
- }
-
-console.log(limitCoin)
-console.log(findList)
-  if(limitCoin > findList.length){
-    setLimitCoin(findList.length - 1)
   }
+
+  function disableButton(){
+    setButtonVisible(true)
+  }
+
+
+  console.log(limitCoin)
+  console.log(findList)
+  if(limitCoin >= findList?.length){
+    setLimitCoin(findList.length - 1)
+    disableButton()
+  }
+
   return (
     <section className="moviesCardList">
       <div className='moviesCardList__elements'>
@@ -35,11 +33,11 @@ console.log(findList)
           }
         })
           :
-          findList? findList
-            .slice(0, limitCoin)
-            .map((el) => <MoviesCard data={el} key={el.id}/>)
-          // findList?.map(el => <MoviesCard data={el} key={el.id}/>)
-          : null
+          findList?
+          findList
+          .slice(0, limitCoin)
+          .map((el) => <MoviesCard data={el} key={el.id}/>)
+        : null
         }
       </div>
       {/*{isSaved || !findList || !addButton ? null : <button type="button" className="moviesCardList__more">Ещё</button>}*/}
