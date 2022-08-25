@@ -3,7 +3,10 @@ import './MoviesCardList.css'
 import {useEffect, useState} from "react";
 import useWindowDimensions from '../../utils/changeWindowDimentions'
 
-function MoviesCardList({ isSaved, postLike}) {
+function MoviesCardList({ isSaved, postLike, testRender}) {
+
+
+  //==========================================================
   const [numberOfMoviesDisplayed, setNumberOfMoviesDisplayed] = useState(localStorage.getItem('numberOfMoviesDisplayed'))
   let windowWidth = useWindowDimensions().width
   let rowNumber
@@ -31,7 +34,7 @@ function MoviesCardList({ isSaved, postLike}) {
   }
 
   const findList = JSON.parse(localStorage.getItem('findList'))
-  const savedList = localStorage.getItem('savedList')
+  const savedList = JSON.parse(localStorage.getItem('savedMoviesList'))
   const [limitCoin, setLimitCoin] = useState(Number(numberOfMoviesDisplayed))
   const [buttonVisible, setButtonVisible] = useState(false)
 
@@ -49,7 +52,9 @@ function MoviesCardList({ isSaved, postLike}) {
       localStorage.setItem('numberOfMoviesDisplayed', rowNumber.toString())
       setLimitCoin(rowNumber)
       disableButton(false)
-  }}, [localStorage.getItem('numberOfMoviesDisplayed'), windowWidth])
+  }}, [localStorage.getItem('numberOfMoviesDisplayed'), windowWidth, localStorage.getItem('savedMoviesList')])
+
+
 
 
   if(limitCoin >= findList?.length){
@@ -59,24 +64,31 @@ function MoviesCardList({ isSaved, postLike}) {
   //
   // console.log(rowNumber)
   // console.log(windowWidth)
-
+  function deleteCard() {
+    console.log('deleteCard')
+  }
+  // nameRU, duration, image, trailerLink, id
   return (
     <section className="moviesCardList">
       <div className='moviesCardList__elements'>
-        {isSaved ? savedList?.map(el => {
-            if (el.isLiked) {
-              return <MoviesCard data={el} key={el.id} postLike={postLike}/>
-            }
-          })
+        {isSaved ? savedList?.map(el => <MoviesCard
+            data={el}
+            id ={el.movieId}
+            key={el.movieId + Math.random()}
+            deleteCard={deleteCard}
+            isSaved={true}
+            testRender={testRender}
+          />)
+        // {isSaved ? null
           :
           findList?.length - limitCoin <= 1 ?
-            findList?.map((el) => <MoviesCard data={el} key={el.id} postLike={postLike}/>)
+            findList?.map((el) => <MoviesCard data={el} key={el.id} postLike={postLike} id = {el.id}/>)
             :
             findList?.length > 4 ?
-              findList.slice(0, limitCoin).map((el) => <MoviesCard postLike={postLike} data={el} key={el.id}/>)
+              findList.slice(0, limitCoin).map((el) => <MoviesCard postLike={postLike} data={el} key={el.id} id = {el.id}/>)
               :
               findList?.length<4 && findList?.length>0 ?
-                findList.map((el) => <MoviesCard data={el} key={el.id} postLike={postLike}/>)
+                findList.map((el) => <MoviesCard data={el} key={el.id} postLike={postLike} id = {el.id}/>)
                 : null
         }
       </div>
@@ -87,135 +99,89 @@ function MoviesCardList({ isSaved, postLike}) {
 
 export default MoviesCardList
 
+
 //
 // import MoviesCard from '../MoviesCard/MoviesCard'
 // import './MoviesCardList.css'
-// import {useState} from "react";
+// import {useEffect, useState} from "react";
+// import useWindowDimensions from '../../utils/changeWindowDimentions'
 //
-// function MoviesCardList({ isSaved, research}) {
-//   const [asd, setAsd] = useState(false)
-//   let numberOfMoviesDisplayed = Number(localStorage.getItem('numberOfMoviesDisplayed'))
-//   if (numberOfMoviesDisplayed < 4){
-//     localStorage.setItem('numberOfMoviesDisplayed', '4')
-//     setAsd(!asd)
-//   }
-//   console.log(localStorage.getItem('numberOfMoviesDisplayed'))
-//
-//   const findList = JSON.parse(localStorage.getItem('findList'))
-//   const savedList = localStorage.getItem('savedList')
-//   const [limitCoin, setLimitCoin] = useState(numberOfMoviesDisplayed)
-//   const [buttonVisible, setButtonVisible] = useState(false)
-//   // if(research){
-//   //   setLimitCoin(numberOfMoviesDisplayed-numberOfMoviesDisplayed)
-//   // }
-//   function renderLimiter(val= 0) {
-//     setLimitCoin((prev)=> prev + 4)
-//     localStorage.setItem('numberOfMoviesDisplayed', (limitCoin + 4).toString())
-//   }
-//
-//   function disableButton(){
-//     setButtonVisible(true)
-//   }
-//
-//   //
-//   // console.log(limitCoin)
-//   // console.log(findList)
-//   console.log(localStorage.getItem('numberOfMoviesDisplayed'))
-//   if(limitCoin >= findList?.length){
-//     setLimitCoin(findList.length - 1)
-//     disableButton()
-//   }
-//
-//   return (
-//     <section className="moviesCardList">
-//       <div className='moviesCardList__elements'>
-//         {isSaved ? savedList?.map(el => {
-//             if (el.isLiked) {
-//               return <MoviesCard data={el} key={el.id}/>
-//             }
-//           })
-//           :
-//           findList?.length - limitCoin <= 1 ?
-//             findList?.map((el) => <MoviesCard data={el} key={el.id}/>)
-//             :
-//             findList?.length > 4 ?
-//               findList.slice(0, limitCoin).map((el) => <MoviesCard data={el} key={el.id}/>)
-//               :
-//               findList?.length<4 && findList?.length>0 ?
-//                 findList.map((el) => <MoviesCard data={el} key={el.id}/>)
-//                 : null
-//         }
-//       </div>
-//       {/*{isSaved || !findList || !addButton ? null : <button type="button" className="moviesCardList__more">Ещё</button>}*/}
-//       {isSaved || !findList || buttonVisible ? null : <button type="button" className="moviesCardList__more" onClick={renderLimiter}>Ещё</button>}
-//     </section>
-//   )
-// }
-//
-// export default MoviesCardList
-
-
-
-// import MoviesCard from '../MoviesCard/MoviesCard'
-// import './MoviesCardList.css'
-// import {useState} from "react";
-//
-// function MoviesCardList({ isSaved, research}) {
-//   const [asd, setAsd] = useState(false)
+// function MoviesCardList({ isSaved, postLike}) {
 //   const [numberOfMoviesDisplayed, setNumberOfMoviesDisplayed] = useState(localStorage.getItem('numberOfMoviesDisplayed'))
+//   let windowWidth = useWindowDimensions().width
+//   let rowNumber
+//   if(windowWidth<700){
+//     rowNumber = 5
+//   }
+//   else if(windowWidth>=700 && windowWidth<850){
+//     rowNumber = 2
+//   }
+//   else if(windowWidth>=850 && windowWidth<1140){
+//     rowNumber = 3
+//   }
+//   else {
+//     rowNumber = 4
+//   }
+//   //1140 - infinity row 4
+//   //850 - 1140 row 3
+//   //700 - 850 row 2
+//   //0 - 700 row 5
+//
 //
 //   if (+numberOfMoviesDisplayed < 4){
-//     localStorage.setItem('numberOfMoviesDisplayed', '4')
-//     setNumberOfMoviesDisplayed('4')
+//     localStorage.setItem('numberOfMoviesDisplayed', rowNumber.toString())
+//     setNumberOfMoviesDisplayed(rowNumber.toString())
 //   }
-//   console.log(localStorage.getItem('numberOfMoviesDisplayed'))
 //
 //   const findList = JSON.parse(localStorage.getItem('findList'))
-//   const savedList = localStorage.getItem('savedList')
+//   const savedList = JSON.parse(localStorage.getItem('savedMoviesList'))
 //   const [limitCoin, setLimitCoin] = useState(Number(numberOfMoviesDisplayed))
 //   const [buttonVisible, setButtonVisible] = useState(false)
-//   // if(research){
-//   //   setLimitCoin(numberOfMoviesDisplayed-numberOfMoviesDisplayed)
-//   // }
+//
 //   function renderLimiter(val= 0) {
-//     setLimitCoin((prev)=> prev + 4)
-//     localStorage.setItem('numberOfMoviesDisplayed', (+limitCoin + 4).toString())
+//     setLimitCoin((prev)=> prev + rowNumber)
+//     localStorage.setItem('numberOfMoviesDisplayed', (+limitCoin + rowNumber).toString())
 //   }
 //
-//   function disableButton(){
-//     setButtonVisible(true)
+//   function disableButton(val){
+//     setButtonVisible(val)
 //   }
 //
+//   useEffect(()=> {
+//     if(Number(localStorage.getItem('numberOfMoviesDisplayed')) === 0){
+//       localStorage.setItem('numberOfMoviesDisplayed', rowNumber.toString())
+//       setLimitCoin(rowNumber)
+//       disableButton(false)
+//     }}, [localStorage.getItem('numberOfMoviesDisplayed'), windowWidth, localStorage.getItem('savedMoviesList')])
 //
-//   // console.log(limitCoin)
-//   // console.log(findList)
-//   console.log(localStorage.getItem('numberOfMoviesDisplayed'))
+//
 //   if(limitCoin >= findList?.length){
 //     setLimitCoin(findList.length - 1)
-//     disableButton()
+//     disableButton(true)
 //   }
-//
+//   //
+//   // console.log(rowNumber)
+//   // console.log(windowWidth)
+//   function deleteCard() {
+//     console.log('deleteCard')
+//   }
 //   return (
 //     <section className="moviesCardList">
 //       <div className='moviesCardList__elements'>
-//         {isSaved ? savedList?.map(el => {
-//             if (el.isLiked) {
-//               return <MoviesCard data={el} key={el.id}/>
-//             }
-//           })
+//         {isSaved ? savedList?.map(el => <MoviesCard data={el} key={el.movieId + Math.random()} deleteCard={deleteCard} isSaved={true}/>)
+//           // {isSaved ? null
 //           :
 //           findList?.length - limitCoin <= 1 ?
-//             findList?.map((el) => <MoviesCard data={el} key={el.id}/>)
+//             findList?.map((el) => <MoviesCard data={el} key={el.id} postLike={postLike}/>)
 //             :
 //             findList?.length > 4 ?
-//               findList.slice(0, limitCoin).map((el) => <MoviesCard data={el} key={el.id}/>)
+//               findList.slice(0, limitCoin).map((el) => <MoviesCard postLike={postLike} data={el} key={el.id}/>)
 //               :
 //               findList?.length<4 && findList?.length>0 ?
-//                 findList.map((el) => <MoviesCard data={el} key={el.id}/>)
+//                 findList.map((el) => <MoviesCard data={el} key={el.id} postLike={postLike}/>)
 //                 : null
 //         }
 //       </div>
-//       {/*{isSaved || !findList || !addButton ? null : <button type="button" className="moviesCardList__more">Ещё</button>}*/}
 //       {isSaved || !findList || buttonVisible ? null : <button type="button" className="moviesCardList__more" onClick={renderLimiter}>Ещё</button>}
 //     </section>
 //   )

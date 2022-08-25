@@ -9,7 +9,7 @@ import EditProfile from '../EditProfile/EditProfile';
 import Register from '../Register/Register';
 import NotFound from '../NotFound/NotFound';
 import api from '../../utils/MoviesApi';
-import {register, authorize, getUserContent, patchUser, postCard} from '../../utils/MainApi'
+import {register, authorize, getUserContent, patchUser, postFilm, getSavedFilms} from '../../utils/MainApi'
 import InfoTooltip from '../InfoTooltip/InfoTooltip'
 import CurrentUserContext from '../../contexts/CurrentUserContext'
 
@@ -22,8 +22,28 @@ function App() {
   const [toggleSmallMeter, setToggleSmallMeter] = useState(false)
   const [reactionsOnSearch, setReactionsOnSearch] = useState(false)
   const [research, setReSearch] = useState(false)
-  const [noResult, setNoResult] = useState(false)
+  const [testRender, setTestRender] = useState(1)
   const [text, setText] = useState('')
+  useEffect(()=> {
+    getSavedFilms()
+      .then(res => {
+        // setSavedMovies(res)
+        let filmWithOwner = res.filter(el => el.owner === currUser._id)
+        if(!filmWithOwner){
+          localStorage.setItem('savedMoviesList', '')
+        }else{
+          localStorage.setItem('savedMoviesList', JSON.stringify(filmWithOwner))
+        }
+        // setTestRender(testRender+1)
+        // console.log('response main')
+        // console.log(res)
+        // console.log("FilmWithOwner")
+        // console.log(FilmWithOwner)
+
+      })
+      .catch(err => console.log(err))
+
+  }, [])
 
   useEffect(_ => {
     // api.getCards().then(res => setAllFilms(res)) // get all films in const allFilms
@@ -35,10 +55,13 @@ function App() {
             setIsLogged(true)
             setCurrentUser(res)
             navigate('/')
+            console.log('currentUser')
+            console.log(res)
           }
         })
         .catch((err) => console.log(err))
     }
+
   }, [])
 
 
@@ -129,7 +152,6 @@ function App() {
 
   function findAllFilms(e, val) {
     e.preventDefault()
-
     if(!val){
       console.log('novalue')
       return null
@@ -138,14 +160,16 @@ function App() {
     api.getCards().then(res => {
     let list = res.filter(el => el.nameRU.toLowerCase().includes(val))
       if( list.length === 0 ){
-        setNoResult(true)
+        // setNoResult(true)
         setIsSelectedImageTooltip(false)
         setIsSelectedInfoTooltip(true)
         setText('Ничего не найдено.')
         console.log('this it')
         return null
       }
+      console.log(list)
       const IsSmallMeter = localStorage.getItem('smallMeter')
+      // const formattedFilmsList = list.map(el => {el.})
       if(IsSmallMeter === 'false'){
         localStorage.setItem('findList', JSON.stringify(list))
         // localStorage.setItem('smallMeter', toggleSmallMeter.toString())
@@ -181,75 +205,83 @@ function App() {
 
   function postLike(id) {
     const targetFilm = JSON.parse(localStorage.getItem('findList')).filter(el => el.id === id)[0]
-    postCard(targetFilm).then(res => console.log('asdasd'))
-    console.log(targetFilm)
+    postFilm(targetFilm).then(res => {
+      getSavedFilms()
+        .then(res => {
+          localStorage.setItem('savedMoviesList', JSON.stringify(res))
+          setReactionsOnSearch(!reactionsOnSearch)
+        })
+
+    })
   }
+
 
 
 
   return (
     <CurrentUserContext.Provider value = {currUser}>
-    <div className="App">
-      <Routes>
-        <Route
-          path="/signup"
-          element={
-            <Register
+      <div className="App">
+        <Routes>
+          <Route
+            path="/signup"
+            element={
+              <Register
+                isLogged={isLogged}
+                pageLogin={changePageLogin}
+                submitRegisterForm={submitRegisterForm}/>
+            } />
+          <Route
+            path="/signin"
+            element={
+              <Login
+                isLogged={isLogged}
+                pageLogin={changePageLogin}
+                submitRegisterForm={submitRegisterForm}/>
+            } />
+          <Route path="/" element={
+            <Main
               isLogged={isLogged}
               pageLogin={changePageLogin}
-              submitRegisterForm={submitRegisterForm}/>
-          } />
-        <Route
-          path="/signin"
-          element={
-            <Login
+              className="page" />} />
+
+          <Route path="/saveFilms" element={
+            <SavedMovies
               isLogged={isLogged}
               pageLogin={changePageLogin}
-              submitRegisterForm={submitRegisterForm}/>
+              findFilms={findMainFilms}
+              handleSmallMetr={ handleSmallMetr }
+              toggleSmallMeter={toggleSmallMeter}
+              testRender={testRender}
+            />}
+          />
+
+          <Route path="/films" element={
+            <Movies
+              isLogged={isLogged}
+              pageLogin={changePageLogin}
+              findFilms={findAllFilms}
+              handleSmallMetr={ handleSmallMetr }
+              toggleSmallMeter={toggleSmallMeter}
+              postLike = {postLike}
+            />}
+          />
+
+          <Route path="/editProfile" element={
+            <EditProfile
+              isLogged={isLogged}
+              pageLogin={changePageLogin}
+              logOut={logOut}
+              updateUser={updateUser}/>
           } />
-        <Route path="/" element={
-          <Main
-            isLogged={isLogged}
-            pageLogin={changePageLogin}
-            className="page" />} />
 
-        <Route path="/saveFilms" element={
-          <SavedMovies
-            isLogged={isLogged}
-            pageLogin={changePageLogin}
-            findFilms={findMainFilms}
-            handleSmallMetr={ handleSmallMetr }
-            toggleSmallMeter={toggleSmallMeter}
-          />}
-        />
-
-        <Route path="/films" element={
-          <Movies
-            isLogged={isLogged}
-            pageLogin={changePageLogin}
-            findFilms={findAllFilms}
-            handleSmallMetr={ handleSmallMetr }
-            toggleSmallMeter={toggleSmallMeter}
-            postLike = {postLike}
-          />}
-        />
-
-        <Route path="/editProfile" element={
-          <EditProfile
-            isLogged={isLogged}
-            pageLogin={changePageLogin}
-            logOut={logOut}
-            updateUser={updateUser}/>
-        } />
-
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <InfoTooltip
-        onClose={closeAllPopups}
-        isOpen={isSelectedInfoTooltip}
-        succes={isSelectedImageTooltip}
-        text={text}/>
-    </div>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <InfoTooltip
+          onClose={closeAllPopups}
+          isOpen={isSelectedInfoTooltip}
+          succes={isSelectedImageTooltip}
+          text={text}/>
+      </div>
     </CurrentUserContext.Provider>
   );
 }

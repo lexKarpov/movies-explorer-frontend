@@ -57,8 +57,8 @@ export const patchUser = (data) => {
       .then(res => checkResponse(res))
 }
 
-export const postCard = (data) => {
-  const {
+export const postFilm = (data) => {
+  let {
     country,
     director,
     duration,
@@ -70,6 +70,7 @@ export const postCard = (data) => {
     nameEN,
     id,
   } = data
+
   const jwt = localStorage.getItem('jwt')
   return fetch(`${BASE_URL}/movies`, {
     method: 'POST',
@@ -79,21 +80,33 @@ export const postCard = (data) => {
     },
     body: JSON.stringify(
       {
-        country,
-        director,
+        country: country || 'NoSelected',
+        director: director || 'NoSelected',
         duration,
         year,
         description,
-        image: image.url,
+        image: `https://api.nomoreparties.co${image.url}`,
         trailerLink,
         nameRU,
         nameEN,
-        thumbnail: `https://${image.formats.small.hash}`,
+        thumbnail: `https://api.nomoreparties.co${image.formats.thumbnail.url}`,
         movieId: id,
       }
     )
   })
     .then(res => checkResponse(res))
+}
+
+export const getSavedFilms = () => {
+  const jwt = localStorage.getItem('jwt')
+  return fetch(`${BASE_URL}/movies`, {
+    headers: {
+      authorization: jwt,
+      "Content-Type": "application/json"
+    },
+  })
+    .then(res => checkResponse(res))
+    .catch(err => console.log(err))
 }
 
 
