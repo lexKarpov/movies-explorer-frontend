@@ -146,16 +146,17 @@ function App() {
         console.log('this it')
         return null
       }
-      if(!toggleSmallMeter){
+      const IsSmallMeter = localStorage.getItem('smallMeter')
+      if(IsSmallMeter === 'false'){
         localStorage.setItem('findList', JSON.stringify(list))
-        localStorage.setItem('smallMeter', toggleSmallMeter.toString())
+        // localStorage.setItem('smallMeter', toggleSmallMeter.toString())
         localStorage.setItem('valInput', val)
         localStorage.setItem('numberOfMoviesDisplayed', '0')
         setReactionsOnSearch(!reactionsOnSearch)
       }else{
         list = list.filter(el => el.duration < 40)
         localStorage.setItem('findList', JSON.stringify(list))
-        localStorage.setItem('smallMeter', toggleSmallMeter.toString())
+        // localStorage.setItem('smallMeter', toggleSmallMeter.toString())
         localStorage.setItem('valInput', val)
         localStorage.setItem('numberOfMoviesDisplayed', '0')
         setReactionsOnSearch(!reactionsOnSearch)
@@ -172,7 +173,7 @@ function App() {
 
   function handleSmallMetr() {
     setToggleSmallMeter(!toggleSmallMeter)
-
+    return toggleSmallMeter
   }
 
   function refresh() {

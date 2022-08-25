@@ -23,8 +23,8 @@ function MoviesCard(props) {
           <p className="moviesCard__caption">{nameRU}</p>
           {/*<button type="button" className="moviesCard__like"/>*/}
 
-          {/*<Like/>*/}
-          <Dislike />
+          <Like/>
+          {/*<Dislike />*/}
         </div>
 
       </figure>
