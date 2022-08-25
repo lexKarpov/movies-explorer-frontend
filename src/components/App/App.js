@@ -9,7 +9,7 @@ import EditProfile from '../EditProfile/EditProfile';
 import Register from '../Register/Register';
 import NotFound from '../NotFound/NotFound';
 import api from '../../utils/MoviesApi';
-import {register, authorize, getUserContent, patchUser} from '../../utils/MainApi'
+import {register, authorize, getUserContent, patchUser, postCard} from '../../utils/MainApi'
 import InfoTooltip from '../InfoTooltip/InfoTooltip'
 import CurrentUserContext from '../../contexts/CurrentUserContext'
 
@@ -82,7 +82,6 @@ function App() {
         setText('Что-то пошло не так! Попробуйте ещё раз.')
       })
   }
-
 
   function submitRegisterForm(e, data, nameForm) {
     e.preventDefault()
@@ -180,6 +179,14 @@ function App() {
     setReSearch(!research)
   }
 
+  function postLike(id) {
+    const targetFilm = JSON.parse(localStorage.getItem('findList')).filter(el => el.id === id)[0]
+    postCard(targetFilm).then(res => console.log('asdasd'))
+    console.log(targetFilm)
+  }
+
+
+
   return (
     <CurrentUserContext.Provider value = {currUser}>
     <div className="App">
@@ -223,6 +230,7 @@ function App() {
             findFilms={findAllFilms}
             handleSmallMetr={ handleSmallMetr }
             toggleSmallMeter={toggleSmallMeter}
+            postLike = {postLike}
           />}
         />
 

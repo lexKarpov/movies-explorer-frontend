@@ -38,6 +38,7 @@ export const getUserContent = (token) => {
   })
     .then(res => checkResponse(res))
 }
+
 export const patchUser = (data) => {
     const jwt = localStorage.getItem('jwt')
 
@@ -56,19 +57,44 @@ export const patchUser = (data) => {
       .then(res => checkResponse(res))
 }
 
+export const postCard = (data) => {
+  const {
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    nameRU,
+    nameEN,
+    id,
+  } = data
+  const jwt = localStorage.getItem('jwt')
+  return fetch(`${BASE_URL}/movies`, {
+    method: 'POST',
+    headers: {
+      authorization: jwt,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(
+      {
+        country,
+        director,
+        duration,
+        year,
+        description,
+        image: image.url,
+        trailerLink,
+        nameRU,
+        nameEN,
+        thumbnail: `https://${image.formats.small.hash}`,
+        movieId: id,
+      }
+    )
+  })
+    .then(res => checkResponse(res))
+}
 
-// export const patchUser = (data) => {
-//   const jwt = localStorage.getItem('jwt')
-//   return fetch(`${this._url}/users/me`, {
-//     method: 'PATCH',
-//     headers: {
-//       authorization: jwt,
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify({
-//       name: data.name,
-//       email: data.email
-//     })
-//   })
-//     .then(res => this._checkResponse(res))
-// }
+
+

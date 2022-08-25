@@ -3,7 +3,7 @@ import './MoviesCardList.css'
 import {useEffect, useState} from "react";
 import useWindowDimensions from '../../utils/changeWindowDimentions'
 
-function MoviesCardList({ isSaved}) {
+function MoviesCardList({ isSaved, postLike}) {
   const [numberOfMoviesDisplayed, setNumberOfMoviesDisplayed] = useState(localStorage.getItem('numberOfMoviesDisplayed'))
   let windowWidth = useWindowDimensions().width
   let rowNumber
@@ -65,18 +65,18 @@ function MoviesCardList({ isSaved}) {
       <div className='moviesCardList__elements'>
         {isSaved ? savedList?.map(el => {
             if (el.isLiked) {
-              return <MoviesCard data={el} key={el.id}/>
+              return <MoviesCard data={el} key={el.id} postLike={postLike}/>
             }
           })
           :
           findList?.length - limitCoin <= 1 ?
-            findList?.map((el) => <MoviesCard data={el} key={el.id}/>)
+            findList?.map((el) => <MoviesCard data={el} key={el.id} postLike={postLike}/>)
             :
             findList?.length > 4 ?
-              findList.slice(0, limitCoin).map((el) => <MoviesCard data={el} key={el.id}/>)
+              findList.slice(0, limitCoin).map((el) => <MoviesCard postLike={postLike} data={el} key={el.id}/>)
               :
               findList?.length<4 && findList?.length>0 ?
-                findList.map((el) => <MoviesCard data={el} key={el.id}/>)
+                findList.map((el) => <MoviesCard data={el} key={el.id} postLike={postLike}/>)
                 : null
         }
       </div>

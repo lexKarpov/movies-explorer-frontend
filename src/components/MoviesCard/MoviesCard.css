@@ -71,9 +71,7 @@
 /*  cursor: pointer;*/
 /*}*/
 
-.moviesCard__like_active {
-  background-image: url(../../images/movie/like.svg);
-}
+
 .moviesCard__link{
   margin: 0 auto;
   max-width: 270px;
