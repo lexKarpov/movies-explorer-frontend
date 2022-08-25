@@ -8,8 +8,10 @@ import useWindowDimensions from "../../utils/changeWindowDimentions";
 
 function FormSearch({findFilms, handleSmallMetr, toggleSmallMeter}) {
   const windowWidth = useWindowDimensions().width >= 730
+  const inputValue = localStorage.getItem('valInput') ? localStorage.getItem('valInput') : ''
+
   const [checked, setChecked] = React.useState(false)
-  const [val, setVal] = useState('')
+  const [val, setVal] = useState(inputValue)
 
 
   function writeValue(e) {
@@ -19,7 +21,7 @@ function FormSearch({findFilms, handleSmallMetr, toggleSmallMeter}) {
   return (
     <div className="form-search__wrapper">
       <form className="formSearch" onSubmit={(e) => findFilms(e, val)}>
-        <LabelSearch writeValue={writeValue}/>
+        <LabelSearch writeValue={writeValue} val = {val}/>
         {windowWidth && <SmallMeter
           handleSmallMetr={handleSmallMetr}
           toggleSmallMeter={toggleSmallMeter}

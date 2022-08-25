@@ -21,7 +21,7 @@ function App() {
   const [isSelectedImageTooltip, setIsSelectedImageTooltip] = useState(false)
   const [toggleSmallMeter, setToggleSmallMeter] = useState(false)
   const [reactionsOnSearch, setReactionsOnSearch] = useState(false)
-
+  const [research, setReSearch] = useState(false)
   const [noResult, setNoResult] = useState(false)
   const [text, setText] = useState('')
 
@@ -130,6 +130,7 @@ function App() {
 
   function findAllFilms(e, val) {
     e.preventDefault()
+
     if(!val){
       console.log('novalue')
       return null
@@ -149,15 +150,17 @@ function App() {
         localStorage.setItem('findList', JSON.stringify(list))
         localStorage.setItem('smallMeter', toggleSmallMeter.toString())
         localStorage.setItem('valInput', val)
+        localStorage.setItem('numberOfMoviesDisplayed', '0')
         setReactionsOnSearch(!reactionsOnSearch)
       }else{
         list = list.filter(el => el.duration < 40)
         localStorage.setItem('findList', JSON.stringify(list))
         localStorage.setItem('smallMeter', toggleSmallMeter.toString())
         localStorage.setItem('valInput', val)
+        localStorage.setItem('numberOfMoviesDisplayed', '0')
         setReactionsOnSearch(!reactionsOnSearch)
       }
-
+      refresh()
     })
       .catch(err => console.log(err))
   }
@@ -172,6 +175,9 @@ function App() {
 
   }
 
+  function refresh() {
+    setReSearch(!research)
+  }
 
   return (
     <CurrentUserContext.Provider value = {currUser}>
@@ -203,7 +209,6 @@ function App() {
                 findFilms={findAllFilms}
                 handleSmallMetr={ handleSmallMetr }
                 toggleSmallMeter={toggleSmallMeter}
-
               />}
               />
             :
