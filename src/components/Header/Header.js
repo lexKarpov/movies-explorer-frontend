@@ -6,10 +6,18 @@ import Burger from "../Burger/Burger";
 import useWindowDimensions from "../../utils/changeWindowDimentions";
 
 function Header({ isLog, pageLogin }) {
-  // useWindowDimensions()
   const windowWidth = useWindowDimensions().width
-  const color = isLog ? "black" : '';
+  let colorAccount = ''
+  let color = isLog ? "black" : '';
   const location = useLocation();
+
+  if (location.pathname === '/'){
+    color = ''
+    colorAccount = 'header__account_color_blue'
+  }
+
+  //#3DDC84
+
 
   if (location.pathname === '/signin') {
     return (
@@ -37,7 +45,7 @@ function Header({ isLog, pageLogin }) {
         <Link className="header__image" to="/" />
         {isLog && windowWidth > 768 ? <HeadNavLog /> : null}
         {!isLog ? <HeadNavNoLog /> : null}
-        {isLog && windowWidth > 768 ? <Link className="link header__account" to='/editProfile'>Аккаунт</Link> : null}
+        {isLog && windowWidth > 768 ? <Link className={`link header__account ${colorAccount}`} to='/editProfile'>Аккаунт</Link> : null}
         {isLog && windowWidth <= 768 ? <Burger /> : null}
       </wrapper>
     </header>

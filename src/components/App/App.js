@@ -65,7 +65,7 @@ function App() {
             if (res) {
               setIsLogged(true)
               setCurrentUser(res)
-              navigate('/')
+              navigate('/films')
             }
           })
           .catch(err => {
@@ -200,25 +200,11 @@ function App() {
               pageLogin={changePageLogin}
               submitRegisterForm={submitRegisterForm}/>
           } />
-        {
-          isLogged ?
-            <Route path="/" element={
-              <Movies
-                isLogged={isLogged}
-                pageLogin={changePageLogin}
-                className="page"
-                findFilms={findAllFilms}
-                handleSmallMetr={ handleSmallMetr }
-                toggleSmallMeter={toggleSmallMeter}
-              />}
-              />
-            :
-            <Route path="/" element={
-              <Main
-                isLogged={isLogged}
-                pageLogin={changePageLogin}
-                className="page" />} />
-        }
+        <Route path="/" element={
+          <Main
+            isLogged={isLogged}
+            pageLogin={changePageLogin}
+            className="page" />} />
 
         <Route path="/saveFilms" element={
           <SavedMovies
