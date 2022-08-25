@@ -9,7 +9,7 @@ import EditProfile from '../EditProfile/EditProfile';
 import Register from '../Register/Register';
 import NotFound from '../NotFound/NotFound';
 import api from '../../utils/MoviesApi';
-import {register, authorize, getUserContent, patchUser, postCard} from '../../utils/MainApi'
+import {register, authorize, getUserContent, patchUser, postCard, getSavedFilms} from '../../utils/MainApi'
 import InfoTooltip from '../InfoTooltip/InfoTooltip'
 import CurrentUserContext from '../../contexts/CurrentUserContext'
 
@@ -34,7 +34,7 @@ function App() {
           if (res) {
             setIsLogged(true)
             setCurrentUser(res)
-            navigate('/')
+            // navigate('/')
           }
         })
         .catch((err) => console.log(err))
@@ -181,9 +181,19 @@ function App() {
 
   function postLike(id) {
     const targetFilm = JSON.parse(localStorage.getItem('findList')).filter(el => el.id === id)[0]
-    postCard(targetFilm).then(res => console.log('asdasd'))
-    console.log(targetFilm)
+    postCard(targetFilm).then(res => {
+      getSavedFilms()
+      .then(res => {
+        let filmWithOwner = res.filter(el => el.owner === currUser._id)
+        console.log(filmWithOwner)
+      })
+      
+      
+    })
+    // console.log(targetFilm)
   }
+
+
 
 
 
