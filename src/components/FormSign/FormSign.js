@@ -43,21 +43,21 @@ function Form({ submitRegisterForm }) {
         {location.pathname === '/signup' &&
           <div className='label'>
             <label className='label__title'>Имя
-              <input className='label__input' onChange={handleChangeInputs} id="name-input" name="name" type='text' required={true}/>
+              <input className='label__input' onChange={handleChangeInputs}  name="name" type='text' required={true}/>
             </label>
             <span className='label__error' />
           </div>
         }
         <div className='label'>
           <label className='label__title'>E-mail
-            <input className='label__input' onChange={handleChangeInputs} id="name-input" name="email" type='email' required={true}/>
+            <input className='label__input' onChange={handleChangeInputs}  name="email" type='email' required={true}/>
           </label>
           <span className='label__error'></span>
         </div>
 
         <div className='label'>
           <label className='label__title'>Пароль
-            <input className='label__input' onChange={handleChangeInputs} id="name-input" name="password" type='password' required={true}></input>
+            <input className='label__input' onChange={handleChangeInputs} name="password" type='password' required={true}></input>
           </label>
           <span className='label__error'></span>
         </div>

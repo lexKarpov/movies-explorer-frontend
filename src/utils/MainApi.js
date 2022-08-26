@@ -109,5 +109,15 @@ export const getSavedFilms = () => {
     .catch(err => console.log(err))
 }
 
-
+export const deleteMovie = (cardId) => {
+  const jwt = localStorage.getItem('jwt')
+  return fetch(`${BASE_URL}/movies/${cardId}`, {
+    method: 'DELETE',
+    headers: {
+      authorization: `${jwt}`,
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(res => checkResponse(res))
+}
 

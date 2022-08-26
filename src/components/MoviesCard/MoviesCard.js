@@ -7,17 +7,12 @@ const BASE_URL = 'https://api.nomoreparties.co/'
 function MoviesCard({data, postLike, deleteCard, isSaved, id, testRender}) {
   let { nameRU, duration, image, trailerLink } = data
 
-  // console.log('ids')
-  // console.log(testRender)
-
   let timeLength = `${Math.floor(duration / 60)}ч ${duration % 60 ? duration % 60 + 'м' : ''}`
 
   if(timeLength[0] === '0'){
     timeLength = timeLength.split(' ')[1]
   }
-  // console.log(localStorage.getItem('savedMoviesList'))
   if(!isSaved){
-    // console.log(`https://api.nomoreparties.co${data.image.url}`)
     image = `https://api.nomoreparties.co${data.image.url}`
   }
 

@@ -9,7 +9,7 @@ import EditProfile from '../EditProfile/EditProfile';
 import Register from '../Register/Register';
 import NotFound from '../NotFound/NotFound';
 import api from '../../utils/MoviesApi';
-import {register, authorize, getUserContent, patchUser, postFilm, getSavedFilms} from '../../utils/MainApi'
+import {register, authorize, getUserContent, patchUser, postFilm, getSavedFilms, deleteMovie} from '../../utils/MainApi'
 import InfoTooltip from '../InfoTooltip/InfoTooltip'
 import CurrentUserContext from '../../contexts/CurrentUserContext'
 
@@ -221,11 +221,8 @@ function App() {
         .then(res => {
           let filmWithOwner = res.filter(el => el.owner === currUser._id)
           if(!filmWithOwner){
-            // localStorage.setItem('savedMoviesList', '')
           }else{
             localStorage.setItem('savedMoviesList', JSON.stringify(filmWithOwner))
-            console.log('219')
-            console.log(filmWithOwner)
           }
           setTestRender(testRender+1)
         })
@@ -233,7 +230,18 @@ function App() {
   }
 
   function deleteCard(cardId) {
+    console.log('cardId')
     console.log(cardId)
+    deleteMovie(cardId)
+      .then(res => {
+        const listBeforeDelete = JSON.parse(localStorage.getItem('savedMoviesList'))
+        const listWithDelete = listBeforeDelete.filter(el => el._id !== cardId)
+        console.log('listWithDelete')
+        console.log(listWithDelete)
+        localStorage.setItem('savedMoviesList', JSON.stringify(listWithDelete))
+        setTestRender(testRender+1)
+      })
+      .catch(err => console.log(err))
   }
 
 
