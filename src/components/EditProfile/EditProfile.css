@@ -1,3 +1,7 @@
+.editProfile__container{
+  min-height: 100vh;
+  height: max-content;
+}
 .editProfile {
   background-color: #202020;
   box-sizing: border-box;

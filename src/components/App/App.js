@@ -29,8 +29,6 @@ function App() {
   const [preloader, setPreloader] = useState(false)
 
   useEffect(_ => {
-    setPreloader(true)
-    // api.getCards().then(res => setAllFilms(res)) // get all films in const allFilms
     const jwt = localStorage.getItem('jwt')
     if (jwt) {
       getUserContent(jwt)
@@ -43,8 +41,6 @@ function App() {
         .then(user => {
           getSavedFilms()
             .then(res => {
-              // setSavedMovies(res)
-
               let filmWithOwner = res.filter(el => el.owner === user._id
               )
               if(!filmWithOwner){
@@ -57,16 +53,13 @@ function App() {
               setCurrentUser(user)
             })
             .catch(err => console.log(err))
+            .finally(() => setPreloader(false))
         })
         .catch((err) => console.log(err))
         .finally(() => setPreloader(false))
     }
 
   }, [])
-
-
-
-
 
   function changePageLogin(val) {
     setIsLogged(val)
@@ -299,43 +292,49 @@ function App() {
                 className="page" />} />
 
             <Route path="/saveFilms" element={
-              <SavedMovies
-                isLogged={isLogged}
-                pageLogin={changePageLogin}
-                findFilms={findMainFilms}
-                handleSmallMetr={ handleSmallMetr }
-                toggleSmallMeter={toggleSmallMeter}
-                testRender={testRender}
-                deleteCard={deleteCard}
-                preloader={preloader}
-              />}
+              <ProtectedRoute isLogged={isLogged}>
+                <SavedMovies
+                  isLogged={isLogged}
+                  pageLogin={changePageLogin}
+                  findFilms={findMainFilms}
+                  handleSmallMetr={ handleSmallMetr }
+                  toggleSmallMeter={toggleSmallMeter}
+                  testRender={testRender}
+                  deleteCard={deleteCard}
+                  preloader={preloader}
+                />
+              </ProtectedRoute>
+                }
             />
-            {/*<ProtectedRoute*/}
-            {/*  isLogged={isLogged}*/}
-            {/*  path="/">*/}
 
-            {/*</ProtectedRoute>*/}
-            <Route path="/films" element={
-              <Movies
-                isLogged={isLogged}
-                pageLogin={changePageLogin}
-                findFilms={findAllFilms}
-                handleSmallMetr={ handleSmallMetr }
-                toggleSmallMeter={toggleSmallMeter}
-                postLike = {postLike}
-                deleteCard={deleteCard}
-                preloader={preloader}
-              />}
-            />
+              <Route path="/films" element={
+                <ProtectedRoute isLogged={isLogged}>
+                  <Movies
+                    isLogged={isLogged}
+                    pageLogin={changePageLogin}
+                    findFilms={findAllFilms}
+                    handleSmallMetr={handleSmallMetr}
+                    toggleSmallMeter={toggleSmallMeter}
+                    postLike={postLike}
+                    deleteCard={deleteCard}
+                    preloader={preloader}
+                  />
+                </ProtectedRoute>
+              }
+              />
+
+
 
             <Route path="/editProfile" element={
-              <EditProfile
-                isLogged={isLogged}
-                pageLogin={changePageLogin}
-                logOut={logOut}
-                updateUser={updateUser}
-                preloader={preloader}
-              />
+              <ProtectedRoute isLogged={isLogged}>
+                <EditProfile
+                  isLogged={isLogged}
+                  pageLogin={changePageLogin}
+                  logOut={logOut}
+                  updateUser={updateUser}
+                  preloader={preloader}
+                />
+              </ProtectedRoute>
             } />
 
             <Route path="*" element={<NotFound />} />
