@@ -66,7 +66,7 @@ function App() {
               }
               setTestRender(testRender+1)
               setIsLogged(true)
-              setCurrentUser(res)
+              setCurrentUser(user)
             })
             .catch(err => console.log(err))
         })

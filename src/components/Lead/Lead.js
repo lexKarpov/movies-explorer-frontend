@@ -6,7 +6,7 @@ import './Lead.css'
 function Lead() {
   return (
     <section className="lead">
-      <wrapper className="lead__wrapper">
+      <div className="lead__wrapper">
 
         <div className="lead__info">
           <h1 className="lead__title">Учебный проект студента факультета <nobr>Веб-разработки</nobr>.</h1>
@@ -14,7 +14,7 @@ function Lead() {
           <a className="link lead__link" href="#abouts">Узнать больше</a>
         </div>
         <img alt="мир из веба" className="lead__image" src={worldTexts} />
-      </wrapper>
+      </div>
     </section>
   )
 }

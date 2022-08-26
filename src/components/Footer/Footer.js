@@ -5,7 +5,7 @@ function Footer({ isLog }) {
   const color = isLog ? "black" : '';
   return (
     <footer className={`footer ${color}`}>
-      <wrapper className="footer__wrapper">
+      <div className="footer__wrapper">
         <p className="footer__text">
           Учебный проект Яндекс.Практикум х BeatFilm.
         </p>
@@ -17,7 +17,7 @@ function Footer({ isLog }) {
             <a className="link footer__com" target="_blank" href="https://vk.com/doyouknowlechkarpov">VK</a>
           </nav>
         </div>
-      </wrapper>
+      </div>
     </footer>
   )
 }
