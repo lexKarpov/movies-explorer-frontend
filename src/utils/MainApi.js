@@ -1,5 +1,5 @@
 const BASE_URL = `${window.location.protocol}//${process.env.REACT_APP_API_URL || '//localhost:3001'}`;
-// const BASE_URL = `http://localhost:3001`;
+// const BASE_URL = `http://api.alexkarpov.students.nomoredomains.xyz`;
 
 function checkResponse(res) {
   return res.ok ? res.json() : Promise.reject(res);
