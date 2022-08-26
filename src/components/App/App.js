@@ -2,6 +2,7 @@ import './App.css';
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Main from '../Main/Main'
 import Login from "../Login/Login";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import React, { useState, useEffect } from "react";
 import Movies from '../Movies/Movies'
 import SavedMovies from '../SavedMovies/SavedMovies'
@@ -290,6 +291,7 @@ function App() {
                   preloader={preloader}
                 />
               } />
+
             <Route path="/" element={
               <Main
                 isLogged={isLogged}
@@ -308,7 +310,11 @@ function App() {
                 preloader={preloader}
               />}
             />
+            {/*<ProtectedRoute*/}
+            {/*  isLogged={isLogged}*/}
+            {/*  path="/">*/}
 
+            {/*</ProtectedRoute>*/}
             <Route path="/films" element={
               <Movies
                 isLogged={isLogged}
