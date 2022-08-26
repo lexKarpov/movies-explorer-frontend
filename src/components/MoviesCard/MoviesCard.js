@@ -8,8 +8,6 @@ const BASE_URL = 'https://api.nomoreparties.co'
 function MoviesCard({data, postLike, deleteCard, isSaved, id, testRender, isLike}) {
   let { nameRU, duration, image, trailerLink } = data
   let timeLength = `${Math.floor(duration / 60)}ч ${duration % 60 ? duration % 60 + 'м' : ''}`
-  // console.log(nameRU)
-  // console.log(isLike)
 
   if(timeLength[0] === '0'){
     timeLength = timeLength.split(' ')[1]
@@ -20,9 +18,7 @@ function MoviesCard({data, postLike, deleteCard, isSaved, id, testRender, isLike
   }
 
   function dislikeCard() {
-    console.log('deleteCard')
     const deleteCurrentCard = JSON.parse(localStorage.getItem('savedMoviesList')).filter(el => el.nameRU === nameRU)
-    console.log(deleteCurrentCard[0]._id)
     // deleteCard(data._id)
     deleteCard(deleteCurrentCard[0]._id)
   }

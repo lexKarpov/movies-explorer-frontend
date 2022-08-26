@@ -171,26 +171,21 @@ function App() {
     api.getCards().then(res => {
     let list = res.filter(el => el.nameRU.toLowerCase().includes(val))
       if( list.length === 0 ){
-        // setNoResult(true)
         setIsSelectedImageTooltip(false)
         setIsSelectedInfoTooltip(true)
         setText('Ничего не найдено.')
         console.log('this it')
         return null
       }
-
       const IsSmallMeter = localStorage.getItem('smallMeter')
-      // const formattedFilmsList = list.map(el => {el.})
       if(IsSmallMeter === 'false'){
         localStorage.setItem('findList', JSON.stringify(list))
-        // localStorage.setItem('smallMeter', toggleSmallMeter.toString())
         localStorage.setItem('valInput', val)
         localStorage.setItem('numberOfMoviesDisplayed', '0')
         setReactionsOnSearch(!reactionsOnSearch)
       }else{
         list = list.filter(el => el.duration < 40)
         localStorage.setItem('findList', JSON.stringify(list))
-        // localStorage.setItem('smallMeter', toggleSmallMeter.toString())
         localStorage.setItem('valInput', val)
         localStorage.setItem('numberOfMoviesDisplayed', '0')
         setReactionsOnSearch(!reactionsOnSearch)
@@ -201,9 +196,29 @@ function App() {
       .finally(() => setPreloader(false))
   }
 
-  function findMainFilms(e) {
+  function findMainFilms(e, val) {
     e.preventDefault()
-    console.log('it`s saved')
+    val = val.toLowerCase()
+    localStorage.setItem('valInputSavedFilms', val)
+    const saveFilms = JSON.parse(localStorage.getItem('savedMoviesList'))
+
+    const IsSmallMeter = localStorage.getItem('smallMeter')
+    let list = saveFilms.filter(el => el.nameRU.toLowerCase().includes(val))
+    if(IsSmallMeter === 'false'){
+      localStorage.setItem('SavedFilmlistMatchInput', JSON.stringify(list))
+      setReactionsOnSearch(!reactionsOnSearch)
+    }else{
+      list = saveFilms.filter(el => el.duration < 40)
+      localStorage.setItem('SavedFilmlistMatchInput', JSON.stringify(list))
+      setReactionsOnSearch(!reactionsOnSearch)
+    }
+    if( saveFilms.length === 0  || list.length===0){
+      setIsSelectedImageTooltip(false)
+      setIsSelectedInfoTooltip(true)
+      setText('Ничего не найдено.')
+      console.log('this it')
+      return null
+    }
   }
 
   function handleSmallMetr() {

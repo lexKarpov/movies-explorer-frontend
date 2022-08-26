@@ -28,6 +28,13 @@ function MoviesCardList({ isSaved, postLike, testRender, deleteCard}) {
 
   const findList = JSON.parse(localStorage.getItem('findList'))
   const savedList = JSON.parse(localStorage.getItem('savedMoviesList'))
+  let displaySearchSavedFilms
+  if(localStorage.getItem('valInputSavedFilms')?.length){
+    displaySearchSavedFilms = JSON.parse(localStorage.getItem('SavedFilmlistMatchInput'))
+  }
+
+
+
   const [limitCoin, setLimitCoin] = useState(Number(numberOfMoviesDisplayed))
   const [buttonVisible, setButtonVisible] = useState(false)
 
@@ -47,31 +54,30 @@ function MoviesCardList({ isSaved, postLike, testRender, deleteCard}) {
       disableButton(false)
   }}, [localStorage.getItem('numberOfMoviesDisplayed'), windowWidth])
 
-
-
-
   if(limitCoin >= findList?.length){
     setLimitCoin(findList.length - 1)
     disableButton(true)
   }
-  //
-
-  // function dislikeCard() {
-  //   if(isSaved){
-  //     deleteCard()
-  //   }
-  //   console.log('deleteCard')
-  // }
-  // nameRU, duration, image, trailerLink, id
 
   return (
     <section className="moviesCardList">
       <div className='moviesCardList__elements'>
-        {isSaved ? savedList?.map(el => <MoviesCard
+        {
+          displaySearchSavedFilms?.length && isSaved ?
+            displaySearchSavedFilms?.map(el => <MoviesCard
+              data={el}
+              id ={el.movieId? el.movieId : el._id}
+              key={el.movieId + Math.random()}
+              isSaved={true}
+              testRender={testRender}
+              deleteCard={deleteCard}
+            />)
+            :
+
+          isSaved ? savedList?.map(el => <MoviesCard
             data={el}
             id ={el.movieId? el.movieId : el._id}
             key={el.movieId + Math.random()}
-            // dislikeCard={dislikeCard}
             isSaved={true}
             testRender={testRender}
             deleteCard={deleteCard}
@@ -109,7 +115,6 @@ function MoviesCardList({ isSaved, postLike, testRender, deleteCard}) {
                   }else{
                     isLike = savedList?.filter(savedListEl => savedListEl.movieId === el.id)
                   }
-                  // console.log(isLike)
                   return <MoviesCard data={el} key={el.id} postLike={postLike} id = {el.id} isLike={isLike} deleteCard={deleteCard}/>
                 })
                 : null

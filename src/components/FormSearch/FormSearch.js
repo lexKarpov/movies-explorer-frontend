@@ -1,18 +1,24 @@
 import './FormSearch.css'
-
 import React, { useEffect, useState } from 'react'
 import LabelSearch from '../LabelSearch/LabelSearch'
 import SmallMeter from '../SmallMeter/SmallMeter'
 import useWindowDimensions from "../../utils/changeWindowDimentions";
+import {useLocation} from "react-router-dom";
 
 
 function FormSearch({findFilms, handleSmallMetr, toggleSmallMeter}) {
+  const location = useLocation();
+  let inputValue
+  if (location.pathname === '/films'){
+    inputValue = localStorage.getItem('valInput') ? localStorage.getItem('valInput') : ''
+  }
+  if (location.pathname ==='/saveFilms'){
+    inputValue = localStorage.getItem('valInputSavedFilms') ? localStorage.getItem('valInputSavedFilms') : ''
+  }
+
   const windowWidth = useWindowDimensions().width >= 730
-  const inputValue = localStorage.getItem('valInput') ? localStorage.getItem('valInput') : ''
-
-  const [checked, setChecked] = React.useState(false)
+  // const inputValue = localStorage.getItem('valInput') ? localStorage.getItem('valInput') : ''
   const [val, setVal] = useState(inputValue)
-
 
   function writeValue(e) {
     setVal(e.target.value)
