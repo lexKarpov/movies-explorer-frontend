@@ -1,11 +1,10 @@
 import './Portfolio.css'
-import me from "../../images/about/me.jpg";
 import arrow from "../../images/about/arrow.png";
 
 function Portfolio(){
   return (
     <section className="portfolio">
-      <wrapper className="portfolio__wrapper">
+      <div className="portfolio__wrapper">
           <h2 className="portfolio__title">Портфолио</h2>
         <ul className="list portfolio__list">
           <li className="portfolio__link">
@@ -27,7 +26,7 @@ function Portfolio(){
             </a>
           </li>
         </ul>
-      </wrapper>
+      </div>
     </section>
   )
 }

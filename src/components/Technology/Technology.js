@@ -3,7 +3,7 @@ import './Technology.css'
 function Technology() {
   return (
     <section className="technology">
-      <wrapper className="technology__wrapper">
+      <div className="technology__wrapper">
         <h2 className="title">Технологии</h2>
         <div className="technology__description">
             <h3 className="technology__title">7 технологий</h3>
@@ -18,7 +18,7 @@ function Technology() {
           <div className="stack__element">Express.js</div>
           <div className="stack__element">mongoDB</div>
         </div>
-      </wrapper>
+      </div>
     </section>
   )
 }

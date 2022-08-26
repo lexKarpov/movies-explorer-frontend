@@ -4,7 +4,7 @@ import me from '../../images/about/me.jpg'
 function Student() {
   return (
     <section className="student">
-      <wrapper className="student__wrapper">
+      <div className="student__wrapper">
         <h2 className="title student__head-title">Студент</h2>
         <div className="student__profile">
           <h3 className="student__title">Алексей</h3>
@@ -16,7 +16,7 @@ function Student() {
           </nav>
           <img alt="фото студента" src={me} className="student__photo" />
         </div>
-      </wrapper>
+      </div>
     </section>
   )
 }

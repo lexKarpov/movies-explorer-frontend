@@ -1,0 +1,19 @@
+.moviesCard__dislike {
+  height: 24px;
+  width: 24px;
+  grid-area: like;
+  border: none;
+  background-image: url(../../images/movie/dislike.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 10px 10px;
+  background-color: #313131;
+  border-radius: 36px;
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+
+.moviesCard__dislike:hover {
+  cursor: pointer;
+  opacity: 1;
+}
