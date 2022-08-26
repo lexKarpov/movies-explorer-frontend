@@ -18,7 +18,6 @@ function FormSearch({findFilms, handleSmallMetr, toggleSmallMeter}) {
   }
 
   const windowWidth = useWindowDimensions().width >= 730
-  // const inputValue = localStorage.getItem('valInput') ? localStorage.getItem('valInput') : ''
   const [val, setVal] = useState(inputValue)
 
   function writeValue(e) {

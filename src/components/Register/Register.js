@@ -4,7 +4,6 @@ import Header from '../Header/Header'
 import Preloader from "../Preloader/Preloader";
 
 function Register({ isLogged, pageLogin, submitRegisterForm, preloader }) {
-
   return (
     <div className='register'>
       <Header isLog={isLogged} pageLogin={pageLogin} />

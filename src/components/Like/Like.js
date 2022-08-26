@@ -9,7 +9,6 @@ function Like({postLike, id, dislikeCard, isLike}) {
       postLike(id)
     }
   }
-
   return (
     <button type="button" className={`moviesCard__like ${isLiked}`} onClick={changeLike}/>
   )

@@ -1,5 +1,4 @@
 import './Portfolio.css'
-import me from "../../images/about/me.jpg";
 import arrow from "../../images/about/arrow.png";
 
 function Portfolio(){

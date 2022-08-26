@@ -104,9 +104,9 @@ function App() {
       .finally(() => setPreloader(false))
   }
 
-  function submitRegisterForm(e, data, nameForm) {
+  function submitRegisterForm(data, nameForm) {
     setPreloader(true)
-    e.preventDefault()
+    console.log('I work!!!!!!!!!')
     nameForm === 'signup' ?
       register(data)
       .then(res => logIn(data))

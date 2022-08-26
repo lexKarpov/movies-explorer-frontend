@@ -7,7 +7,6 @@ function Lead() {
   return (
     <section className="lead">
       <div className="lead__wrapper">
-
         <div className="lead__info">
           <h1 className="lead__title">Учебный проект студента факультета <nobr>Веб-разработки</nobr>.</h1>
           <p className="lead__description">Листайте ниже, чтобы узнать больше про этот проект и его создателя.</p>

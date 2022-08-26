@@ -5,7 +5,7 @@ import HeadNavNoLog from "../HeadNavNoLog/HeadNavNoLog";
 import Burger from "../Burger/Burger";
 import useWindowDimensions from "../../utils/changeWindowDimentions";
 
-function Header({ isLog, pageLogin }) {
+function Header({ isLog }) {
   const windowWidth = useWindowDimensions().width
   let colorAccount = ''
   let color = isLog ? "black" : '';
@@ -15,9 +15,6 @@ function Header({ isLog, pageLogin }) {
     color = ''
     colorAccount = 'header__account_color_blue'
   }
-
-  //#3DDC84
-
 
   if (location.pathname === '/signin') {
     return (

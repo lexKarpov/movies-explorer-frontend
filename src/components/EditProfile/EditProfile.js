@@ -101,6 +101,3 @@ function EditProfile({ logOut, isLogged, pageLogin, updateUser, preloader }) {
 }
 
 export default EditProfile;
-
-
-

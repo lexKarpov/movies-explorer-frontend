@@ -1,4 +1,3 @@
-import React, {useEffect, useState} from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './FormSign.css';
 import { useForm } from "react-hook-form";
@@ -23,48 +22,67 @@ function Form({ submitRegisterForm }) {
     nameForm = 'signup'
   }
 
-  const [inputsValue, setInputValue] = useState(
-    {
-      email: '',
-      password: '',
-      name: ''
-    });
+  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  watch('name')
 
-  function handleChangeInputs(evt) {
-    const { name, value } = evt.target;
-    setInputValue(prevState => ({ ...prevState, [name]: value }));
+  function goSign(data) {
+    submitRegisterForm(data, nameForm)
   }
 
   return (
-    <form className='form' name="register-form" onSubmit={(e) => submitRegisterForm(e, inputsValue, nameForm)}>
+    <form className='form' name="register-form" onSubmit={handleSubmit(goSign)}>
       <div className='form__wrapper'>
         {location.pathname === '/signup' &&
           <div className='label'>
             <label className='label__title'>Имя
-              <input className='label__input' onChange={handleChangeInputs}  name="name" type='text' required={true}/>
+              <input
+                {...register("name", {
+                  required: 'это поле обязательно.',
+                  minLength: {
+                    value: 2,
+                    message: "Введите от 2х до 32 символов"
+                  },
+                  maxLength: {
+                    value: 30,
+                    message: "Введите от 2х до 32 символов"
+                  }
+                }) }
+                className='label__input'/>
             </label>
-            <span className='label__error' />
+            {errors.name?.message ? <span className='label__error'>{errors.name.message}</span> : <span className='label__error'/>}
           </div>
         }
         <div className='label'>
           <label className='label__title'>E-mail
-            <input className='label__input' onChange={handleChangeInputs}  name="email" type='email' required={true}/>
+            <input
+              {...register("email", {
+                required: 'это поле обязательно',
+                pattern: {
+                  value: regExpEmail,
+                  message: 'это поле для емайла'
+                }
+              })}
+              className='label__input'/>
           </label>
-          <span className='label__error'></span>
+          {errors.email?.message ? <span className='label__error'>{errors.email.message}</span> : <span className='label__error'/>}
         </div>
 
         <div className='label'>
           <label className='label__title'>Пароль
-            <input className='label__input' onChange={handleChangeInputs} name="password" type='password' required={true}/>
+            <input
+              {...register("password", {
+                required: 'это поле обязательно',
+              })}
+              className='label__input'
+              type='password'/>
           </label>
-          <span className='label__error'></span>
+          {errors.password?.message ? <span className='label__error'>{errors.password.message}</span> : <span className='label__error'/>}
         </div>
-        <button className='form__button' type="submit">{buttonSubmit}</button>
+        <button type="submit" className='form__button'>{buttonSubmit}</button>
         <div className='redirect'>
           <p className='redirect__desc'>{desc}</p>
           <Link className='redirect__to' to={redirectTo}>{redirect}</Link>
         </div>
-
       </div>
     </form >
   )
