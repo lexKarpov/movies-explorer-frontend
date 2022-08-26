@@ -1,13 +1,25 @@
 import './Like.css'
 import {useState} from "react";
 
-function Like({postLike, id}) {
+function Like({postLike, id, dislikeCard, isLike}) {
   const [itlike, setLike] = useState(false)
-  const isLiked = itlike ? 'moviesCard__like_active' : ''
+  // console.log('isLike in card')
+  // console.log(isLike)
+  const isLiked = isLike.length ? 'moviesCard__like_active' : ''
   function changeLike() {
-    postLike(id)
-    setLike(!itlike)
+    if(isLiked){
+      console.log('state when active')
+      console.log(isLiked.toString())
+      dislikeCard(id)
+    }else{
+      console.log('state when noactive')
+      console.log(isLiked.toString())
+      postLike(id)
+    }
+    // setLike(!itlike)
   }
+
+
   return (
     <button type="button" className={`moviesCard__like ${isLiked}`} onClick={changeLike}/>
   )

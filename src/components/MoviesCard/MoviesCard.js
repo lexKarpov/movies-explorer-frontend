@@ -3,41 +3,40 @@ import Like from "../Like/Like";
 import Dislike from "../dislike/dislike";
 import Preloader from "../Preloader/Preloader";
 
-const BASE_URL = 'https://api.nomoreparties.co/'
+const BASE_URL = 'https://api.nomoreparties.co'
 
-function MoviesCard({data, postLike, deleteCard, isSaved, id, testRender}) {
+function MoviesCard({data, postLike, deleteCard, isSaved, id, testRender, isLike}) {
   let { nameRU, duration, image, trailerLink } = data
-
   let timeLength = `${Math.floor(duration / 60)}ч ${duration % 60 ? duration % 60 + 'м' : ''}`
+  // console.log(nameRU)
+  // console.log(isLike)
 
   if(timeLength[0] === '0'){
     timeLength = timeLength.split(' ')[1]
   }
+
   if(!isSaved){
-    image = `https://api.nomoreparties.co${data.image.url}`
+    image = `${BASE_URL}${data.image.url}`
   }
 
   function dislikeCard() {
-    deleteCard(data._id)
-    // console.log('deleteCard')
+    console.log('deleteCard')
+    const deleteCurrentCard = JSON.parse(localStorage.getItem('savedMoviesList')).filter(el => el.nameRU === nameRU)
+    console.log(deleteCurrentCard[0]._id)
+    // deleteCard(data._id)
+    deleteCard(deleteCurrentCard[0]._id)
   }
 
   return (
     <div className="moviesCard">
       <figure className="moviesCard__image-block">
         <a className="moviesCard__link" target="_blank" href={trailerLink}>
-        {/*<img alt="превью фильма" className="moviesCard__preview" src={`${BASE_URL}${image.url.slice(1, -1)}g`} />*/}
         <img alt="превью фильма" className="moviesCard__preview" src={image} />
-        {/*<img alt="превью фильма" className="moviesCard__preview" src={`${BASE_URL}${image.formats.small.url}${image.formats.small.ext}`} />*/}
         </a>
         <div className="moviesCard__desc">
           <p className="moviesCard__caption">{nameRU}</p>
-          {/*<button type="button" className="moviesCard__like"/>*/}
-
-          {isSaved ? <Dislike dislikeCard={dislikeCard}/> : <Like postLike={postLike} id={id}/>}
-
+          {isSaved ? <Dislike dislikeCard={dislikeCard}/> : <Like postLike={postLike} id={id} dislikeCard={dislikeCard} isLike={isLike}/>}
         </div>
-
       </figure>
       <p className="moviesCard__length">{timeLength}</p>
     </div>

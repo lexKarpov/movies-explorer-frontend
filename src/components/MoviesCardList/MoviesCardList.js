@@ -5,9 +5,6 @@ import useWindowDimensions from '../../utils/changeWindowDimentions'
 import Preloader from "../Preloader/Preloader";
 
 function MoviesCardList({ isSaved, postLike, testRender, deleteCard}) {
-
-
-  //==========================================================
   const [numberOfMoviesDisplayed, setNumberOfMoviesDisplayed] = useState(localStorage.getItem('numberOfMoviesDisplayed'))
   let windowWidth = useWindowDimensions().width
   let rowNumber
@@ -66,6 +63,7 @@ function MoviesCardList({ isSaved, postLike, testRender, deleteCard}) {
   //   console.log('deleteCard')
   // }
   // nameRU, duration, image, trailerLink, id
+
   return (
     <section className="moviesCardList">
       <div className='moviesCardList__elements'>
@@ -81,13 +79,39 @@ function MoviesCardList({ isSaved, postLike, testRender, deleteCard}) {
         // {isSaved ? null
           :
           findList?.length - limitCoin <= 1 ?
-            findList?.map((el) => <MoviesCard data={el} key={el.id} postLike={postLike} id = {el.id}/>)
+            findList?.map((el) => {
+              let isLike
+              if(savedList){
+                isLike = savedList.filter(savedListEl => savedListEl.movieId === el.id)
+              }else{
+                isLike = savedList?.filter(savedListEl => savedListEl.movieId === el.id)
+              }
+              return <MoviesCard data={el} key={el.id} postLike={postLike} id = {el.id} isLike={isLike} deleteCard={deleteCard}/>
+            })
             :
             findList?.length > 4 ?
-              findList.slice(0, limitCoin).map((el) => <MoviesCard postLike={postLike} data={el} key={el.id} id = {el.id}/>)
+              findList.slice(0, limitCoin).map((el) => {
+                let isLike
+                if(savedList){
+                  isLike = savedList.filter(savedListEl => savedListEl.movieId === el.id)
+                }else{
+                  isLike = savedList?.filter(savedListEl => savedListEl.movieId === el.id)
+                }
+
+                return <MoviesCard data={el} key={el.id} postLike={postLike} id = {el.id} isLike={isLike} deleteCard={deleteCard}/>
+              })
               :
               findList?.length<4 && findList?.length>0 ?
-                findList.map((el) => <MoviesCard data={el} key={el.id} postLike={postLike} id = {el.id}/>)
+                findList.map((el) => {
+                  let isLike
+                  if(savedList){
+                    isLike = savedList.filter(savedListEl => savedListEl.movieId === el.id)
+                  }else{
+                    isLike = savedList?.filter(savedListEl => savedListEl.movieId === el.id)
+                  }
+                  // console.log(isLike)
+                  return <MoviesCard data={el} key={el.id} postLike={postLike} id = {el.id} isLike={isLike} deleteCard={deleteCard}/>
+                })
                 : null
         }
       </div>

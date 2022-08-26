@@ -241,8 +241,8 @@ function App() {
       .then(res => {
         const listBeforeDelete = JSON.parse(localStorage.getItem('savedMoviesList'))
         const listWithDelete = listBeforeDelete.filter(el => el._id !== cardId)
-        console.log('listWithDelete')
-        console.log(listWithDelete)
+        // console.log('listWithDelete')
+        // console.log(listWithDelete)
         localStorage.setItem('savedMoviesList', JSON.stringify(listWithDelete))
         setTestRender(testRender+1)
       })
@@ -254,8 +254,8 @@ function App() {
 
   return (
     <CurrentUserContext.Provider value = {currUser}>
-      {preloader ? <Preloader/>
-      :
+      {/*{preloader ? <Preloader/>*/}
+      {/*:*/}
         <div className="App">
           <Routes>
             <Route
@@ -300,6 +300,7 @@ function App() {
                 handleSmallMetr={ handleSmallMetr }
                 toggleSmallMeter={toggleSmallMeter}
                 postLike = {postLike}
+                deleteCard={deleteCard}
               />}
             />
 
@@ -319,7 +320,7 @@ function App() {
             succes={isSelectedImageTooltip}
             text={text}/>
         </div>
-      }
+      {/*}*/}
 
 
     </CurrentUserContext.Provider>
