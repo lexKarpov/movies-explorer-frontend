@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react'
 import './Register.css'
 import FormSign from '../FormSign/FormSign'
 import Header from '../Header/Header'

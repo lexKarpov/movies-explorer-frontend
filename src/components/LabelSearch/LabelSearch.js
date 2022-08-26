@@ -1,6 +1,5 @@
 import './LabelSearch.css'
 import searchLogo from '../../images/movie/searchIcon.png'
-import {useState} from "react";
 
 function LabelSearch({writeValue, val}) {
 

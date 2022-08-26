@@ -213,7 +213,6 @@ function App() {
       setIsSelectedImageTooltip(false)
       setIsSelectedInfoTooltip(true)
       setText('Ничего не найдено.')
-      console.log('this it')
       return null
     }
   }
@@ -247,8 +246,6 @@ function App() {
 
   function deleteCard(cardId) {
     setPreloader(true)
-    console.log('cardId')
-    console.log(cardId)
     deleteMovie(cardId)
       .then(res => {
         const listBeforeDelete = JSON.parse(localStorage.getItem('savedMoviesList'))

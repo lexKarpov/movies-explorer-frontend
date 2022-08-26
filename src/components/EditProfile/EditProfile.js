@@ -3,6 +3,8 @@ import './EditProfile.css';
 import Header from '../Header/Header';
 import CurrentUserContext from '../../contexts/CurrentUserContext'
 import Preloader from "../Preloader/Preloader";
+import { useForm } from "react-hook-form";
+import {regExpEmail} from '../../constants/constants.js'
 
 
 function EditProfile({ logOut, isLogged, pageLogin, updateUser, preloader }) {
@@ -11,24 +13,23 @@ function EditProfile({ logOut, isLogged, pageLogin, updateUser, preloader }) {
     name: user? user.name : '',
     email: user? user.email : '',}
 
-  const [inputValue, setInputValue] = useState({
-    name: user? user.name : '',
-    email: user? user.email : '',
-  })
   const [isEdit, setIsEdit] = useState(true)
+  const { register, handleSubmit, watch, formState: { errors } } = useForm(
+    {
+    defaultValues: {
+      name: user.name || '',
+      email: user.email || ''
+    }
+  }
+  );
+  watch('email')
 
   function editProfile() {
     setIsEdit(false)
   }
 
-  function ChangeValueinput(e) {
-    const key = e.target.name
-    setInputValue(prevState => ({ ...prevState, [key]: e.target.value }))
-  }
-
-  function submitEditProfile(e) {
-    e.preventDefault();
-    updateUser(inputValue, beforeValueOfInputs)
+  function submitEditProfile(data) {
+    updateUser(data, beforeValueOfInputs)
     setIsEdit(true)
   }
 
@@ -44,15 +45,41 @@ function EditProfile({ logOut, isLogged, pageLogin, updateUser, preloader }) {
               <section className="editProfile">
                 <div className="editProfile__wrapper">
                   <h1 className='editProfile__title'>{`Привет, ${user?.name}!`}</h1>
-                  <form className="editProfile__form" onSubmit={submitEditProfile}>
+
+                  {errors.exampleRequired && <span className='label__error'>This field is required</span>}
+                  <form className="editProfile__form" onSubmit={handleSubmit(submitEditProfile)}>
                     <label className="editProfile__label editProfile__label_type_whith-line">
-                      Имя
-                      <input name='name' onChange={ChangeValueinput} disabled={isEdit} className="editProfile__input" value={inputValue.name}/>
+                      {errors.name?.message ? <span className='label__error'>{errors.name.message}</span> : 'Имя'}
+
+                      <input
+                        {...register("name", {
+                          required: 'это поле обязательно.',
+                            minLength: {
+                              value: 2,
+                              message: "Введите от 2х до 32 символов"
+                            },
+                            maxLength: {
+                              value: 30,
+                              message: "Введите от 2х до 32 символов"
+                            }
+                        }) }
+                        disabled={isEdit}
+                        className="editProfile__input"/>
                     </label>
                     <label className="editProfile__label">
-                      E-mail
-                      <input name='email' onChange={ChangeValueinput} disabled={isEdit} className="editProfile__input" value={inputValue.email}/>
+                      {errors.email?.message ? <span className='label__error'>{errors.email.message}</span> : 'E-mail'}
+                      <input
+                        disabled={isEdit}
+                        className="editProfile__input"
+                        {...register("email", {
+                          required: 'это поле обязательно',
+                          pattern: {
+                            value: regExpEmail,
+                            message: 'это поле для емайла'
+                          }
+                        })}/>
                     </label>
+
                     <div className='editProfile__buttons'>
                       {isEdit ? null
                         :
@@ -68,10 +95,12 @@ function EditProfile({ logOut, isLogged, pageLogin, updateUser, preloader }) {
             </main>
           </>
       }
-
     </div>
 
   )
 }
 
 export default EditProfile;
+
+
+

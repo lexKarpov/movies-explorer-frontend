@@ -4,6 +4,7 @@ import LabelSearch from '../LabelSearch/LabelSearch'
 import SmallMeter from '../SmallMeter/SmallMeter'
 import useWindowDimensions from "../../utils/changeWindowDimentions";
 import {useLocation} from "react-router-dom";
+import {useForm} from "react-hook-form";
 
 
 function FormSearch({findFilms, handleSmallMetr, toggleSmallMeter}) {
@@ -27,7 +28,7 @@ function FormSearch({findFilms, handleSmallMetr, toggleSmallMeter}) {
   return (
     <div className="form-search__wrapper">
       <form className="formSearch" onSubmit={(e) => findFilms(e, val)}>
-        <LabelSearch writeValue={writeValue} val = {val}/>
+        <LabelSearch writeValue={writeValue} val={val}/>
         {windowWidth && <SmallMeter
           handleSmallMetr={handleSmallMetr}
           toggleSmallMeter={toggleSmallMeter}

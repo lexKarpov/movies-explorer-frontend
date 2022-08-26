@@ -1,14 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './FormSign.css';
+import { useForm } from "react-hook-form";
+import {regExpEmail} from '../../constants/constants.js'
 
 function Form({ submitRegisterForm }) {
   const location = useLocation();
-  let buttonSubmit
-  let redirect
-  let redirectTo
-  let desc
-  let nameForm
+  let buttonSubmit, redirect, redirectTo, desc, nameForm
 
   if (location.pathname === '/signin') {
     desc = 'Ещё не зарегистрированы?'
@@ -57,7 +55,7 @@ function Form({ submitRegisterForm }) {
 
         <div className='label'>
           <label className='label__title'>Пароль
-            <input className='label__input' onChange={handleChangeInputs} name="password" type='password' required={true}></input>
+            <input className='label__input' onChange={handleChangeInputs} name="password" type='password' required={true}/>
           </label>
           <span className='label__error'></span>
         </div>

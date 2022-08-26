@@ -11,8 +11,7 @@ function SmallMeter({ handleSmallMetr, toggleSmallMeter }) {
 
   return (
     <div className='formSearch__toggle'>
-      <button className={`formSearch__check ${isChecked ? 'checked' : ''}`} type="button" onClick={actionSmallMetr}/>
-
+      <button className={`formSearch__check ${isChecked ? 'checked' : ''}`} type="checkbox" onClick={actionSmallMetr}/>
       <p className="formSearch__description-check">Короткометражки</p>
     </div>
   )
