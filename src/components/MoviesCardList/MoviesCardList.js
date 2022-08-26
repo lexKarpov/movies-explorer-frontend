@@ -2,6 +2,7 @@ import MoviesCard from '../MoviesCard/MoviesCard'
 import './MoviesCardList.css'
 import {useEffect, useState} from "react";
 import useWindowDimensions from '../../utils/changeWindowDimentions'
+import Preloader from "../Preloader/Preloader";
 
 function MoviesCardList({ isSaved, postLike, testRender, deleteCard}) {
 
@@ -91,6 +92,7 @@ function MoviesCardList({ isSaved, postLike, testRender, deleteCard}) {
         }
       </div>
       {isSaved || !findList || buttonVisible ? null : <button type="button" className="moviesCardList__more" onClick={renderLimiter}>Ещё</button>}
+
     </section>
   )
 }

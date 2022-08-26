@@ -1,6 +1,7 @@
 import './MoviesCard.css'
 import Like from "../Like/Like";
 import Dislike from "../dislike/dislike";
+import Preloader from "../Preloader/Preloader";
 
 const BASE_URL = 'https://api.nomoreparties.co/'
 
@@ -34,7 +35,6 @@ function MoviesCard({data, postLike, deleteCard, isSaved, id, testRender}) {
           {/*<button type="button" className="moviesCard__like"/>*/}
 
           {isSaved ? <Dislike dislikeCard={dislikeCard}/> : <Like postLike={postLike} id={id}/>}
-
 
         </div>
 
