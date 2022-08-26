@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import FormSign from '../FormSign/FormSign';
 import Header from '../Header/Header'
+import Preloader from "../Preloader/Preloader";
 
-function Login({ pageLogin, isLogged, submitRegisterForm }) {
-  // const [inputsValue, setInputValue] = useState({ email: '', password: '' });
-  //
-  // function handleChangeInputs(evt) {
-  //   const { name, value } = evt.target;
-  //   setInputValue(prevState => ({ ...prevState, [name]: value }));
-  // }
+function Login({ pageLogin, isLogged, submitRegisterForm, preloader }) {
 
   return (
     <div className='register'>
-      <Header isLog={isLogged} pageLogin={pageLogin} />
-      <main>
-        <FormSign submitRegisterForm={submitRegisterForm}/>
-      </main>
+      {
+        preloader ?
+          <Preloader/>
+          :
+          <>
+            <Header isLog={isLogged} pageLogin={pageLogin} />
+            <main>
+              <FormSign submitRegisterForm={submitRegisterForm}/>
+            </main>
+          </>
+      }
     </div>
   )
 }

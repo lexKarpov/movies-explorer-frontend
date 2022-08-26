@@ -164,7 +164,10 @@ function App() {
     setPreloader(true)
     e.preventDefault()
     if(!val){
-      console.log('novalue')
+      setPreloader(false)
+      setIsSelectedImageTooltip(false)
+      setIsSelectedInfoTooltip(true)
+      setText('Введите значение.')
       return null
     }
     val = val.toLowerCase()
@@ -256,8 +259,6 @@ function App() {
       .then(res => {
         const listBeforeDelete = JSON.parse(localStorage.getItem('savedMoviesList'))
         const listWithDelete = listBeforeDelete.filter(el => el._id !== cardId)
-        // console.log('listWithDelete')
-        // console.log(listWithDelete)
         localStorage.setItem('savedMoviesList', JSON.stringify(listWithDelete))
         setTestRender(testRender+1)
       })
@@ -265,12 +266,8 @@ function App() {
       .finally(() => setPreloader(false))
   }
 
-
-
   return (
     <CurrentUserContext.Provider value = {currUser}>
-      {/*{preloader ? <Preloader/>*/}
-      {/*:*/}
         <div className="App">
           <Routes>
             <Route
@@ -279,7 +276,9 @@ function App() {
                 <Register
                   isLogged={isLogged}
                   pageLogin={changePageLogin}
-                  submitRegisterForm={submitRegisterForm}/>
+                  submitRegisterForm={submitRegisterForm}
+                  preloader={preloader}
+                />
               } />
             <Route
               path="/signin"
@@ -287,7 +286,9 @@ function App() {
                 <Login
                   isLogged={isLogged}
                   pageLogin={changePageLogin}
-                  submitRegisterForm={submitRegisterForm}/>
+                  submitRegisterForm={submitRegisterForm}
+                  preloader={preloader}
+                />
               } />
             <Route path="/" element={
               <Main
@@ -304,6 +305,7 @@ function App() {
                 toggleSmallMeter={toggleSmallMeter}
                 testRender={testRender}
                 deleteCard={deleteCard}
+                preloader={preloader}
               />}
             />
 
@@ -316,6 +318,7 @@ function App() {
                 toggleSmallMeter={toggleSmallMeter}
                 postLike = {postLike}
                 deleteCard={deleteCard}
+                preloader={preloader}
               />}
             />
 
@@ -324,7 +327,9 @@ function App() {
                 isLogged={isLogged}
                 pageLogin={changePageLogin}
                 logOut={logOut}
-                updateUser={updateUser}/>
+                updateUser={updateUser}
+                preloader={preloader}
+              />
             } />
 
             <Route path="*" element={<NotFound />} />
@@ -335,9 +340,6 @@ function App() {
             succes={isSelectedImageTooltip}
             text={text}/>
         </div>
-      {/*}*/}
-
-
     </CurrentUserContext.Provider>
   );
 }

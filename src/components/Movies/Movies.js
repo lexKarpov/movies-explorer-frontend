@@ -3,16 +3,23 @@ import FormSearch from '../FormSearch/FormSearch'
 import Header from '../Header/Header';
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from '../Footer/Footer'
-
-function Movies({ isLogged, pageLogin, findFilms, handleSmallMetr, toggleSmallMeter, postLike, deleteCard}) {
+import Preloader from "../Preloader/Preloader";
+function Movies({ isLogged, pageLogin, findFilms, handleSmallMetr, toggleSmallMeter, postLike, deleteCard, preloader}) {
 
   return (
     <div className="main main_type_movie">
       <Header isLog={isLogged} pageLogin={pageLogin} />
       <main className="main__films">
-        <FormSearch findFilms={findFilms} handleSmallMetr = {handleSmallMetr} toggleSmallMeter={toggleSmallMeter}/>
-        <MoviesCardList isSaved={false} postLike={postLike} deleteCard={deleteCard}/>
-        <Footer isLog={isLogged} />
+        {
+          preloader?
+            <Preloader/>
+            :
+            <>
+              <FormSearch findFilms={findFilms} handleSmallMetr = {handleSmallMetr} toggleSmallMeter={toggleSmallMeter}/>
+              <MoviesCardList isSaved={false} postLike={postLike} deleteCard={deleteCard}/>
+              <Footer isLog={isLogged} />
+            </>
+        }
       </main>
     </div>
   )
