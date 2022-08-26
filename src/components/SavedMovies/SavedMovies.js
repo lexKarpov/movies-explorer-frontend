@@ -6,9 +6,9 @@ import Footer from '../Footer/Footer'
 import {getSavedFilms} from "../../utils/MainApi";
 import {useContext, useEffect, useState} from "react";
 
-// import CurrentUserContext from '../../contexts/CurrentUserContext'
+import CurrentUserContext from '../../contexts/CurrentUserContext'
 
-function SavedMovies({ isLogged, pageLogin, findFilms, handleSmallMetr, toggleSmallMeter, testRender }) {
+function SavedMovies({ isLogged, pageLogin, findFilms, handleSmallMetr, toggleSmallMeter, testRender, deleteCard }) {
   // const [savedMovies, setSavedMovies] = useState([])
   // const user = useContext(CurrentUserContext)
   // useEffect(()=>{
@@ -24,7 +24,7 @@ function SavedMovies({ isLogged, pageLogin, findFilms, handleSmallMetr, toggleSm
       <Header isLog={isLogged} pageLogin={pageLogin} />
       <main className="main__films">
         <FormSearch findFilms={findFilms} handleSmallMetr={handleSmallMetr} toggleSmallMeter={toggleSmallMeter}/>
-        <MoviesCardList isSaved={true} testRender={testRender}/>
+        <MoviesCardList isSaved={true} testRender={testRender} deleteCard={deleteCard}/>
       </main>
       <Footer isLog={isLogged} />
     </div>

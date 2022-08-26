@@ -1,8 +1,8 @@
 import './dislike.css'
 
-function dislike() {
+function dislike({dislikeCard}) {
   return (
-    <button type="button" className="moviesCard__dislike"/>
+    <button type="button" className="moviesCard__dislike" onClick={dislikeCard}/>
   )
 }
 

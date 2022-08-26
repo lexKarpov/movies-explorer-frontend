@@ -3,7 +3,7 @@ import './MoviesCardList.css'
 import {useEffect, useState} from "react";
 import useWindowDimensions from '../../utils/changeWindowDimentions'
 
-function MoviesCardList({ isSaved, postLike, testRender}) {
+function MoviesCardList({ isSaved, postLike, testRender, deleteCard}) {
 
 
   //==========================================================
@@ -22,11 +22,6 @@ function MoviesCardList({ isSaved, postLike, testRender}) {
   else {
     rowNumber = 4
   }
-  //1140 - infinity row 4
-  //850 - 1140 row 3
-  //700 - 850 row 2
-  //0 - 700 row 5
-
 
   if (+numberOfMoviesDisplayed < 4){
     localStorage.setItem('numberOfMoviesDisplayed', rowNumber.toString())
@@ -52,7 +47,7 @@ function MoviesCardList({ isSaved, postLike, testRender}) {
       localStorage.setItem('numberOfMoviesDisplayed', rowNumber.toString())
       setLimitCoin(rowNumber)
       disableButton(false)
-  }}, [localStorage.getItem('numberOfMoviesDisplayed'), windowWidth, localStorage.getItem('savedMoviesList')])
+  }}, [localStorage.getItem('numberOfMoviesDisplayed'), windowWidth])
 
 
 
@@ -62,22 +57,25 @@ function MoviesCardList({ isSaved, postLike, testRender}) {
     disableButton(true)
   }
   //
-  // console.log(rowNumber)
-  // console.log(windowWidth)
-  function deleteCard() {
-    console.log('deleteCard')
-  }
+
+  // function dislikeCard() {
+  //   if(isSaved){
+  //     deleteCard()
+  //   }
+  //   console.log('deleteCard')
+  // }
   // nameRU, duration, image, trailerLink, id
   return (
     <section className="moviesCardList">
       <div className='moviesCardList__elements'>
         {isSaved ? savedList?.map(el => <MoviesCard
             data={el}
-            id ={el.movieId}
+            id ={el.movieId? el.movieId : el._id}
             key={el.movieId + Math.random()}
-            deleteCard={deleteCard}
+            // dislikeCard={dislikeCard}
             isSaved={true}
             testRender={testRender}
+            deleteCard={deleteCard}
           />)
         // {isSaved ? null
           :

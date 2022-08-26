@@ -21,6 +21,11 @@ function MoviesCard({data, postLike, deleteCard, isSaved, id, testRender}) {
     image = `https://api.nomoreparties.co${data.image.url}`
   }
 
+  function dislikeCard() {
+    deleteCard(data._id)
+    // console.log('deleteCard')
+  }
+
   return (
     <div className="moviesCard">
       <figure className="moviesCard__image-block">
@@ -33,8 +38,9 @@ function MoviesCard({data, postLike, deleteCard, isSaved, id, testRender}) {
           <p className="moviesCard__caption">{nameRU}</p>
           {/*<button type="button" className="moviesCard__like"/>*/}
 
-          <Like postLike={postLike} id={id}/>
-          {/*<Dislike />*/}
+          {isSaved ? <Dislike dislikeCard={dislikeCard}/> : <Like postLike={postLike} id={id}/>}
+
+
         </div>
 
       </figure>

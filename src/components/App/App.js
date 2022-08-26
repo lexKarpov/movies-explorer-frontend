@@ -24,26 +24,22 @@ function App() {
   const [research, setReSearch] = useState(false)
   const [testRender, setTestRender] = useState(1)
   const [text, setText] = useState('')
-  useEffect(()=> {
-    getSavedFilms()
-      .then(res => {
-        // setSavedMovies(res)
-        let filmWithOwner = res.filter(el => el.owner === currUser._id)
-        if(!filmWithOwner){
-          localStorage.setItem('savedMoviesList', '')
-        }else{
-          localStorage.setItem('savedMoviesList', JSON.stringify(filmWithOwner))
-        }
-        // setTestRender(testRender+1)
-        // console.log('response main')
-        // console.log(res)
-        // console.log("FilmWithOwner")
-        // console.log(FilmWithOwner)
-
-      })
-      .catch(err => console.log(err))
-
-  }, [])
+  // useEffect(()=> {
+  //   getSavedFilms()
+  //     .then(res => {
+  //       // setSavedMovies(res)
+  //       let filmWithOwner = res.filter(el => el.owner === currUser._id
+  //       )
+  //       if(!filmWithOwner){
+  //         // localStorage.setItem('savedMoviesList', '')
+  //       }else{
+  //         localStorage.setItem('savedMoviesList', JSON.stringify(filmWithOwner))
+  //       }
+  //       setTestRender(testRender+1)
+  //     })
+  //     .catch(err => console.log(err))
+  //
+  // }, [])
 
   useEffect(_ => {
     // api.getCards().then(res => setAllFilms(res)) // get all films in const allFilms
@@ -52,12 +48,27 @@ function App() {
       getUserContent(jwt)
         .then(res => {
           if (res) {
-            setIsLogged(true)
-            setCurrentUser(res)
-            navigate('/')
-            console.log('currentUser')
-            console.log(res)
+
+            return res
           }
+        })
+        .then(user => {
+          getSavedFilms()
+            .then(res => {
+              // setSavedMovies(res)
+
+              let filmWithOwner = res.filter(el => el.owner === user._id
+              )
+              if(!filmWithOwner){
+                // localStorage.setItem('savedMoviesList', '')
+              }else{
+                localStorage.setItem('savedMoviesList', JSON.stringify(filmWithOwner))
+              }
+              setTestRender(testRender+1)
+              setIsLogged(true)
+              setCurrentUser(res)
+            })
+            .catch(err => console.log(err))
         })
         .catch((err) => console.log(err))
     }
@@ -124,7 +135,7 @@ function App() {
   }
 
   function updateUser(data, beforeValueOfInputs) {
-    console.log(data.name)
+    // console.log(data.name)
 
     if(data.name === beforeValueOfInputs.name){
       const user = {
@@ -208,13 +219,22 @@ function App() {
     postFilm(targetFilm).then(res => {
       getSavedFilms()
         .then(res => {
-          localStorage.setItem('savedMoviesList', JSON.stringify(res))
-          setReactionsOnSearch(!reactionsOnSearch)
+          let filmWithOwner = res.filter(el => el.owner === currUser._id)
+          if(!filmWithOwner){
+            // localStorage.setItem('savedMoviesList', '')
+          }else{
+            localStorage.setItem('savedMoviesList', JSON.stringify(filmWithOwner))
+            console.log('219')
+            console.log(filmWithOwner)
+          }
+          setTestRender(testRender+1)
         })
-
     })
   }
 
+  function deleteCard(cardId) {
+    console.log(cardId)
+  }
 
 
 
@@ -252,6 +272,7 @@ function App() {
               handleSmallMetr={ handleSmallMetr }
               toggleSmallMeter={toggleSmallMeter}
               testRender={testRender}
+              deleteCard={deleteCard}
             />}
           />
 
