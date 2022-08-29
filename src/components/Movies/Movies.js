@@ -4,8 +4,10 @@ import Header from '../Header/Header';
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from '../Footer/Footer'
 import Preloader from "../Preloader/Preloader";
+import {useEffect, useState} from "react";
 function Movies({ isLogged, pageLogin, findFilms, handleSmallMetr, toggleSmallMeter, postLike, deleteCard, preloader}) {
-
+  const [refresh, setRefresh] = useState(false)
+  useEffect(() => setRefresh(!refresh), [preloader])
   return (
     <div className="main main_type_movie">
       <Header isLog={isLogged} pageLogin={pageLogin} />
@@ -16,7 +18,7 @@ function Movies({ isLogged, pageLogin, findFilms, handleSmallMetr, toggleSmallMe
             :
             <>
               <FormSearch findFilms={findFilms} handleSmallMetr = {handleSmallMetr} toggleSmallMeter={toggleSmallMeter}/>
-              <MoviesCardList isSaved={false} postLike={postLike} deleteCard={deleteCard}/>
+              <MoviesCardList isSaved={false} postLike={postLike} deleteCard={deleteCard} refresh={refresh}/>
               <Footer isLog={isLogged} />
             </>
         }

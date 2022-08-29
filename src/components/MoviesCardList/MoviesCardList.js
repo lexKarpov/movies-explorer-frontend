@@ -3,7 +3,8 @@ import './MoviesCardList.css'
 import {useEffect, useState} from "react";
 import useWindowDimensions from '../../utils/changeWindowDimentions'
 
-function MoviesCardList({ isSaved, postLike, testRender, deleteCard}) {
+function MoviesCardList({ isSaved, postLike, testRender, deleteCard, refresh}) {
+  console.log('renderCoins')
   const [numberOfMoviesDisplayed, setNumberOfMoviesDisplayed] = useState(localStorage.getItem('numberOfMoviesDisplayed'))
   let windowWidth = useWindowDimensions().width
   let rowNumber
@@ -32,8 +33,6 @@ function MoviesCardList({ isSaved, postLike, testRender, deleteCard}) {
     displaySearchSavedFilms = JSON.parse(localStorage.getItem('SavedFilmlistMatchInput'))
   }
 
-
-
   const [limitCoin, setLimitCoin] = useState(Number(numberOfMoviesDisplayed))
   const [buttonVisible, setButtonVisible] = useState(false)
 
@@ -51,12 +50,15 @@ function MoviesCardList({ isSaved, postLike, testRender, deleteCard}) {
       localStorage.setItem('numberOfMoviesDisplayed', rowNumber.toString())
       setLimitCoin(rowNumber)
       disableButton(false)
-  }}, [localStorage.getItem('numberOfMoviesDisplayed'), windowWidth])
+  }}, [localStorage.getItem('numberOfMoviesDisplayed'), windowWidth, localStorage.getItem('findList')])
 
   if(limitCoin >= findList?.length){
     setLimitCoin(findList.length - 1)
     disableButton(true)
   }
+
+  console.log('Findlist')
+  console.log(findList)
 
   return (
     <section className="moviesCardList">
@@ -88,7 +90,8 @@ function MoviesCardList({ isSaved, postLike, testRender, deleteCard}) {
               if(savedList){
                 isLike = savedList.filter(savedListEl => savedListEl.movieId === el.id)
               }else{
-                isLike = savedList?.filter(savedListEl => savedListEl.movieId === el.id)
+                // isLike = savedList?.filter(savedListEl => savedListEl.movieId === el.id)
+                isLike = false
               }
               return <MoviesCard data={el} key={el.id} postLike={postLike} id = {el.id} isLike={isLike} deleteCard={deleteCard}/>
             })
@@ -99,9 +102,11 @@ function MoviesCardList({ isSaved, postLike, testRender, deleteCard}) {
                 if(savedList){
                   isLike = savedList.filter(savedListEl => savedListEl.movieId === el.id)
                 }else{
-                  isLike = savedList?.filter(savedListEl => savedListEl.movieId === el.id)
+                  // isLike = savedList?.filter(savedListEl => savedListEl.movieId === el.id)
+                  isLike = false
                 }
-
+                console.log('findList.length > 4')
+                console.log(findList.length)
                 return <MoviesCard data={el} key={el.id} postLike={postLike} id = {el.id} isLike={isLike} deleteCard={deleteCard}/>
               })
               :
@@ -111,8 +116,11 @@ function MoviesCardList({ isSaved, postLike, testRender, deleteCard}) {
                   if(savedList){
                     isLike = savedList.filter(savedListEl => savedListEl.movieId === el.id)
                   }else{
-                    isLike = savedList?.filter(savedListEl => savedListEl.movieId === el.id)
+                    // isLike = savedList?.filter(savedListEl => savedListEl.movieId === el.id)
+                    isLike = false
                   }
+                  console.log('findList.length small 4')
+                  console.log(findList.length)
                   return <MoviesCard data={el} key={el.id} postLike={postLike} id = {el.id} isLike={isLike} deleteCard={deleteCard}/>
                 })
                 : null

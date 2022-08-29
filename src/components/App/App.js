@@ -13,7 +13,6 @@ import api from '../../utils/MoviesApi';
 import {register, authorize, getUserContent, patchUser, postFilm, getSavedFilms, deleteMovie} from '../../utils/MainApi'
 import InfoTooltip from '../InfoTooltip/InfoTooltip'
 import CurrentUserContext from '../../contexts/CurrentUserContext'
-import Preloader from "../Preloader/Preloader";
 
 function App() {
   let navigate = useNavigate();
@@ -106,7 +105,6 @@ function App() {
 
   function submitRegisterForm(data, nameForm) {
     setPreloader(true)
-    console.log('I work!!!!!!!!!')
     nameForm === 'signup' ?
       register(data)
       .then(res => logIn(data))
@@ -123,7 +121,6 @@ function App() {
   }
 
   function updateUser(data, beforeValueOfInputs) {
-    // console.log(data.name)
     setPreloader(true)
     if(data.name === beforeValueOfInputs.name){
       const user = {
@@ -171,7 +168,6 @@ function App() {
         setIsSelectedImageTooltip(false)
         setIsSelectedInfoTooltip(true)
         setText('Ничего не найдено.')
-        console.log('this it')
         return null
       }
       const IsSmallMeter = localStorage.getItem('smallMeter')
@@ -180,6 +176,7 @@ function App() {
         localStorage.setItem('valInput', val)
         localStorage.setItem('numberOfMoviesDisplayed', '0')
         setReactionsOnSearch(!reactionsOnSearch)
+
       }else{
         list = list.filter(el => el.duration < 40)
         localStorage.setItem('findList', JSON.stringify(list))
@@ -319,9 +316,6 @@ function App() {
                 </ProtectedRoute>
               }
               />
-
-
-
             <Route path="/editProfile" element={
               <ProtectedRoute isLogged={isLogged}>
                 <EditProfile

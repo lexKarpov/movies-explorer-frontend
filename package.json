@@ -14,7 +14,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "deploy": "npm run build && scp -r ./build/* alexreds@51.250.48.9:/home/alexreds/",
+    "deploy": "npm run build && scp -r ./build/* alexreds@84.201.188.189:/home/alexreds/",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
