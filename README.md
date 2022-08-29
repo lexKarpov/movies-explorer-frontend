@@ -1,3 +1,7 @@
+[pullRequest](https://github.com/lexKarpov/movies-explorer-frontend/pull/3)
+
+[Site adress]http://alexkarpov.students.nomoredomains.xyz/films
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
