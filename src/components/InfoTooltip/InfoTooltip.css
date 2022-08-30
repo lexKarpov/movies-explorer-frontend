@@ -101,3 +101,10 @@
     max-height: 20px;
   }
 }
+
+@media all and (max-width: 500px) {
+  .popup__message{
+    font-size: 14px;
+    line-height: 19px;
+  }
+}

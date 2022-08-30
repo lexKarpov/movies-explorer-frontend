@@ -1,5 +1,4 @@
 
-[pullRequest](https://github.com/lexKarpov/movies-explorer-frontend/pull/3)
 
 # Getting Started with Create React App
 

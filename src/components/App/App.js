@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Main from '../Main/Main'
 import Login from "../Login/Login";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
@@ -13,7 +13,6 @@ import api from '../../utils/MoviesApi';
 import {register, authorize, getUserContent, patchUser, postFilm, getSavedFilms, deleteMovie} from '../../utils/MainApi'
 import InfoTooltip from '../InfoTooltip/InfoTooltip'
 import CurrentUserContext from '../../contexts/CurrentUserContext'
-import Preloader from "../Preloader/Preloader";
 
 function App() {
   let navigate = useNavigate();
@@ -27,6 +26,13 @@ function App() {
   const [testRender, setTestRender] = useState(1)
   const [text, setText] = useState('')
   const [preloader, setPreloader] = useState(false)
+
+  function displayInfo(imageBool, displayBool, message) {
+    setIsSelectedImageTooltip(imageBool)
+    setIsSelectedInfoTooltip(displayBool)
+    setText(message)
+  }
+
 
   useEffect(_ => {
     const jwt = localStorage.getItem('jwt')
@@ -76,9 +82,7 @@ function App() {
     return authorize(data)
       .then(res => {
         localStorage.setItem('jwt', res.token)
-        setIsSelectedImageTooltip(true)
-        setIsSelectedInfoTooltip(true)
-        setText('Вы успешно зарегистрировались!')
+        displayInfo(true, true, 'Вы успешно зарегистрировались!')
         const jwt = localStorage.getItem('jwt')
         getUserContent(jwt)
           .then(res => {
@@ -97,23 +101,24 @@ function App() {
       })
       .catch(err => {
         console.log(err)
-        setIsSelectedImageTooltip(false)
-        setIsSelectedInfoTooltip(false)
-        setText('Что-то пошло не так! Попробуйте ещё раз.')
+        // setIsSelectedImageTooltip(false)
+        // setIsSelectedInfoTooltip(false)
+        // setText('Что-то пошло не так! Попробуйте ещё раз.')
+        displayInfo(false, true, 'Что-то пошло не так! Попробуйте ещё раз.')
       })
       .finally(() => setPreloader(false))
   }
 
   function submitRegisterForm(data, nameForm) {
     setPreloader(true)
-    console.log('I work!!!!!!!!!')
     nameForm === 'signup' ?
       register(data)
       .then(res => logIn(data))
       .catch(err => {
         console.log(err)
-        setIsSelectedImageTooltip(false)
-        setIsSelectedInfoTooltip(false)
+        // setIsSelectedImageTooltip(false)
+        // setIsSelectedInfoTooltip(false)
+        displayInfo(false, true, 'Что-то пошло не так! Попробуйте ещё раз.')
       }).finally(() => setPreloader(false))
       : logIn(data)
   }
@@ -123,7 +128,6 @@ function App() {
   }
 
   function updateUser(data, beforeValueOfInputs) {
-    // console.log(data.name)
     setPreloader(true)
     if(data.name === beforeValueOfInputs.name){
       const user = {
@@ -131,7 +135,7 @@ function App() {
         email: data.email,}
       patchUser(user)
         .then(res => setCurrentUser(res))
-        .catch(err => console.log(err))
+        .catch(err => displayInfo(false, true, 'Что-то пошло не так! Попробуйте ещё раз.'))
         .finally(() => setPreloader(false))
     }
     if(data.email === beforeValueOfInputs.email){
@@ -142,14 +146,14 @@ function App() {
         name: data.name
         })
         .then(res => setCurrentUser(res))
-        .catch(err => console.log(err))
+        .catch(err => displayInfo(false, true, 'Что-то пошло не так! Попробуйте ещё раз.'))
         .finally(() => setPreloader(false))
     }
     if(data.email !== beforeValueOfInputs.email && data.name !== beforeValueOfInputs.name){
     setPreloader(true)
       patchUser(data)
         .then(res => setCurrentUser(res))
-        .catch(err => console.log(err))
+        .catch(err => displayInfo(false, true, 'Что-то пошло не так! Попробуйте ещё раз.'))
         .finally(() => setPreloader(false))
     }
   }
@@ -162,16 +166,17 @@ function App() {
       setIsSelectedImageTooltip(false)
       setIsSelectedInfoTooltip(true)
       setText('Введите значение.')
+      displayInfo(false, true, 'Введите значение.')
       return null
     }
     val = val.toLowerCase()
     api.getCards().then(res => {
     let list = res.filter(el => el.nameRU.toLowerCase().includes(val))
       if( list.length === 0 ){
-        setIsSelectedImageTooltip(false)
-        setIsSelectedInfoTooltip(true)
-        setText('Ничего не найдено.')
-        console.log('this it')
+        // setIsSelectedImageTooltip(false)
+        // setIsSelectedInfoTooltip(true)
+        // setText('Ничего не найдено.')
+        displayInfo(false, true, 'Ничего не найдено.')
         return null
       }
       const IsSmallMeter = localStorage.getItem('smallMeter')
@@ -180,6 +185,7 @@ function App() {
         localStorage.setItem('valInput', val)
         localStorage.setItem('numberOfMoviesDisplayed', '0')
         setReactionsOnSearch(!reactionsOnSearch)
+
       }else{
         list = list.filter(el => el.duration < 40)
         localStorage.setItem('findList', JSON.stringify(list))
@@ -189,7 +195,12 @@ function App() {
       }
       refresh()
     })
-      .catch(err => console.log(err))
+      .catch(err => {
+        // setIsSelectedImageTooltip(false)
+        // setIsSelectedInfoTooltip(true)
+        // setText('Во время запроса произошла ошибка.')
+        displayInfo(false, true, 'Во время запроса произошла ошибка.')
+      })
       .finally(() => setPreloader(false))
   }
 
@@ -210,9 +221,10 @@ function App() {
       setReactionsOnSearch(!reactionsOnSearch)
     }
     if( saveFilms.length === 0  || list.length===0){
-      setIsSelectedImageTooltip(false)
-      setIsSelectedInfoTooltip(true)
-      setText('Ничего не найдено.')
+      // setIsSelectedImageTooltip(false)
+      // setIsSelectedInfoTooltip(true)
+      // setText('Ничего не найдено.')
+      displayInfo(false, true, 'Ничего не найдено.')
       return null
     }
   }
@@ -319,9 +331,6 @@ function App() {
                 </ProtectedRoute>
               }
               />
-
-
-
             <Route path="/editProfile" element={
               <ProtectedRoute isLogged={isLogged}>
                 <EditProfile
