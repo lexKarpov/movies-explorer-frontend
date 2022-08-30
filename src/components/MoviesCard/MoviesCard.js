@@ -1,7 +1,6 @@
 import './MoviesCard.css'
 import Like from "../Like/Like";
 import Dislike from "../dislike/dislike";
-import Preloader from "../Preloader/Preloader";
 
 const BASE_URL = 'https://api.nomoreparties.co'
 

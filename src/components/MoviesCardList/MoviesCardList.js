@@ -26,13 +26,17 @@ function MoviesCardList({ isSaved, postLike, testRender, deleteCard, refresh}) {
     <section className="moviesCardList">
       <div className='moviesCardList__elements'>
         {
+          isSaved ? savedList?.map(el => <MoviesCard
+              data={el}
+              id={el.movieId ? el.movieId : el._id}
+              key={el.movieId + Math.random()}
+              isSaved={true}
+              testRender={testRender}
+              deleteCard={deleteCard}
+            />)
+            :
           movies?.slice(0, visibleMoviesCount).map(el => {
             let isLike = savedList?.filter(savedListEl => savedListEl.movieId === el.id)
-            // if (savedList) {
-            //   isLike = savedList.filter(savedListEl => savedListEl.movieId === el.id)
-            // } else {
-            //   isLike = savedList.filter(savedListEl => savedListEl.movieId === el.id)
-            // }
               return (
               <MoviesCard
                 data={el}
@@ -45,12 +49,10 @@ function MoviesCardList({ isSaved, postLike, testRender, deleteCard, refresh}) {
                 isLike={isLike}
               />
               )
-          }
-            )
+          })
         }
 
       </div>
-      {/*{isSaved || !findList || buttonVisible ? null : <button type="button" className="moviesCardList__more" onClick={renderLimiter}>Ещё</button>}*/}
       {isSaved || !movies || buttonVisible ? null : <button type="button" className="moviesCardList__more" onClick={renderLimiter}>Ещё</button>}
     </section>
   )
