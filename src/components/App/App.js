@@ -186,7 +186,11 @@ function App() {
       }
       refresh()
     })
-      .catch(err => console.log(err))
+      .catch(err => {
+        setIsSelectedImageTooltip(false)
+        setIsSelectedInfoTooltip(true)
+        setText('Во время запроса произошла ошибка.')
+      })
       .finally(() => setPreloader(false))
   }
 

@@ -7,6 +7,7 @@ const BASE_URL = 'https://api.nomoreparties.co'
 
 function MoviesCard({data, postLike, deleteCard, isSaved, id, testRender, isLike}) {
   let { nameRU, duration, image, trailerLink } = data
+
   let timeLength = `${Math.floor(duration / 60)}ч ${duration % 60 ? duration % 60 + 'м' : ''}`
   if(timeLength[0] === '0'){
     timeLength = timeLength.split(' ')[1]
