@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route, useNavigate } from "react-router-dom";
+import {Routes, Route, useNavigate, useLocation} from "react-router-dom";
 import Main from '../Main/Main'
 import Login from "../Login/Login";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
@@ -16,6 +16,10 @@ import CurrentUserContext from '../../contexts/CurrentUserContext'
 
 function App() {
   let navigate = useNavigate();
+  const location = useLocation();
+  const [movies, setMovies] = useState([])
+
+
   const [isLogged, setIsLogged] = useState(false)
   const [currUser, setCurrentUser] = useState({})
   const [isSelectedInfoTooltip, setIsSelectedInfoTooltip] = useState(false)
@@ -50,21 +54,29 @@ function App() {
               let filmWithOwner = res.filter(el => el.owner === user._id
               )
               if(!filmWithOwner){
-                // localStorage.setItem('savedMoviesList', '')
+
               }else{
                 localStorage.setItem('savedMoviesList', JSON.stringify(filmWithOwner))
               }
-              setTestRender(testRender+1)
               setIsLogged(true)
               setCurrentUser(user)
             })
-            .catch(err => console.log(err))
-            .finally(() => setPreloader(false))
-        })
-        .catch((err) => console.log(err))
-        .finally(() => setPreloader(false))
-    }
+            .catch(err => {
+              displayInfo(false, true, 'Что-то пошло не так! Попробуйте ещё раз.')
 
+            })
+            .finally(() => {
+              setPreloader(false)
+
+            })
+        })
+        .catch((err) => displayInfo(false, true, 'Что-то пошло не так! Попробуйте ещё раз.'))
+        .finally(() => {
+          setPreloader(false)
+
+        })
+    }
+    setMovies(JSON.parse(localStorage.getItem('findList')) || [])
   }, [])
 
   function changePageLogin(val) {
@@ -94,16 +106,11 @@ function App() {
           })
           .catch(err => {
             console.log(err)
-            setIsSelectedImageTooltip(false)
-            setIsSelectedInfoTooltip(false)
-            setText('Что-то пошло не так! Попробуйте ещё раз.')
+            displayInfo(false, true, 'Что-то пошло не так! Попробуйте ещё раз.')
           })
       })
       .catch(err => {
         console.log(err)
-        // setIsSelectedImageTooltip(false)
-        // setIsSelectedInfoTooltip(false)
-        // setText('Что-то пошло не так! Попробуйте ещё раз.')
         displayInfo(false, true, 'Что-то пошло не так! Попробуйте ещё раз.')
       })
       .finally(() => setPreloader(false))
@@ -116,8 +123,6 @@ function App() {
       .then(res => logIn(data))
       .catch(err => {
         console.log(err)
-        // setIsSelectedImageTooltip(false)
-        // setIsSelectedInfoTooltip(false)
         displayInfo(false, true, 'Что-то пошло не так! Попробуйте ещё раз.')
       }).finally(() => setPreloader(false))
       : logIn(data)
@@ -127,39 +132,141 @@ function App() {
     setIsSelectedInfoTooltip(false)
   }
 
-  function updateUser(data, beforeValueOfInputs) {
+  function updateUser(data) {
+    if(currUser.name === data.name && currUser.email === data.email){
+      displayInfo(false, true, 'Нужно изменить хотя бы одно поле.')
+      return
+    }
     setPreloader(true)
-    if(data.name === beforeValueOfInputs.name){
+    if(data.name === currUser.name){
       const user = {
-        name: beforeValueOfInputs.name,
+        name: currUser.name,
         email: data.email,}
       patchUser(user)
-        .then(res => setCurrentUser(res))
+        .then(res => {
+          setCurrentUser(res)
+          displayInfo(true, true, 'Профиль успешно изменен!')
+        })
         .catch(err => displayInfo(false, true, 'Что-то пошло не так! Попробуйте ещё раз.'))
         .finally(() => setPreloader(false))
     }
-    if(data.email === beforeValueOfInputs.email){
+    if(data.email === currUser.email){
       setPreloader(true)
       patchUser(
         {
-        email: beforeValueOfInputs.email,
+        email: currUser.email,
         name: data.name
         })
-        .then(res => setCurrentUser(res))
+        .then(res => {
+          setCurrentUser(res)
+          displayInfo(true, true, 'Профиль успешно изменен!')
+        })
         .catch(err => displayInfo(false, true, 'Что-то пошло не так! Попробуйте ещё раз.'))
         .finally(() => setPreloader(false))
+
     }
-    if(data.email !== beforeValueOfInputs.email && data.name !== beforeValueOfInputs.name){
+    if(data.email !== currUser.email && data.name !== currUser.name){
     setPreloader(true)
       patchUser(data)
-        .then(res => setCurrentUser(res))
+        .then(res => {
+          setCurrentUser(res)
+          displayInfo(true, true, 'Профиль успешно изменен!')
+        })
         .catch(err => displayInfo(false, true, 'Что-то пошло не так! Попробуйте ещё раз.'))
         .finally(() => setPreloader(false))
     }
   }
 
+  function findSmallFilms(e, bool){
+    if (location.pathname === '/films'){
+      const value = localStorage.getItem('valInput')
+      if(bool !== true){
+        console.log('It`s film inputseearch')
+        let list = JSON.parse(localStorage.getItem('findList')) || []
+        list = list
+          .filter(el => el.nameRU.toLowerCase().includes(value))
+          .filter(el => el.duration < 40)
+        if( list.length === 0){
+          displayInfo(false, true, 'Нет короткометражных фильмов.')
+          return null
+        }
+        localStorage.setItem('findList', JSON.stringify(list))
+        setMovies(list)
+        return
+      }else{
+        const findListInLocalStorage = JSON.parse(localStorage.getItem('allFilmsFromApi')) ? JSON.parse(localStorage.getItem('allFilmsFromApi')) : false
+        let list = findListInLocalStorage.filter(el => el.nameRU.toLowerCase().includes(value))
+        localStorage.setItem('findList', JSON.stringify(list))
+        setMovies(list)
+        return
+      }
+    }else{
+      if(bool !== true) {
+        console.log('It`s savefilm inputseearch')//SavedFilmlistMatchInput
+        const value = localStorage.getItem('valInputSavedFilms') || ''
+        let list
+        if(value){
+          list = JSON.parse(localStorage.getItem('SavedFilmlistMatchInput')) || []
+          localStorage.setItem('SavedFilmlistMatchInputFullMeter', JSON.stringify(list))
+        }else{
+          list = JSON.parse(localStorage.getItem('savedMoviesList')) || []
+        }
+        console.log('list from saves')
+        console.log(list)
+        list = list.filter(el => el.nameRU.toLowerCase().includes(value)).filter(el => el.duration < 40)
+        if (list.length === 0) {
+          displayInfo(false, true, 'Нет короткометражных фильмов.')
+          return null
+        }
+
+        localStorage.setItem('SavedFilmlistMatchInput', JSON.stringify(list))
+        setMovies(list)
+        return
+      }else{
+        let list
+        const value = localStorage.getItem('valInputSavedFilms') || ''
+        if(value){
+          list = JSON.parse(localStorage.getItem('SavedFilmlistMatchInputFullMeter')) || []
+        }else{
+          list = JSON.parse(localStorage.getItem('savedMoviesList')) || []
+        }
+        localStorage.setItem('SavedFilmlistMatchInput', JSON.stringify(list))
+        setMovies(list)
+        return
+      }
+    }
+
+
+  }
+
+
+  function getFindList(filmsList, val) {
+    let list = filmsList.filter(el => el.nameRU.toLowerCase().includes(val))
+    if( list.length === 0 ){
+      displayInfo(false, true, 'Ничего не найдено.')
+      return null
+    }
+    const IsSmallMeter = localStorage.getItem('smallMeter')
+    if(IsSmallMeter === 'false' || IsSmallMeter === null){
+      localStorage.setItem('findList', JSON.stringify(list))
+      localStorage.setItem('valInput', val)
+      // localStorage.setItem('numberOfMoviesDisplayed', '0')
+
+      setMovies(list)
+    }else{
+      list = list.filter(el => el.duration < 40)
+      localStorage.setItem('findList', JSON.stringify(list))
+      localStorage.setItem('valInput', val)
+      // localStorage.setItem('numberOfMoviesDisplayed', '0')
+      setReactionsOnSearch(!reactionsOnSearch)
+      setMovies(list)
+    }
+    refresh()
+    setReactionsOnSearch(!reactionsOnSearch)
+  }
+
+
   function findAllFilms(e, val) {
-    setPreloader(true)
     e.preventDefault()
     if(!val){
       setPreloader(false)
@@ -170,38 +277,24 @@ function App() {
       return null
     }
     val = val.toLowerCase()
-    api.getCards().then(res => {
-    let list = res.filter(el => el.nameRU.toLowerCase().includes(val))
-      if( list.length === 0 ){
-        // setIsSelectedImageTooltip(false)
-        // setIsSelectedInfoTooltip(true)
-        // setText('Ничего не найдено.')
-        displayInfo(false, true, 'Ничего не найдено.')
-        return null
-      }
-      const IsSmallMeter = localStorage.getItem('smallMeter')
-      if(IsSmallMeter === 'false'){
-        localStorage.setItem('findList', JSON.stringify(list))
-        localStorage.setItem('valInput', val)
-        localStorage.setItem('numberOfMoviesDisplayed', '0')
-        setReactionsOnSearch(!reactionsOnSearch)
-
-      }else{
-        list = list.filter(el => el.duration < 40)
-        localStorage.setItem('findList', JSON.stringify(list))
-        localStorage.setItem('valInput', val)
-        localStorage.setItem('numberOfMoviesDisplayed', '0')
-        setReactionsOnSearch(!reactionsOnSearch)
-      }
-      refresh()
-    })
-      .catch(err => {
-        // setIsSelectedImageTooltip(false)
-        // setIsSelectedInfoTooltip(true)
-        // setText('Во время запроса произошла ошибка.')
-        displayInfo(false, true, 'Во время запроса произошла ошибка.')
+    const findListInLocalStorage = JSON.parse(localStorage.getItem('allFilmsFromApi')) ? JSON.parse(localStorage.getItem('allFilmsFromApi')) : false
+    if(findListInLocalStorage?.length){
+      setPreloader(true)
+      console.log('it`s seconds requests')
+      getFindList(findListInLocalStorage, val)
+      setPreloader(false)
+    }else{
+      setPreloader(true)
+      api.getCards().then(res => {
+        localStorage.setItem('allFilmsFromApi', JSON.stringify(res))
+        getFindList(res, val)
       })
-      .finally(() => setPreloader(false))
+        .catch(err => {
+          displayInfo(false, true, 'Во время запроса произошла ошибка.')
+        })
+        .finally(() => setPreloader(false))
+    }
+
   }
 
   function findMainFilms(e, val) {
@@ -212,7 +305,7 @@ function App() {
 
     const IsSmallMeter = localStorage.getItem('smallMeter')
     let list = saveFilms.filter(el => el.nameRU.toLowerCase().includes(val))
-    if(IsSmallMeter === 'false'){
+    if(IsSmallMeter === 'false' || IsSmallMeter === null){
       localStorage.setItem('SavedFilmlistMatchInput', JSON.stringify(list))
       setReactionsOnSearch(!reactionsOnSearch)
     }else{
@@ -221,9 +314,6 @@ function App() {
       setReactionsOnSearch(!reactionsOnSearch)
     }
     if( saveFilms.length === 0  || list.length===0){
-      // setIsSelectedImageTooltip(false)
-      // setIsSelectedInfoTooltip(true)
-      // setText('Ничего не найдено.')
       displayInfo(false, true, 'Ничего не найдено.')
       return null
     }
@@ -263,6 +353,7 @@ function App() {
         const listBeforeDelete = JSON.parse(localStorage.getItem('savedMoviesList'))
         const listWithDelete = listBeforeDelete.filter(el => el._id !== cardId)
         localStorage.setItem('savedMoviesList', JSON.stringify(listWithDelete))
+        localStorage.setItem('SavedFilmlistMatchInput', JSON.stringify(listWithDelete))
         setTestRender(testRender+1)
       })
       .catch(err => console.log(err))
@@ -311,6 +402,8 @@ function App() {
                   testRender={testRender}
                   deleteCard={deleteCard}
                   preloader={preloader}
+                  renderList={movies}
+                  findSmallFilms={findSmallFilms}
                 />
               </ProtectedRoute>
                 }
@@ -327,6 +420,8 @@ function App() {
                     postLike={postLike}
                     deleteCard={deleteCard}
                     preloader={preloader}
+                    renderList={movies}
+                    findSmallFilms={findSmallFilms}
                   />
                 </ProtectedRoute>
               }
@@ -348,7 +443,7 @@ function App() {
           <InfoTooltip
             onClose={closeAllPopups}
             isOpen={isSelectedInfoTooltip}
-            succes={isSelectedImageTooltip}
+            success={isSelectedImageTooltip}
             text={text}/>
         </div>
     </CurrentUserContext.Provider>
@@ -356,3 +451,34 @@ function App() {
 }
 
 export default App;
+
+
+
+
+
+// function findSmallFilms(e, bool){
+//   console.log(!bool)
+//   if (location.pathname === '/films'){
+//     console.log('It`s film inputseearch')
+//     // getFindList()
+//     let list = JSON.parse(localStorage.getItem('findList')) || []
+//     const value = localStorage.getItem('valInput')
+//     list = list.filter(el => el.nameRU.toLowerCase().includes(value))
+//     if( list.length === 0){
+//       displayInfo(false, true, 'Ничего не найдено.')
+//       return null
+//     }
+//     localStorage.setItem('findList', JSON.stringify(list))
+//   }else{
+//     console.log('It`s savefilm inputseearch')
+//     let list = JSON.parse(localStorage.getItem('savedMoviesList')) || []
+//     const value = localStorage.getItem('valInputSavedFilms')
+//     list = list.filter(el => el.nameRU.toLowerCase().includes(value))
+//     if( list.length === 0){
+//       displayInfo(false, true, 'Ничего не найдено.')
+//       return null
+//     }
+//
+//     localStorage.setItem('SavedFilmlistMatchInput', JSON.stringify(list))
+//   }
+// }

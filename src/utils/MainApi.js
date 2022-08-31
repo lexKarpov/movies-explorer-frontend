@@ -87,8 +87,8 @@ export const postFilm = (data) => {
         description,
         image: `https://api.nomoreparties.co${image.url}`,
         trailerLink,
-        nameRU,
-        nameEN,
+        nameRU: nameRU || '123',
+        nameEN: nameEN || '123',
         thumbnail: `https://api.nomoreparties.co${image.formats.thumbnail.url}`,
         movieId: id,
       }

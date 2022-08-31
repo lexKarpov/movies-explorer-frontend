@@ -5,7 +5,8 @@ import Header from '../Header/Header'
 import Footer from '../Footer/Footer'
 import Preloader from "../Preloader/Preloader";
 
-function SavedMovies({ isLogged, pageLogin, findFilms, handleSmallMetr, toggleSmallMeter, testRender, deleteCard, preloader }) {
+function SavedMovies({ isLogged, pageLogin, findFilms, handleSmallMetr, toggleSmallMeter, testRender, deleteCard, preloader, findSmallFilms}) {
+
 
   return (
     <div className="main main_type_movie">
@@ -16,7 +17,7 @@ function SavedMovies({ isLogged, pageLogin, findFilms, handleSmallMetr, toggleSm
             <Preloader/>
             :
             <>
-              <FormSearch findFilms={findFilms} handleSmallMetr={handleSmallMetr} toggleSmallMeter={toggleSmallMeter}/>
+              <FormSearch findFilms={findFilms} handleSmallMetr={handleSmallMetr} toggleSmallMeter={toggleSmallMeter} findSmallFilms={findSmallFilms}/>
               <MoviesCardList isSaved={true} testRender={testRender} deleteCard={deleteCard}/>
             </>
         }

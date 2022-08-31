@@ -9,9 +9,6 @@ import {regExpEmail} from '../../constants/constants.js'
 
 function EditProfile({ logOut, isLogged, pageLogin, updateUser, preloader }) {
   const user = useContext(CurrentUserContext)
-  const beforeValueOfInputs = {
-    name: user? user.name : '',
-    email: user? user.email : '',}
 
   const [isEdit, setIsEdit] = useState(true)
   const { register, handleSubmit, watch, formState: { errors } } = useForm(
@@ -29,7 +26,7 @@ function EditProfile({ logOut, isLogged, pageLogin, updateUser, preloader }) {
   }
 
   function submitEditProfile(data) {
-    updateUser(data, beforeValueOfInputs)
+    updateUser(data)
     setIsEdit(true)
   }
 

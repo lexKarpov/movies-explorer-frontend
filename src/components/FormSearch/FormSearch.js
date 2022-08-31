@@ -7,7 +7,7 @@ import {useLocation} from "react-router-dom";
 import {useForm} from "react-hook-form";
 
 
-function FormSearch({findFilms, handleSmallMetr, toggleSmallMeter}) {
+function FormSearch({findFilms, handleSmallMetr, toggleSmallMeter, findSmallFilms}) {
   const location = useLocation();
   let inputValue
   if (location.pathname === '/films'){
@@ -24,6 +24,7 @@ function FormSearch({findFilms, handleSmallMetr, toggleSmallMeter}) {
     setVal(e.target.value)
   }
 
+
   return (
     <div className="form-search__wrapper">
       <form className="formSearch" onSubmit={(e) => findFilms(e, val)}>
@@ -31,11 +32,13 @@ function FormSearch({findFilms, handleSmallMetr, toggleSmallMeter}) {
         {windowWidth && <SmallMeter
           handleSmallMetr={handleSmallMetr}
           toggleSmallMeter={toggleSmallMeter}
+          findSmallFilms={findSmallFilms}
         />}
       </form>
       {!windowWidth && <SmallMeter
         handleSmallMetr={handleSmallMetr}
         toggleSmallMeter={toggleSmallMeter}
+        findSmallFilms={findSmallFilms}
       />}
     </div>
 
