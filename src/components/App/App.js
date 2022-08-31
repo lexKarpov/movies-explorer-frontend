@@ -50,7 +50,7 @@ function App() {
               let filmWithOwner = res.filter(el => el.owner === user._id
               )
               if(!filmWithOwner){
-                // localStorage.setItem('savedMoviesList', '')
+
               }else{
                 localStorage.setItem('savedMoviesList', JSON.stringify(filmWithOwner))
               }
@@ -58,11 +58,20 @@ function App() {
               setIsLogged(true)
               setCurrentUser(user)
             })
-            .catch(err => console.log(err))
-            .finally(() => setPreloader(false))
+            .catch(err => {
+              displayInfo(false, true, 'Что-то пошло не так! Попробуйте ещё раз.')
+
+            })
+            .finally(() => {
+              setPreloader(false)
+
+            })
         })
-        .catch((err) => console.log(err))
-        .finally(() => setPreloader(false))
+        .catch((err) => displayInfo(false, true, 'Что-то пошло не так! Попробуйте ещё раз.'))
+        .finally(() => {
+          setPreloader(false)
+
+        })
     }
 
   }, [])
@@ -94,16 +103,11 @@ function App() {
           })
           .catch(err => {
             console.log(err)
-            setIsSelectedImageTooltip(false)
-            setIsSelectedInfoTooltip(false)
-            setText('Что-то пошло не так! Попробуйте ещё раз.')
+            displayInfo(false, true, 'Что-то пошло не так! Попробуйте ещё раз.')
           })
       })
       .catch(err => {
         console.log(err)
-        // setIsSelectedImageTooltip(false)
-        // setIsSelectedInfoTooltip(false)
-        // setText('Что-то пошло не так! Попробуйте ещё раз.')
         displayInfo(false, true, 'Что-то пошло не так! Попробуйте ещё раз.')
       })
       .finally(() => setPreloader(false))
@@ -116,8 +120,6 @@ function App() {
       .then(res => logIn(data))
       .catch(err => {
         console.log(err)
-        // setIsSelectedImageTooltip(false)
-        // setIsSelectedInfoTooltip(false)
         displayInfo(false, true, 'Что-то пошло не так! Попробуйте ещё раз.')
       }).finally(() => setPreloader(false))
       : logIn(data)
@@ -127,39 +129,82 @@ function App() {
     setIsSelectedInfoTooltip(false)
   }
 
-  function updateUser(data, beforeValueOfInputs) {
+  function updateUser(data) {
+    if(currUser.name === data.name && currUser.email === data.email){
+      displayInfo(false, true, 'Нужно изменить хотя бы одно поле.')
+      return
+    }
     setPreloader(true)
-    if(data.name === beforeValueOfInputs.name){
+    if(data.name === currUser.name){
       const user = {
-        name: beforeValueOfInputs.name,
+        name: currUser.name,
         email: data.email,}
       patchUser(user)
-        .then(res => setCurrentUser(res))
+        .then(res => {
+          setCurrentUser(res)
+          displayInfo(true, true, 'Профиль успешно изменен!')
+        })
         .catch(err => displayInfo(false, true, 'Что-то пошло не так! Попробуйте ещё раз.'))
         .finally(() => setPreloader(false))
     }
-    if(data.email === beforeValueOfInputs.email){
+    if(data.email === currUser.email){
       setPreloader(true)
       patchUser(
         {
-        email: beforeValueOfInputs.email,
+        email: currUser.email,
         name: data.name
         })
-        .then(res => setCurrentUser(res))
+        .then(res => {
+          setCurrentUser(res)
+          displayInfo(true, true, 'Профиль успешно изменен!')
+        })
         .catch(err => displayInfo(false, true, 'Что-то пошло не так! Попробуйте ещё раз.'))
         .finally(() => setPreloader(false))
+
     }
-    if(data.email !== beforeValueOfInputs.email && data.name !== beforeValueOfInputs.name){
+    if(data.email !== currUser.email && data.name !== currUser.name){
     setPreloader(true)
       patchUser(data)
-        .then(res => setCurrentUser(res))
+        .then(res => {
+          setCurrentUser(res)
+          displayInfo(true, true, 'Профиль успешно изменен!')
+        })
         .catch(err => displayInfo(false, true, 'Что-то пошло не так! Попробуйте ещё раз.'))
         .finally(() => setPreloader(false))
     }
   }
 
+
+
+
+  function getFindList(filmsList, val) {
+
+    let list = filmsList.filter(el => el.nameRU.toLowerCase().includes(val))
+    if( list.length === 0 ){
+      displayInfo(false, true, 'Ничего не найдено.')
+      return null
+    }
+    const IsSmallMeter = localStorage.getItem('smallMeter')
+    if(IsSmallMeter === 'false' || IsSmallMeter === null){
+      localStorage.setItem('findList', JSON.stringify(list))
+      localStorage.setItem('valInput', val)
+      // localStorage.setItem('numberOfMoviesDisplayed', '0')
+      setReactionsOnSearch(!reactionsOnSearch)
+
+    }else{
+      list = list.filter(el => el.duration < 40)
+      localStorage.setItem('findList', JSON.stringify(list))
+      localStorage.setItem('valInput', val)
+      // localStorage.setItem('numberOfMoviesDisplayed', '0')
+      setReactionsOnSearch(!reactionsOnSearch)
+    }
+    refresh()
+    setReactionsOnSearch(!reactionsOnSearch)
+
+  }
+
+
   function findAllFilms(e, val) {
-    setPreloader(true)
     e.preventDefault()
     if(!val){
       setPreloader(false)
@@ -170,38 +215,24 @@ function App() {
       return null
     }
     val = val.toLowerCase()
-    api.getCards().then(res => {
-    let list = res.filter(el => el.nameRU.toLowerCase().includes(val))
-      if( list.length === 0 ){
-        // setIsSelectedImageTooltip(false)
-        // setIsSelectedInfoTooltip(true)
-        // setText('Ничего не найдено.')
-        displayInfo(false, true, 'Ничего не найдено.')
-        return null
-      }
-      const IsSmallMeter = localStorage.getItem('smallMeter')
-      if(IsSmallMeter === 'false'){
-        localStorage.setItem('findList', JSON.stringify(list))
-        localStorage.setItem('valInput', val)
-        localStorage.setItem('numberOfMoviesDisplayed', '0')
-        setReactionsOnSearch(!reactionsOnSearch)
-
-      }else{
-        list = list.filter(el => el.duration < 40)
-        localStorage.setItem('findList', JSON.stringify(list))
-        localStorage.setItem('valInput', val)
-        localStorage.setItem('numberOfMoviesDisplayed', '0')
-        setReactionsOnSearch(!reactionsOnSearch)
-      }
-      refresh()
-    })
-      .catch(err => {
-        // setIsSelectedImageTooltip(false)
-        // setIsSelectedInfoTooltip(true)
-        // setText('Во время запроса произошла ошибка.')
-        displayInfo(false, true, 'Во время запроса произошла ошибка.')
+    const findListInLocalStorage = JSON.parse(localStorage.getItem('allFilmsFromApi')) ? JSON.parse(localStorage.getItem('allFilmsFromApi')) : false
+    if(findListInLocalStorage?.length){
+      setPreloader(true)
+      console.log('it`s seconds requests')
+      getFindList(findListInLocalStorage, val)
+      setPreloader(false)
+    }else{
+      setPreloader(true)
+      api.getCards().then(res => {
+        localStorage.setItem('allFilmsFromApi', JSON.stringify(res))
+        getFindList(res, val)
       })
-      .finally(() => setPreloader(false))
+        .catch(err => {
+          displayInfo(false, true, 'Во время запроса произошла ошибка.')
+        })
+        .finally(() => setPreloader(false))
+    }
+
   }
 
   function findMainFilms(e, val) {
@@ -212,7 +243,7 @@ function App() {
 
     const IsSmallMeter = localStorage.getItem('smallMeter')
     let list = saveFilms.filter(el => el.nameRU.toLowerCase().includes(val))
-    if(IsSmallMeter === 'false'){
+    if(IsSmallMeter === 'false' || IsSmallMeter === null){
       localStorage.setItem('SavedFilmlistMatchInput', JSON.stringify(list))
       setReactionsOnSearch(!reactionsOnSearch)
     }else{
@@ -221,9 +252,6 @@ function App() {
       setReactionsOnSearch(!reactionsOnSearch)
     }
     if( saveFilms.length === 0  || list.length===0){
-      // setIsSelectedImageTooltip(false)
-      // setIsSelectedInfoTooltip(true)
-      // setText('Ничего не найдено.')
       displayInfo(false, true, 'Ничего не найдено.')
       return null
     }
@@ -311,6 +339,7 @@ function App() {
                   testRender={testRender}
                   deleteCard={deleteCard}
                   preloader={preloader}
+                  refresh={refresh}
                 />
               </ProtectedRoute>
                 }
@@ -327,6 +356,7 @@ function App() {
                     postLike={postLike}
                     deleteCard={deleteCard}
                     preloader={preloader}
+                    refresh={refresh}
                   />
                 </ProtectedRoute>
               }
@@ -348,7 +378,7 @@ function App() {
           <InfoTooltip
             onClose={closeAllPopups}
             isOpen={isSelectedInfoTooltip}
-            succes={isSelectedImageTooltip}
+            success={isSelectedImageTooltip}
             text={text}/>
         </div>
     </CurrentUserContext.Provider>

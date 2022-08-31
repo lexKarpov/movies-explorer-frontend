@@ -5,13 +5,14 @@ import useWindowDimensions from '../../utils/changeWindowDimentions'
 import {useCurrentWidth} from "../../hooks/useCurrentWidth";
 import {getInitialCount, getLoadStep} from "../../utils/getLoadStep";
 
-function MoviesCardList({ isSaved, postLike, testRender, deleteCard, refresh}) {
+function MoviesCardList({ isSaved, postLike, testRender, deleteCard, refresh, preloader}) {
   const [movies, setMovies] = useState(JSON.parse(localStorage.getItem('findList')))
   const savedList = JSON.parse(localStorage.getItem('savedMoviesList'))
+  const savedFilmlistMatchInput = JSON.parse(localStorage.getItem('SavedFilmlistMatchInput'))
   let windowWidth = useCurrentWidth()
   const [visibleMoviesCount, setVisibleMoviesCount] = useState(getInitialCount(windowWidth))
   const [buttonVisible, setButtonVisible] = useState(false)
-
+  // useEffect(() => setMovies(JSON.parse(localStorage.getItem('findList'))), [movies])
   function renderLimiter() {
     setVisibleMoviesCount((prevCount) => prevCount + getLoadStep(windowWidth))
   }
@@ -19,13 +20,25 @@ function MoviesCardList({ isSaved, postLike, testRender, deleteCard, refresh}) {
     if(movies?.length - visibleMoviesCount <=0){
       setButtonVisible(true)
     }
-  }, [windowWidth, visibleMoviesCount])
+  }, [windowWidth, visibleMoviesCount, movies])
 
 
   return (
     <section className="moviesCardList">
       <div className='moviesCardList__elements'>
         {
+          isSaved && savedFilmlistMatchInput?.length ?
+            savedFilmlistMatchInput.map(el =>
+              <MoviesCard
+                data={el}
+                id={el.movieId ? el.movieId : el._id}
+                key={el.movieId + Math.random()}
+                isSaved={true}
+                testRender={testRender}
+                deleteCard={deleteCard}
+              />)
+          :
+
           isSaved ? savedList?.map(el => <MoviesCard
               data={el}
               id={el.movieId ? el.movieId : el._id}
@@ -34,6 +47,8 @@ function MoviesCardList({ isSaved, postLike, testRender, deleteCard, refresh}) {
               testRender={testRender}
               deleteCard={deleteCard}
             />)
+
+
             :
           movies?.slice(0, visibleMoviesCount).map(el => {
             let isLike = savedList?.filter(savedListEl => savedListEl.movieId === el.id)

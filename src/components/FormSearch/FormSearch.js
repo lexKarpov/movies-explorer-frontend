@@ -24,6 +24,17 @@ function FormSearch({findFilms, handleSmallMetr, toggleSmallMeter}) {
     setVal(e.target.value)
   }
 
+  function findSmallFilms(e){
+    // console.log(location.pathname)
+    // findFilms(e, val)
+    if (location.pathname === '/films'){
+      // console.log('It`s film inputseearch')
+
+    }else{
+      // console.log('It`s savefilm inputseearch')
+    }
+  }
+
   return (
     <div className="form-search__wrapper">
       <form className="formSearch" onSubmit={(e) => findFilms(e, val)}>
@@ -31,11 +42,13 @@ function FormSearch({findFilms, handleSmallMetr, toggleSmallMeter}) {
         {windowWidth && <SmallMeter
           handleSmallMetr={handleSmallMetr}
           toggleSmallMeter={toggleSmallMeter}
+          findSmallFilms={findSmallFilms}
         />}
       </form>
       {!windowWidth && <SmallMeter
         handleSmallMetr={handleSmallMetr}
         toggleSmallMeter={toggleSmallMeter}
+        findSmallFilms={findSmallFilms}
       />}
     </div>
 

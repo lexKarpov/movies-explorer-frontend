@@ -18,7 +18,7 @@ function Movies({ isLogged, pageLogin, findFilms, handleSmallMetr, toggleSmallMe
             :
             <>
               <FormSearch findFilms={findFilms} handleSmallMetr = {handleSmallMetr} toggleSmallMeter={toggleSmallMeter}/>
-              <MoviesCardList isSaved={false} postLike={postLike} deleteCard={deleteCard} refresh={refresh}/>
+              <MoviesCardList isSaved={false} postLike={postLike} deleteCard={deleteCard} refresh={refresh} preloader={preloader}/>
               <Footer isLog={isLogged} />
             </>
         }

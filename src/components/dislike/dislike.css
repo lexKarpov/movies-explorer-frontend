@@ -9,11 +9,10 @@
   background-size: 10px 10px;
   background-color: #313131;
   border-radius: 36px;
-  opacity: 0;
-  transition: opacity .3s ease;
+  transition: .3s ease;
 }
 
 .moviesCard__dislike:hover {
   cursor: pointer;
-  opacity: 1;
+  transform: scale(1.2)
 }
