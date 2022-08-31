@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route, useNavigate } from "react-router-dom";
+import {Routes, Route, useNavigate, useLocation} from "react-router-dom";
 import Main from '../Main/Main'
 import Login from "../Login/Login";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
@@ -16,7 +16,7 @@ import CurrentUserContext from '../../contexts/CurrentUserContext'
 
 function App() {
   let navigate = useNavigate();
-
+  const location = useLocation();
   const [movies, setMovies] = useState([])
 
 
@@ -178,12 +178,29 @@ function App() {
     }
   }
 
+  function findSmallFilms(e){
+    if (location.pathname === '/films'){
+      console.log('It`s film inputseearch')
+      // getFindList()
+      const list = JSON.parse(localStorage.getItem('findList')) || []
+      const value = localStorage.getItem('valInput')
+      getFindList(list, value)
+    }else{
+      console.log('It`s savefilm inputseearch')
+      let list = JSON.parse(localStorage.getItem('savedMoviesList')) || []
+      const value = localStorage.getItem('valInputSavedFilms')
+      list = list.filter(el => el.nameRU.toLowerCase().includes(value))
+      if( list.length === 0){
+        displayInfo(false, true, 'Ничего не найдено.')
+        return null
+      }
 
+      localStorage.setItem('SavedFilmlistMatchInput', JSON.stringify(list))
+    }
+  }
 
 
   function getFindList(filmsList, val) {
-
-
     let list = filmsList.filter(el => el.nameRU.toLowerCase().includes(val))
     if( list.length === 0 ){
       displayInfo(false, true, 'Ничего не найдено.')
@@ -347,6 +364,7 @@ function App() {
                   deleteCard={deleteCard}
                   preloader={preloader}
                   renderList={movies}
+                  findSmallFilms={findSmallFilms}
                 />
               </ProtectedRoute>
                 }
@@ -364,6 +382,7 @@ function App() {
                     deleteCard={deleteCard}
                     preloader={preloader}
                     renderList={movies}
+                    findSmallFilms={findSmallFilms}
                   />
                 </ProtectedRoute>
               }

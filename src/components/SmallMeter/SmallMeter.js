@@ -8,10 +8,10 @@ function SmallMeter({ handleSmallMetr, toggleSmallMeter, findSmallFilms }) {
 
   const allFilmsFromApi = localStorage.getItem('allFilmsFromApi') !== null
 
-  function actionSmallMetr(e) {
+  function actionSmallMetr() {
     localStorage.setItem('smallMeter', handleSmallMetr().toString())
     if (allFilmsFromApi){
-      findSmallFilms(e)
+      findSmallFilms()
     }
 
   }

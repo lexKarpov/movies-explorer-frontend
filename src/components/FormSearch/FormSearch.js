@@ -7,7 +7,7 @@ import {useLocation} from "react-router-dom";
 import {useForm} from "react-hook-form";
 
 
-function FormSearch({findFilms, handleSmallMetr, toggleSmallMeter}) {
+function FormSearch({findFilms, handleSmallMetr, toggleSmallMeter, findSmallFilms}) {
   const location = useLocation();
   let inputValue
   if (location.pathname === '/films'){
@@ -24,15 +24,6 @@ function FormSearch({findFilms, handleSmallMetr, toggleSmallMeter}) {
     setVal(e.target.value)
   }
 
-  function findSmallFilms(e){
-    // console.log(location.pathname)
-    // findFilms(e, val)
-    if (location.pathname === '/films'){
-      console.log('It`s film inputseearch')
-    }else{
-      console.log('It`s savefilm inputseearch')
-    }
-  }
 
   return (
     <div className="form-search__wrapper">
