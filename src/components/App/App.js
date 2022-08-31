@@ -16,6 +16,10 @@ import CurrentUserContext from '../../contexts/CurrentUserContext'
 
 function App() {
   let navigate = useNavigate();
+
+  const [movies, setMovies] = useState([])
+
+
   const [isLogged, setIsLogged] = useState(false)
   const [currUser, setCurrentUser] = useState({})
   const [isSelectedInfoTooltip, setIsSelectedInfoTooltip] = useState(false)
@@ -54,7 +58,7 @@ function App() {
               }else{
                 localStorage.setItem('savedMoviesList', JSON.stringify(filmWithOwner))
               }
-              setTestRender(testRender+1)
+              // setTestRender(testRender+1)
               setIsLogged(true)
               setCurrentUser(user)
             })
@@ -73,7 +77,7 @@ function App() {
 
         })
     }
-
+    setMovies(JSON.parse(localStorage.getItem('findList')) || [])
   }, [])
 
   function changePageLogin(val) {
@@ -179,6 +183,7 @@ function App() {
 
   function getFindList(filmsList, val) {
 
+
     let list = filmsList.filter(el => el.nameRU.toLowerCase().includes(val))
     if( list.length === 0 ){
       displayInfo(false, true, 'Ничего не найдено.')
@@ -189,14 +194,15 @@ function App() {
       localStorage.setItem('findList', JSON.stringify(list))
       localStorage.setItem('valInput', val)
       // localStorage.setItem('numberOfMoviesDisplayed', '0')
-      setReactionsOnSearch(!reactionsOnSearch)
 
+      setMovies(list)
     }else{
       list = list.filter(el => el.duration < 40)
       localStorage.setItem('findList', JSON.stringify(list))
       localStorage.setItem('valInput', val)
       // localStorage.setItem('numberOfMoviesDisplayed', '0')
       setReactionsOnSearch(!reactionsOnSearch)
+      setMovies(list)
     }
     refresh()
     setReactionsOnSearch(!reactionsOnSearch)
@@ -291,11 +297,14 @@ function App() {
         const listBeforeDelete = JSON.parse(localStorage.getItem('savedMoviesList'))
         const listWithDelete = listBeforeDelete.filter(el => el._id !== cardId)
         localStorage.setItem('savedMoviesList', JSON.stringify(listWithDelete))
+        localStorage.setItem('SavedFilmlistMatchInput', JSON.stringify(listWithDelete))
         setTestRender(testRender+1)
       })
       .catch(err => console.log(err))
       .finally(() => setPreloader(false))
   }
+  // console.log('movies')
+  // console.log(movies)
 
   return (
     <CurrentUserContext.Provider value = {currUser}>
@@ -339,7 +348,7 @@ function App() {
                   testRender={testRender}
                   deleteCard={deleteCard}
                   preloader={preloader}
-                  refresh={refresh}
+                  renderList={movies}
                 />
               </ProtectedRoute>
                 }
@@ -356,7 +365,7 @@ function App() {
                     postLike={postLike}
                     deleteCard={deleteCard}
                     preloader={preloader}
-                    refresh={refresh}
+                    renderList={movies}
                   />
                 </ProtectedRoute>
               }

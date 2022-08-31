@@ -1,28 +1,27 @@
 import MoviesCard from '../MoviesCard/MoviesCard'
 import './MoviesCardList.css'
 import {useEffect, useState} from "react";
-import useWindowDimensions from '../../utils/changeWindowDimentions'
 import {useCurrentWidth} from "../../hooks/useCurrentWidth";
 import {getInitialCount, getLoadStep} from "../../utils/getLoadStep";
 
-function MoviesCardList({ isSaved, postLike, testRender, deleteCard, refresh, preloader}) {
-  const [movies, setMovies] = useState(JSON.parse(localStorage.getItem('findList')))
+function MoviesCardList({ renderList, isSaved, postLike, testRender, deleteCard}) {
+  renderList = JSON.parse(localStorage.getItem('findList'))
   const savedList = JSON.parse(localStorage.getItem('savedMoviesList'))
   const savedFilmlistMatchInput = JSON.parse(localStorage.getItem('SavedFilmlistMatchInput'))
   let windowWidth = useCurrentWidth()
   const [visibleMoviesCount, setVisibleMoviesCount] = useState(getInitialCount(windowWidth))
   const [buttonVisible, setButtonVisible] = useState(false)
-  // useEffect(() => setMovies(JSON.parse(localStorage.getItem('findList'))), [movies])
   function renderLimiter() {
     setVisibleMoviesCount((prevCount) => prevCount + getLoadStep(windowWidth))
   }
   useEffect(() => {
-    if(movies?.length - visibleMoviesCount <=0){
+    if(renderList?.length - visibleMoviesCount <=0){
       setButtonVisible(true)
     }
-  }, [windowWidth, visibleMoviesCount, movies])
+  }, [windowWidth, visibleMoviesCount])
 
-
+  // console.log('renderList')
+  // console.log(renderList)
   return (
     <section className="moviesCardList">
       <div className='moviesCardList__elements'>
@@ -50,7 +49,8 @@ function MoviesCardList({ isSaved, postLike, testRender, deleteCard, refresh, pr
 
 
             :
-          movies?.slice(0, visibleMoviesCount).map(el => {
+
+            renderList?.slice(0, visibleMoviesCount).map(el => {
             let isLike = savedList?.filter(savedListEl => savedListEl.movieId === el.id)
               return (
               <MoviesCard
@@ -68,7 +68,7 @@ function MoviesCardList({ isSaved, postLike, testRender, deleteCard, refresh, pr
         }
 
       </div>
-      {isSaved || !movies || buttonVisible ? null : <button type="button" className="moviesCardList__more" onClick={renderLimiter}>Ещё</button>}
+      {isSaved || !renderList || buttonVisible ? null : <button type="button" className="moviesCardList__more" onClick={renderLimiter}>Ещё</button>}
     </section>
   )
 }

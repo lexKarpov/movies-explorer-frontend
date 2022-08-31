@@ -3,10 +3,18 @@ import { Route, useNavigate, Navigate} from "react-router-dom"
 
 
 const ProtectedRoute = ({ isLogged, children }) => {
-  if (!isLogged) {
+  const jwt = localStorage.getItem('jwt')
+  if(jwt){
+    return children;
+  }else{
     return <Navigate to="/" />;
   }
-  return children;
+
+
+  // if (!isLogged) {
+  //   return <Navigate to="/" />;
+  // }
+  // return children;
 };
 
 export default ProtectedRoute
