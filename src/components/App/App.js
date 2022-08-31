@@ -178,30 +178,49 @@ function App() {
     }
   }
 
-  function findSmallFilms(e){
+  function findSmallFilms(e, bool){
     if (location.pathname === '/films'){
-      console.log('It`s film inputseearch')
-      // getFindList()
-      let list = JSON.parse(localStorage.getItem('findList')) || []
       const value = localStorage.getItem('valInput')
-      list = list.filter(el => el.nameRU.toLowerCase().includes(value))
-      if( list.length === 0){
-        displayInfo(false, true, 'Ничего не найдено.')
-        return null
+      if(bool !== true){
+        console.log('It`s film inputseearch')
+        let list = JSON.parse(localStorage.getItem('findList')) || []
+        list = list
+          .filter(el => el.nameRU.toLowerCase().includes(value))
+          .filter(el => el.duration < 40)
+        if( list.length === 0){
+          displayInfo(false, true, 'Нет короткометражных фильмов.')
+          return null
+        }
+        localStorage.setItem('findList', JSON.stringify(list))
+        setMovies(list)
+        // console.log(JSON.parse(localStorage.getItem('findList')))
+        return
+      }else{
+        const findListInLocalStorage = JSON.parse(localStorage.getItem('allFilmsFromApi')) ? JSON.parse(localStorage.getItem('allFilmsFromApi')) : false
+        let list = findListInLocalStorage.filter(el => el.nameRU.toLowerCase().includes(value))
+        localStorage.setItem('findList', JSON.stringify(list))
+        setMovies(list)
+        return
       }
-      localStorage.setItem('findList', JSON.stringify(list))
     }else{
       console.log('It`s savefilm inputseearch')
-      let list = JSON.parse(localStorage.getItem('savedMoviesList')) || []
-      const value = localStorage.getItem('valInputSavedFilms')
-      list = list.filter(el => el.nameRU.toLowerCase().includes(value))
-      if( list.length === 0){
-        displayInfo(false, true, 'Ничего не найдено.')
-        return null
-      }
-
-      localStorage.setItem('SavedFilmlistMatchInput', JSON.stringify(list))
+      // let list = JSON.parse(localStorage.getItem('savedMoviesList')) || []
+      // const value = localStorage.getItem('valInputSavedFilms')
+      // list = list.filter(el => el.nameRU.toLowerCase().includes(value))
+      // if( list.length === 0){
+      //   displayInfo(false, true, 'Ничего не найдено.')
+      //   return null
+      // }
+      //
+      // localStorage.setItem('SavedFilmlistMatchInput', JSON.stringify(list))
+      return
     }
+    //
+    // if (location.pathname === '/savedFilms' && bool !== true){
+    //   console.log('checksavedFilms')
+    // }
+
+
   }
 
 
@@ -228,7 +247,6 @@ function App() {
     }
     refresh()
     setReactionsOnSearch(!reactionsOnSearch)
-
   }
 
 
@@ -417,3 +435,34 @@ function App() {
 }
 
 export default App;
+
+
+
+
+
+// function findSmallFilms(e, bool){
+//   console.log(!bool)
+//   if (location.pathname === '/films'){
+//     console.log('It`s film inputseearch')
+//     // getFindList()
+//     let list = JSON.parse(localStorage.getItem('findList')) || []
+//     const value = localStorage.getItem('valInput')
+//     list = list.filter(el => el.nameRU.toLowerCase().includes(value))
+//     if( list.length === 0){
+//       displayInfo(false, true, 'Ничего не найдено.')
+//       return null
+//     }
+//     localStorage.setItem('findList', JSON.stringify(list))
+//   }else{
+//     console.log('It`s savefilm inputseearch')
+//     let list = JSON.parse(localStorage.getItem('savedMoviesList')) || []
+//     const value = localStorage.getItem('valInputSavedFilms')
+//     list = list.filter(el => el.nameRU.toLowerCase().includes(value))
+//     if( list.length === 0){
+//       displayInfo(false, true, 'Ничего не найдено.')
+//       return null
+//     }
+//
+//     localStorage.setItem('SavedFilmlistMatchInput', JSON.stringify(list))
+//   }
+// }
