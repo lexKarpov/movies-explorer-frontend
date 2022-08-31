@@ -4,8 +4,6 @@ import ok from "../../images/infoTooltip/success.png"
 import './InfoTooltip.css'
 
 export default function InfoTooltip({success, isOpen, onClose, text}) {
-  const goodResp = 'Вы успешно зарегистрировались!'
-  const badResp = 'Что-то пошло не так! Попробуйте ещё раз.'
   return (
     <div className={`popup popup_type_image ${isOpen ? 'popup_opened' : ''}`}>
       <div className="popup__window-wrap popup_type_info-tool">

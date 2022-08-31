@@ -58,7 +58,6 @@ function App() {
               }else{
                 localStorage.setItem('savedMoviesList', JSON.stringify(filmWithOwner))
               }
-              // setTestRender(testRender+1)
               setIsLogged(true)
               setCurrentUser(user)
             })
@@ -193,7 +192,6 @@ function App() {
         }
         localStorage.setItem('findList', JSON.stringify(list))
         setMovies(list)
-        // console.log(JSON.parse(localStorage.getItem('findList')))
         return
       }else{
         const findListInLocalStorage = JSON.parse(localStorage.getItem('allFilmsFromApi')) ? JSON.parse(localStorage.getItem('allFilmsFromApi')) : false
@@ -203,22 +201,40 @@ function App() {
         return
       }
     }else{
-      console.log('It`s savefilm inputseearch')
-      // let list = JSON.parse(localStorage.getItem('savedMoviesList')) || []
-      // const value = localStorage.getItem('valInputSavedFilms')
-      // list = list.filter(el => el.nameRU.toLowerCase().includes(value))
-      // if( list.length === 0){
-      //   displayInfo(false, true, 'Ничего не найдено.')
-      //   return null
-      // }
-      //
-      // localStorage.setItem('SavedFilmlistMatchInput', JSON.stringify(list))
-      return
+      if(bool !== true) {
+        console.log('It`s savefilm inputseearch')//SavedFilmlistMatchInput
+        const value = localStorage.getItem('valInputSavedFilms') || ''
+        let list
+        if(value){
+          list = JSON.parse(localStorage.getItem('SavedFilmlistMatchInput')) || []
+          localStorage.setItem('SavedFilmlistMatchInputFullMeter', JSON.stringify(list))
+        }else{
+          list = JSON.parse(localStorage.getItem('savedMoviesList')) || []
+        }
+        console.log('list from saves')
+        console.log(list)
+        list = list.filter(el => el.nameRU.toLowerCase().includes(value)).filter(el => el.duration < 40)
+        if (list.length === 0) {
+          displayInfo(false, true, 'Нет короткометражных фильмов.')
+          return null
+        }
+
+        localStorage.setItem('SavedFilmlistMatchInput', JSON.stringify(list))
+        setMovies(list)
+        return
+      }else{
+        let list
+        const value = localStorage.getItem('valInputSavedFilms') || ''
+        if(value){
+          list = JSON.parse(localStorage.getItem('SavedFilmlistMatchInputFullMeter')) || []
+        }else{
+          list = JSON.parse(localStorage.getItem('savedMoviesList')) || []
+        }
+        localStorage.setItem('SavedFilmlistMatchInput', JSON.stringify(list))
+        setMovies(list)
+        return
+      }
     }
-    //
-    // if (location.pathname === '/savedFilms' && bool !== true){
-    //   console.log('checksavedFilms')
-    // }
 
 
   }

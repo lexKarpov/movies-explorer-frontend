@@ -14,14 +14,15 @@ function MoviesCardList({ renderList, isSaved, postLike, testRender, deleteCard}
   function renderLimiter() {
     setVisibleMoviesCount((prevCount) => prevCount + getLoadStep(windowWidth))
   }
+
   useEffect(() => {
     if(renderList?.length - visibleMoviesCount <=0){
       setButtonVisible(true)
+    }else{
+      setButtonVisible(false)
     }
-  }, [windowWidth, visibleMoviesCount])
+  }, [windowWidth, visibleMoviesCount, renderList])
 
-  // console.log('renderList')
-  // console.log(renderList)
   return (
     <section className="moviesCardList">
       <div className='moviesCardList__elements'>
@@ -41,15 +42,12 @@ function MoviesCardList({ renderList, isSaved, postLike, testRender, deleteCard}
           isSaved ? savedList?.map(el => <MoviesCard
               data={el}
               id={el.movieId ? el.movieId : el._id}
-              key={el.movieId + Math.random()}
+              key={el.movieId + 10}
               isSaved={true}
               testRender={testRender}
               deleteCard={deleteCard}
             />)
-
-
             :
-
             renderList?.slice(0, visibleMoviesCount).map(el => {
             let isLike = savedList?.filter(savedListEl => savedListEl.movieId === el.id)
               return (
@@ -66,7 +64,6 @@ function MoviesCardList({ renderList, isSaved, postLike, testRender, deleteCard}
               )
           })
         }
-
       </div>
       {isSaved || !renderList || buttonVisible ? null : <button type="button" className="moviesCardList__more" onClick={renderLimiter}>Ещё</button>}
     </section>
