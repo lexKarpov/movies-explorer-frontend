@@ -1,11 +1,9 @@
 import './FormSearch.css'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import LabelSearch from '../LabelSearch/LabelSearch'
 import SmallMeter from '../SmallMeter/SmallMeter'
 import useWindowDimensions from "../../utils/changeWindowDimentions";
 import {useLocation} from "react-router-dom";
-import {useForm} from "react-hook-form";
-
 
 function FormSearch({findFilms, handleSmallMetr, toggleSmallMeter, findSmallFilms}) {
   const location = useLocation();

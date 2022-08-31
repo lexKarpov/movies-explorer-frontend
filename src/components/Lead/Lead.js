@@ -1,6 +1,4 @@
-
 import worldTexts from "../../images/lead/worldTexts.png";
-import { Link } from 'react-router-dom';
 import './Lead.css'
 
 function Lead() {
