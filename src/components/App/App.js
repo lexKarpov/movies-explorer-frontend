@@ -182,9 +182,14 @@ function App() {
     if (location.pathname === '/films'){
       console.log('It`s film inputseearch')
       // getFindList()
-      const list = JSON.parse(localStorage.getItem('findList')) || []
+      let list = JSON.parse(localStorage.getItem('findList')) || []
       const value = localStorage.getItem('valInput')
-      getFindList(list, value)
+      list = list.filter(el => el.nameRU.toLowerCase().includes(value))
+      if( list.length === 0){
+        displayInfo(false, true, 'Ничего не найдено.')
+        return null
+      }
+      localStorage.setItem('findList', JSON.stringify(list))
     }else{
       console.log('It`s savefilm inputseearch')
       let list = JSON.parse(localStorage.getItem('savedMoviesList')) || []
