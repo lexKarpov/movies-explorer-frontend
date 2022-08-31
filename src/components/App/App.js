@@ -303,8 +303,6 @@ function App() {
       .catch(err => console.log(err))
       .finally(() => setPreloader(false))
   }
-  // console.log('movies')
-  // console.log(movies)
 
   return (
     <CurrentUserContext.Provider value = {currUser}>

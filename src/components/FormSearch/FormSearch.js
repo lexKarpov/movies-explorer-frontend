@@ -28,10 +28,9 @@ function FormSearch({findFilms, handleSmallMetr, toggleSmallMeter}) {
     // console.log(location.pathname)
     // findFilms(e, val)
     if (location.pathname === '/films'){
-      // console.log('It`s film inputseearch')
-
+      console.log('It`s film inputseearch')
     }else{
-      // console.log('It`s savefilm inputseearch')
+      console.log('It`s savefilm inputseearch')
     }
   }
 

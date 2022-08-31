@@ -4,10 +4,16 @@ import {useLocation} from "react-router-dom";
 
 function SmallMeter({ handleSmallMetr, toggleSmallMeter, findSmallFilms }) {
   const isChecked = localStorage.getItem('smallMeter') === 'false' || localStorage.getItem('smallMeter') === null ? false : true
-  // console.log(isChecked)
+  // console.log('allFilmsFromApi')
+
+  const allFilmsFromApi = localStorage.getItem('allFilmsFromApi') !== null
+
   function actionSmallMetr(e) {
     localStorage.setItem('smallMeter', handleSmallMetr().toString())
-    findSmallFilms(e)
+    if (allFilmsFromApi){
+      findSmallFilms(e)
+    }
+
   }
 
   return (
